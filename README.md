@@ -32,7 +32,7 @@ It might seem counterintuitive, but the intended procedure is to refresh the ODM
   * The first column is the question from the CRF forms identified as **Question/TranslatedText** tags. If any **Description/TranslatedText** tag exists, the contents is added as an editorial remark in italics.
   * The second column is the answer to the question distinguised by **DataType** attributes. Each data type is displayed as a browser specific interpretation of an HTML <input> tag of the corresponding type.
   * The third column is the SDTM annotation identified as **SDSVarName** attributes. Additional information is added from **Alias/Name** attributes.
-  * The fourth column is any code lists attached to the question identified by **CodeListItem** tags. A small inline table documents the coorelation between CRF code list values and annotaion values to be expected in the SDTM datasets. If any **Description/TranslatedText** tag exists, the contents is added as an editorial remark in italics.
+  * The fourth column is any code lists attached to the question identified by **CodeListItem** tags. A small inline table documents the correlation between CRF code list values and annotation values to be expected in the SDTM datasets. If any **Description/TranslatedText** tag exists, the contents is added as an editorial remark in italics.
 
 Please note that the editorial remarks are identical in the questions and in the remarks.
 
