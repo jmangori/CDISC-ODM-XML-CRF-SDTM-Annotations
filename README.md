@@ -28,11 +28,11 @@ This document is a piece of XSL:XML to display a valid CDISC ODM-xml file as an 
 
 It might seem counterintuitive, but the intended procedure is to refresh the ODM-xml file on your server as it's development progresses, and then click/refresh the **crf_specification.htm** file in the browser to see the rendition. Please notice in the image below that the CRF rendition contains a title page, a live table of contents (links preserved when printed as PDF), and a separate table per CRF form. When printing, page breaks separating each page and table exists.
 
-* One table for each form in the CRF identified as **FormDef** tags.
-  * The first column is the question from the CRF forms identified as **Question/TranslatedText** tags. If any **Description/TranslatedText** tag exists, the contents is added as an editorial remark in _italics_.
-  * The second column is the answer to the question distinguised by **DataType** attributes. Each data type is displayed as a browser specific interpretation of an HTML <input> tag of the corresponding type.
-  * The third column is the SDTM annotation identified as **SDSVarName** attributes. Additional information is added from **Alias/Name** attributes.
-  * The fourth column is any code lists attached to the question identified by **CodeListItem** tags. A small inline table documents the correlation between CRF code list values and annotation values to be expected in the SDTM datasets. If any **Description/TranslatedText** tag exists, the contents is added as an editorial remark in _italics_.
+The CRF rendition consists of ne table for each form in the CRF identified as **FormDef** tags.
+* The first column is the question from the CRF forms identified as **Question/TranslatedText** tags. If any **Description/TranslatedText** tag exists, the contents is added as an editorial remark in _italics_.
+* The second column is the answer to the question distinguised by **DataType** attributes. Each data type is displayed as a browser specific interpretation of an HTML <input> tag of the corresponding type.
+* The third column is the SDTM annotation identified as **SDSVarName** attributes. Additional information is added from **Alias/Name** attributes.
+* The fourth column is any code lists attached to the question identified by **CodeListItem** tags. A small inline table documents the correlation between CRF code list values and annotation values to be expected in the SDTM datasets. If any **Description/TranslatedText** tag exists, the contents is added as an editorial remark in _italics_.
 
 Please note that the editorial remarks are identical in the questions and in the remarks.
 
@@ -49,9 +49,7 @@ The file **crf_specification.htm** contains a HTML prompt to ask for the name of
 Please notice that file names may be case sensitive on your system too.
 
 # Roadmap
-I will take requests for displaying editorial (and other) remarks as part of either the CRF itself or the annotations. It is my hope that this way of displaying annotations will catch on and eventually become wide spread throughout the pharma industry. I will also consider to include other (CDASH) annotations, if I am lead to believe this is a general desire.
-
-Futhermore, I am very willing to take advise on how to improve my simple-style coding.
+This is very much a work in progress. I will take requests for displaying editorial (and other) remarks as part of either the CRF itself or the annotations. It is my hope that this way of displaying annotations will catch on and eventually become wide spread throughout the pharma industry. I will also consider to include other (CDASH) annotations, if I am lead to believe this is a general desire.
 
 # License
 Distributed under the MIT License. See [LICENSE](https://github.com/jmangori/CDISC-ODM-and-Define-XML-tools/blob/master/LICENSE) for more information.
