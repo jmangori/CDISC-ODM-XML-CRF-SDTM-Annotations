@@ -1,7 +1,5 @@
 # About The Project
-I have been working with reporting and statistics for clinical trials in the pharmaceutical industry since 2005. During this time I have often wondered why the industry is so reluctant to invest in modern software solutions, preferring to invest in manpower while not really exploiting the skills of an extremely well educated workforce.
-
-The ambition here is to exploit the standards that do exist further, utilizing an ODM-xml file as a one source of truth definition of a CRF specification, allowing both visual inspection of a proposed CRF, definition and documentation of the link between the CRF questions and the collected data points through SDTM annotations, and an import specification to eCRF software in one blow. The solution is a fairly simple style sheet allowing the ODM-xml file to be both human and machine readable without changing the content.
+This project is to exploit the CDISC ODM standard as a one source of truth definition of a CRF specification, allowing both visual inspection of a proposed CRF, definition and documentation of the link between the CRF questions and the collected data points through SDTM annotations, and an import specification to eCRF software in one blow. The solution is a fairly simple style sheet allowing the ODM-xml file to be both human and machine readable without changing the content.
 
 ![Infographic about ODM stylesheet](images/odm_overview.png)
 
