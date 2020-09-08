@@ -10,7 +10,7 @@ The XSL style sheet and accompanying HTML file for rendering an ODM-xml file as 
 * ODM version 1.3.2 
 
 # Getting Started
-Download the documents and place them at the location where they are needed
+Download the documents and place them at the location where they are needed.
 
 ## XSL Style Sheet
 The XSL Style Sheet can work by itself together with any XSLT processor to render the CRF from an ODM-XML file. However, the HTML file requires that all components; HTML file, ODM-xml file, and XSL Style sheet are located on a webserver in the same folder. It will not run from a file folder without a web server. The XSL Style Sheet file has some hardcoding of file names for ODM-xml file and the XSL Style Sheet file. These can be changed in the HTML file. The HTML file has an initial prompt for the name of the ODM-xml file, which can easily be replaced with a hardcoding of the file name, and subsequently removal of the prompt.
