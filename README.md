@@ -24,7 +24,7 @@ These options are mutually exclusive.
 
 # Usage
 ### crf_1_3_2.xsl
-This document is a piece of XSL:XML to display a valid CDISC ODM-xml file as an SDTM annotated CRF in a browser. The selected technology is supported in any modern browser (Not IE). The resulting HTML page can toggle annotations and editorial notes on and off, enabling printing of the CRF with and without these parts. The document can be used as a stand-alone XSL style sheet when linked to a valid ODM-xml file. This way of displaying a CRF book with SDTM annotaitons is intended to serve as a visual representation of the ODM-xml file itself.
+This document is a piece of XSL:XML to display a valid CDISC ODM-xml file as an SDTM annotated CRF in a browser. The selected technology is supported in any modern browser (not Internet Explorer). The resulting HTML page can toggle annotations and editorial notes on and off, enabling printing of the CRF with and without these parts. The document can be used as a stand-alone XSL style sheet when linked to a valid ODM-xml file. This way of displaying a CRF book with SDTM annotaitons is intended to serve as a visual representation of the ODM-xml file itself.
 
 It might seem counterintuitive, but the intended procedure is to refresh the ODM-xml file on your server as it's development progresses, and then click/refresh the **crf_specification.htm** file in the browser to see the rendition. Please notice in the image below that the CRF rendition contains a title page, a live table of contents (links preserved when printed as PDF), and a separate table per CRF form. When printing, page breaks separating each page and table exists.
 
