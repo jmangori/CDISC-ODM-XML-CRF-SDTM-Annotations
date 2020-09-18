@@ -38,15 +38,12 @@ These options are mutually exclusive.
 ### crf_1_3_2.xsl
 This document is a piece of XSL:XML to display a valid CDISC ODM-xml file as an SDTM annotated CRF in a browser. The selected technology is supported in any modern browser (not Internet Explorer). The resulting web page can toggle annotations and editorial notes on and off, enabling printing of the CRF with and without these parts. The document can be used as a stand-alone XSL style sheet when linked to a valid ODM-xml file. This way of displaying a CRF book with SDTM annotaitons is intended to serve as a visual representation of the ODM-xml file itself.
 
-It might seem counterintuitive, but the intended procedure is to refresh the ODM-xml file on your server as it's development progresses, and then click/refresh the **crf_specification.htm** file in the browser to see the rendition. Please notice in the image below that the CRF rendition contains a title page, a live table of contents (links preserved when printed as PDF), and a separate table per CRF form. When printing, page breaks separating each page and table exists.
+The intended procedure is to refresh the ODM-xml file on your server as it's development progresses, and then refresh the **crf_specification.htm** file in the browser to see the rendition. Please notice in the image below that the CRF rendition contains a title page, a live table of contents (links preserved when printed as PDF), and a separate table per CRF form. When printing, page breaks separating each page and table exists.
 
 The CRF rendition consists of one table for each form in the CRF identified as **FormDef** tags.
 * The first column is the question from the CRF forms identified as **Question/TranslatedText** tags. If any **Description/TranslatedText** tag exists, the contents is added as an editorial remark in _italics_.
-* The second column is the answer to the question distinguised by **DataType** attributes. Each data type is displayed as a browser specific interpretation of an HTML <input> tag of the corresponding type.
+* The second column is the answer to the question distinguised by **DataType** attributes. Each data type is displayed as a browser specific interpretation of an HTML <input> tag of the corresponding type. As no indication of multiple selects exist in the ODM definition, this data type is extracted from the text itself.
 * The third column is the SDTM annotation identified as **SDSVarName** attributes. Additional information is added from **Alias/Name** attributes.
-* The fourth column is any code lists attached to the question identified by **CodeListItem** tags. A small inline table documents the correlation between CRF code list values and annotation values to be expected in the SDTM datasets. If any **Description/TranslatedText** tag exists, the contents is added as an editorial remark in _italics_.
-
-Please note that the editorial remarks are identical in the questions and in the remarks.
 
 ![Simple CRF ecample](images/CRF.png)
 
