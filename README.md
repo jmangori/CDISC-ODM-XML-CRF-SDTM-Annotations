@@ -9,7 +9,7 @@ in one blow. The solution is a fairly simple style sheet allowing the ODM-xml fi
 ![Infographic about ODM stylesheet](images/odm_overview.png)
 
 ## Built With
-The XSL style sheet and accompanying HTML file for rendering an ODM-xml file as a CRF book in the browser is made using a simple text editor. The result is a webpage displaying the CRF pages, questions, SDTM annotations, and controlled terminology as HTML. The HTML page can be printed from the browser, should anyone still live in a paper based world. The HTML file used to link the XML file to the XSL style sheet will run in modern browsers, NOT Internet Explorer.
+The XSL style sheet and accompanying HTML file for rendering an ODM-xml file as a CRF book in the browser is made using a simple text editor. The result is a webpage displaying the CRF pages, questions, SDTM annotations, and controlled terminology as HTML. The web page page can be printed from the browser, should anyone still live in a paper based world. The HTML file used to link the XML file to the XSL style sheet will run in modern browsers, NOT Internet Explorer.
 
 #### Versions covered are:
 * ODM version 1.3.2 
@@ -18,7 +18,12 @@ The XSL style sheet and accompanying HTML file for rendering an ODM-xml file as 
 Download the documents and place them at the location where they are needed.
 
 ## XSL Style Sheet
-The XSL Style Sheet can work by itself together with any XSLT processor to render the CRF from an ODM-XML file. However, the HTML file requires that all components; HTML file, ODM-xml file, and XSL Style sheet are located on a webserver in the same folder. It will not run from a file folder without a web server. The XSL Style Sheet file has some hardcoding of file names for ODM-xml file and the XSL Style Sheet file. These can be changed in the HTML file. The HTML file has an initial prompt for the name of the ODM-xml file, which can easily be replaced with a hardcoding of the file name, and subsequently removal of the prompt.
+The XSL Style Sheet can work by itself together with any XSLT processor to render the CRF from an ODM-XML file. However, the HTML file requires that all components
+* HTML file
+* ODM-xml file
+* XSL Style sheet
+
+are located on a webserver in the same folder. It will not run from a file folder without a web server. The XSL Style Sheet file has some hardcoding of file names for ODM-xml file and the XSL Style Sheet file. These can be changed in the HTML file. The HTML file has an initial prompt for the name of the ODM-xml file, which can easily be replaced with a hardcoding of the file name, and subsequently removal of the prompt.
 
 ## Prerequisites
 * Access to a web server for the HTML file to run. You can create a local webserver with [XAMPP](https://www.apachefriends.org/index.html).
