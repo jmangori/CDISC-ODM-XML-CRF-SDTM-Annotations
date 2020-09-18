@@ -3,6 +3,7 @@ This project is to exploit the CDISC ODM standard as a one source of truth defin
 * visual inspection of a proposed CRF
 * definition and documentation of the link between the CRF questions and the collected data points through SDTM annotations
 * an import specification to eCRF software
+
 in one blow. The solution is a fairly simple style sheet allowing the ODM-xml file to be both human and machine readable without changing the content.
 
 ![Infographic about ODM stylesheet](images/odm_overview.png)
