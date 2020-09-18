@@ -1,5 +1,6 @@
 # About The Project
 This project is to exploit the CDISC ODM standard as a one source of truth definition of a CRF specification, allowing
+
 * visual inspection of a proposed CRF
 * definition and documentation of the link between the CRF questions and the collected data points through SDTM annotations
 * an import specification to eCRF software
@@ -19,11 +20,12 @@ Download the documents and place them at the location where they are needed.
 
 ## XSL Style Sheet
 The XSL Style Sheet can work by itself together with any XSLT processor to render the CRF from an ODM-XML file. However, the HTML file requires that all components
+
 * HTML file
 * ODM-xml file
 * XSL Style sheet
 
-are located on a webserver in the same folder. It will not run from a file folder without a web server. The XSL Style Sheet file has some hardcoding of file names for ODM-xml file and the XSL Style Sheet file. These can be changed in the HTML file. The HTML file has an initial prompt for the name of the ODM-xml file, which can easily be replaced with a hardcoding of the file name, and subsequently removal of the prompt.
+are located on a webserver in the same folder. It will not run from a file folder without a web server. The HTML file has some hardcoding of file names for ODM-xml file and the XSL Style Sheet file. These can be changed by editing the HTML file. The HTML file has an initial prompt for the name of the ODM-xml file, which can easily be replaced with a hardcoding of the file name, and subsequently removal of the prompt.
 
 ## Prerequisites
 * Access to a web server for the HTML file to run. You can create a local webserver with [XAMPP](https://www.apachefriends.org/index.html).
