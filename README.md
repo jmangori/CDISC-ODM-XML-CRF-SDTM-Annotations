@@ -30,7 +30,8 @@ are located __ON A WEB SERVER__ in the same folder. It will not run from a file 
 ## Prerequisites
 
 Either
-* Access to a web server for the HTML file to run. You can create a local webserver with [XAMPP](https://www.apachefriends.org/index.html).  
+* Access to a web server for the HTML file to run. You can create a local webserver with [XAMPP](https://www.apachefriends.org/index.html).
+
 Or
 * Access to an XSLT processor to perform the transformation of an ODM-XML file to HTML using the XSL Style Sheet. SAS PROC XSL will do the job correctly.
 
