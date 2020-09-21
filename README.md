@@ -1,35 +1,35 @@
 # About The Project
 This project is to exploit the CDISC ODM standard as a one source of truth definition of a CRF specification, allowing
 
-* visual inspection of a proposed CRF
-* definition and documentation of the link between the CRF questions and the collected data points through SDTM annotations
-* an import specification to eCRF software
+* visual inspection of a proposed CRF directly from an ODM-xml file
+* which defines and documents the link between the CRF questions and the collected data points through SDTM annotations
+* allowing the ODM-xml file to be used as an import specification to eCRF software
 
-in one blow. The solution is a fairly simple style sheet allowing the ODM-xml file to be both human and machine readable without changing the content.
+in one blow. The solution is a fairly simple XML translating style sheet allowing the ODM-xml file to be both human and machine readable without changing the content.
 
 ![Infographic about ODM stylesheet](images/odm_overview.png)
 
 ## Built With
-The XSL style sheet and accompanying HTML file for rendering an ODM-xml file as a CRF book in the browser is made using a simple text editor. The result is a webpage displaying the CRF pages, questions, SDTM annotations, and controlled terminology as HTML. The web page page can be printed from the browser, should anyone still live in a paper based world. The HTML file used to link the XML file to the XSL style sheet will run in modern browsers, NOT Internet Explorer.
+The XSL style sheet and accompanying HTML file for rendering an ODM-xml file as a CRF book in the browser is made using a simple text editor. The result is a webpage displaying the CRF pages, questions, and SDTM annotations, as a web page. The web page page can be printed from the browser, should anyone still live in a paper based world. The HTML file used to link the XML file to the XSL style sheet will run in modern browsers, NOT Internet Explorer.
 
 #### Versions covered are:
 * ODM version 1.3.2 
 
 # Getting Started
-Download the documents and place them at the location where they are needed.
+Download the HTML file and the XSL file and place them at the location where they are needed.
 
 ## XSL Style Sheet
-The XSL Style Sheet can work by itself together with any XSLT processor to render the CRF from an ODM-XML file. However, the HTML file requires that all components
+The XSL Style Sheet can work by itself together with any XSLT processor to render the CRF from an ODM-XML file. However, the HTML file requires that the components
 
-* HTML file
-* ODM-xml file
-* XSL Style sheet
+* HTML file: crf_specification.htm
+* ODM-xml file: <odm of yoyur choise>.xml
+* XSL Style sheet: crf_1_3_2.xsl
 
-are located on a webserver in the same folder. It will not run from a file folder without a web server. The HTML file has some hardcoding of file names for ODM-xml file and the XSL Style Sheet file. These can be changed by editing the HTML file. The HTML file has an initial prompt for the name of the ODM-xml file, which can easily be replaced with a hardcoding of the file name, and subsequently removal of the prompt.
+are located <ins>on a webserver</ins> in the same folder. It will not run from a file folder without a web server. The HTML file has some hardcoding of file names for ODM-xml file and the XSL Style Sheet file. These can be changed by editing the HTML file. The HTML file has an initial prompt for the name of the ODM-xml file, which can easily be replaced with a hardcoding of the file name, and subsequently removal of the prompt.
 
 ## Prerequisites
-* Access to a web server for the HTML file to run. You can create a local webserver with [XAMPP](https://www.apachefriends.org/index.html).
 
+* Access to a web server for the HTML file to run. You can create a local webserver with [XAMPP](https://www.apachefriends.org/index.html).
 * Access to an XSLT processor to perform the transformation of an ODM-XML file to HTML using the XSL Style Sheet. SAS PROC XSL will do the job correctly.
 
 These options are mutually exclusive.
