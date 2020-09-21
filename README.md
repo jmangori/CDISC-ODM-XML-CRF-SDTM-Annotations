@@ -22,14 +22,16 @@ Download the HTML file and the XSL file and place them at the location where the
 The XSL Style Sheet can work by itself together with any XSLT processor to render the CRF from an ODM-XML file. However, the HTML file requires that the components
 
 * HTML file `crf_specification.htm`
-* ODM-xml file `odm-file-of-yoyur-choise.xml`
+* ODM-xml file `odm-file-of-your-choise.xml`
 * XSL Style sheet `crf_1_3_2.xsl`
 
-are located __on a webserver__ in the same folder. It will not run from a file folder without a web server. The HTML file has some hardcoding of file names for ODM-xml file and the XSL Style Sheet file. These can be changed by editing the HTML file. The HTML file has an initial prompt for the name of the ODM-xml file, which can easily be replaced with a hardcoding of the file name, and subsequently removal of the prompt.
+are located __ON A WEB SERVER__ in the same folder. It will not run from a file folder without a web server. The HTML file has some hardcoding of file names for ODM-xml file and the XSL Style Sheet file. These can be changed by editing the HTML file. The HTML file has an initial prompt for the name of the ODM-xml file, which can easily be replaced with a hardcoding of the file name, and subsequently removal of the prompt.
 
 ## Prerequisites
 
+Either
 * Access to a web server for the HTML file to run. You can create a local webserver with [XAMPP](https://www.apachefriends.org/index.html).
+Or
 * Access to an XSLT processor to perform the transformation of an ODM-XML file to HTML using the XSL Style Sheet. SAS PROC XSL will do the job correctly.
 
 These options are mutually exclusive.
