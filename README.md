@@ -21,9 +21,9 @@ Download the HTML file and the XSL file and place them at the location where the
 ## XSL Style Sheet
 The XSL Style Sheet can work by itself together with any XSLT processor to render the CRF from an ODM-XML file. However, the HTML file requires that the components
 
+* XSL Style sheet `crf_1_3_2.xsl`
 * HTML file `crf_specification.htm`
 * ODM-xml file `odm-file-of-your-choise.xml`
-* XSL Style sheet `crf_1_3_2.xsl`
 
 are located __ON A WEB SERVER__ in the same folder. It will not run from a file folder without a web server. The HTML file has some hardcoding of file names for ODM-xml file and the XSL Style Sheet file. These can be changed by editing the HTML file. The HTML file has an initial prompt for the name of the ODM-xml file, which can easily be replaced with a hardcoding of the file name, and subsequently removal of the prompt.
 
@@ -62,7 +62,11 @@ The file **crf_specification.htm** contains a HTML prompt to ask for the name of
 Please notice that file names may be case sensitive on your system too.
 
 # Roadmap
-This is very much a work in progress. I will consider displaying editorial (and other) remarks as part of either the CRF itself or the annotations. It is my hope that this way of displaying annotations will catch on and eventually become wide spread throughout the pharma industry. I will also consider to include other (CDASH) annotations, if I am lead to believe this is a general desire.
+It is my hope that this way of displaying annotations will catch on and eventually become wide spread throughout the pharma industry.
+
+This is very much a work in progress, but these parts are curently under consideration
+* If I find an ODM-xml document including a visit matrix, I will display it as part of the CRF.
+* Displaying editorial (and other) remarks as part of the CRF, pending a uniform way to include notes in the ODM-xml file.
 
 # License
 Distributed under the MIT License. See [LICENSE](https://github.com/jmangori/CDISC-ODM-and-Define-XML-tools/blob/master/LICENSE) for more information.
