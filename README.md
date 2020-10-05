@@ -31,7 +31,7 @@ The XSL style sheet and accompanying HTML file for rendering an ODM-xml file as 
 ## Versions <a name="Versions"/>
 * ODM version 1.3.2
 
-Other version of ODM-xml files are not espected to work. ODM version 1.0.0 feles has been tested, and it doesn't work.
+Other version of ODM-xml files are not espected to work. ODM version 1.0.0 files have been tested, and it doesn't work.
 
 # Getting Started <a name="Getting_Started"/>
 Download the HTML file and the XSL file and place them at the location where they are needed.
