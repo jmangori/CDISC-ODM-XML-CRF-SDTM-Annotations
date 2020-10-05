@@ -29,7 +29,9 @@ in one blow. The solution is a fairly simple XML translating style sheet allowin
 The XSL style sheet and accompanying HTML file for rendering an ODM-xml file as a CRF book in the browser is made using a simple text editor. The result is a webpage displaying the CRF pages, questions, and SDTM annotations, as a web page. The web page page can be printed from the browser, should anyone still live in a paper based world. The HTML file used to link the XML file to the XSL style sheet will run in modern browsers, NOT Internet Explorer.
 
 ## Versions <a name="Versions"/>
-* ODM version 1.3.2 
+* ODM version 1.3.2
+
+Other version of ODM-xml files are not espected to work. ODM version 1.0.0 feles has been tested, and it doesn't work.
 
 # Getting Started <a name="Getting_Started"/>
 Download the HTML file and the XSL file and place them at the location where they are needed.
@@ -80,7 +82,6 @@ Please notice that file names may be case sensitive on your system too.
 It is my hope that this way of displaying annotations will catch on and eventually become wide spread throughout the pharma industry.
 
 This is very much a work in progress, but these parts are curently under consideration
-* If I find an ODM-xml document including a visit matrix, I will display it as part of the CRF.
 * Displaying editorial (and other) remarks as part of the CRF, pending a uniform way to include notes in the ODM-xml file.
 
 # License <a name="License"/>
