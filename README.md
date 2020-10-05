@@ -94,3 +94,4 @@ Jørgen Mangor Iversen [jmi@try2.info](mailto:jmi@try2.info)
 [My LinkedIn profile](https://www.linkedin.com/in/jørgen-iversen-ab5908b/)
 
 # Acknowledgements <a name="Acknowledgements"/>
+This software is made public with the explicit permission from LEO Pharma A/S
