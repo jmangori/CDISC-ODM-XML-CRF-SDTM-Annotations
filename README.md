@@ -95,4 +95,6 @@ Jørgen Mangor Iversen [jmi@try2.info](mailto:jmi@try2.info)
 [My LinkedIn profile](https://www.linkedin.com/in/jørgen-iversen-ab5908b/)
 
 # Acknowledgements <a name="Acknowledgements"/>
+Thanks to [Martin Honnen](https://github.com/martin-honnen/martin-honnen.github.io/blob/master/xslt/arcor-archive/2016/test2016081501.html) for code to execute asynchronous XSLTProcessor clientside in the browser.
+
 This software is made public with the explicit permission from LEO Pharma A/S
