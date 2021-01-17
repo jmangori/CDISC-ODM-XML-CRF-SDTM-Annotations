@@ -29,7 +29,7 @@ All in one blow. The solution is a fairly simple XML translating style sheet all
 The main component is a XSLT translating style sheet applied to an ODM-xml file of your own. The result is a webpage displaying the CRF pages, questions, and SDTM annotations. The web page page can be printed from the browser, should anyone still live in a paper based world. The HTML file used to link the XML file to the XSL style sheet will run in modern browsers, NOT Internet Explorer.
 
 ## Versions <a name="Versions"/>
-This project covers ODM version 1.3.2 only. Other version of ODM-xml files are not expected to work. ODM version 1.0.0 and OFM version 1.1.0 files have been tested, and they don't work.
+This project covers ODM version 1.3.2 only. Other version of ODM-xml files are not expected to work. ODM version 1.0.0 and ODM version 1.1.0 files have been tested, and they don't work.
 
 # Getting Started <a name="Getting_Started"/>
 Download the HTML file and the XSL file and place them at the location where they are needed.
