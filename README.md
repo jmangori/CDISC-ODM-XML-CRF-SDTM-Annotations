@@ -32,16 +32,7 @@ The main component is a XSLT translating style sheet applied to an ODM-xml file 
 This project covers ODM version 1.3.2 only. Other version of ODM-xml files are not expected to work. ODM version 1.0.0 and ODM version 1.1.0 files have been tested, and they don't work.
 
 # Getting Started <a name="Getting_Started"/>
-Download the HTML file and the XSL file and place them at the location where they are needed.
-
-## Prerequisites <a name="Prerequisites"/>
-Either
-* Access to a web server for the HTML file to run. You can create a local webserver with [XAMPP](https://www.apachefriends.org/index.html).
-
-Or
-* Access to an XSLT processor to perform the transformation of an ODM-XML file to HTML using the XSL Style Sheet. SAS PROC XSL will do the job correctly.
-
-These options are mutually exclusive.
+Download the XSL file from the ![xls_files](xsl_files) folder and place it at the location where they are needed.
 
 ## Installation <a name="Installation"/>
 The XSL Style Sheet can work by itself together with any XSLT processor to render the CRF from an ODM-XML file. However, the HTML file requires that the components
