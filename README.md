@@ -17,16 +17,16 @@
 # About The Project <a name="About_The_Project"/>
 This project is to exploit the CDISC ODM standard as a one source of truth definition of a CRF specification, allowing
 
-* visual inspection of a proposed CRF directly from an ODM-xml file
-* which defines and documents the link between the CRF questions and the collected data points through SDTM annotations
-* allowing the ODM-xml file to be used as an import specification to eCRF software
+* Visual inspection of a CRF design directly from an ODM-xml file
+* Documenting the link between the CRF questions and the collected data points through SDTM annotations
+* The ODM-xml file to be used as an import specification to eCRF software
 
-in one blow. The solution is a fairly simple XML translating style sheet allowing the ODM-xml file to be both human and machine readable without changing the content.
+All in one blow. The solution is a fairly simple XML translating style sheet allowing the ODM-xml file to be both human and machine readable without changing the content.
 
 ![Infographic about ODM stylesheet](images/odm_overview.png)
 
 ## Built With <a name="Built_With"/>
-The main component is a XSLT translating style sheet applied by a small HTML file linking it to an ODM-xml file of your own. The result is a webpage displaying the CRF pages, questions, and SDTM annotations. The web page page can be printed from the browser, should anyone still live in a paper based world. The HTML file used to link the XML file to the XSL style sheet will run in modern browsers, NOT Internet Explorer.
+The main component is a XSLT translating style sheet applied to an ODM-xml file of your own. The result is a webpage displaying the CRF pages, questions, and SDTM annotations. The web page page can be printed from the browser, should anyone still live in a paper based world. The HTML file used to link the XML file to the XSL style sheet will run in modern browsers, NOT Internet Explorer.
 
 ## Versions <a name="Versions"/>
 This project covers ODM version 1.3.2 only. Other version of ODM-xml files are not expected to work. ODM version 1.0.0 files have been tested, and they don't work.
