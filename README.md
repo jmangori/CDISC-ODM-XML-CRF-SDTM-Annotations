@@ -32,7 +32,7 @@ The main component is a XSLT translating style sheet applied to an ODM-xml file 
 This project covers ODM version 1.3.2 only. Other version of ODM-xml files are not expected to work. ODM version 1.0.0 and ODM version 1.1.0 files have been tested, and they don't work.
 
 # Getting Started <a name="Getting_Started"/>
-Try a [live version](http://try2.info/odm2crf/odm2crf.html) to test your own ODM file, or my supplied [examples](/examples).
+Try a [live version](http://try2.info/odm2crf/odm2crf.html) to test your own ODM file, or my supplied [examples](/example).
 
 Download the XSL file from the [xsl_files](/xsl_files) folder and place it at the location where it is needed.
 
