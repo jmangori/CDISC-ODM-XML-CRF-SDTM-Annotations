@@ -53,6 +53,8 @@ are located __ON A WEB SERVER__ in the same folder. The HTML file will not run f
 ## crf_1_3_2.xsl <a name="crf_1_3_2_xsl"/>
 This document is a piece of XSL-xml to display a valid CDISC ODM-xml file as an SDTM annotated CRF in a browser. The selected technology is supported in any modern browser (not Internet Explorer). The resulting web page can toggle SDTM annotations on and off, enabling printing of the CRF with and without this part. Display of SDTM annotations can also be controlled via a parameter to the `crf_1_3_2.xsl` file. The document can be used as a stand-alone XSL style sheet when linked to a valid ODM-xml file. This way of displaying a CRF book with SDTM annotaitons is intended to serve as a visual representation of the ODM-xml file itself.
 
+Each CRF page has a repeating header section identifying the company, trial, site, investigator, subject, and visit, all of which is controllable via parameters specifying their SDTM annotations. Any parameter having a blank value will be removed from the header. Only the protocol name remains visible at all pages.
+
 The intended procedure is to refresh the ODM-xml file on your server as it's development progresses, and then refresh the **crf_specification.html** file in the browser to see the rendition. Please notice in the image below that the CRF rendition contains a title page, a live table of contents (links preserved when printed as PDF), a visit matrix if visits are defined in the ODM-xml file, and a separate table per CRF form. When printing, page breaks separating each page and table exists.
 
 ## crf_specification.html <a name="crf_specification_html"/>
