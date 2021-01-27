@@ -57,6 +57,27 @@
   <xsl:variable name="created"      select="/odm:ODM/@CreationDateTime"/>
   <xsl:variable name="changed"      select="/odm:ODM/@AsOfDateTime"/>
 
+  <!-- Replace occurences of '. ' (period blank) with HTML line break -->
+  <xsl:template name="break_lines">
+    <xsl:param name="text"/>
+    <xsl:choose>
+      <xsl:when test="$text = ''">
+        <!-- Prevent this routine from hanging -->
+        <xsl:value-of select="$text"/>
+      </xsl:when>
+      <xsl:when test="contains($text, '. ')">
+        <xsl:value-of select="substring-before($text, '. ')"/>.
+        <br/>
+        <xsl:call-template name="break_lines">
+          <xsl:with-param name="text" select="substring-after($text, '. ')"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$text"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
   <xsl:template match="/">
     <html>
       <head>
@@ -411,13 +432,13 @@
                             <xsl:when test="@DataType = 'date'">
                               <input type="date"/>
                               <p class="note left">
-                                The displayed date is formatted based on the locale of the user's browser. Always collect dates as YYYY-MM-DD.
+                                The displayed date is formatted based on the locale of the user's browser. Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM.
                               </p>
                             </xsl:when>
                             <xsl:when test="@DataType = 'time'">
                               <input type="time"/>
                               <p class="note left">
-                                The displayed time is formatted based on the locale of the user's browser
+                                The displayed time is formatted based on the locale of the user's browser. Always store times as ISO8601 in SDTM.
                               </p>
                             </xsl:when>
                             <xsl:otherwise>
@@ -437,10 +458,15 @@
                               <xsl:value-of select="$domain"/>.<xsl:value-of select="@SDSVarName"/>
                             </xsl:when>
                             <xsl:when test="normalize-space(@SDSVarName) = ''">
-                              <xsl:value-of select="odm:Alias[@Context='SDTM']/@Name"/>
+                              <xsl:call-template name="break_lines">
+                                <xsl:with-param name="text" select="odm:Alias[@Context='SDTM']/@Name"/>
+                              </xsl:call-template>
                             </xsl:when>
                             <xsl:otherwise>
-                              <xsl:value-of select="$domain"/>.<xsl:value-of select="@SDSVarName"/>,<br/><xsl:value-of select="odm:Alias[@Context='SDTM']/@Name"/>
+                              <xsl:value-of select="$domain"/>.<xsl:value-of select="@SDSVarName"/>,<br/>
+                              <xsl:call-template name="break_lines">
+                                <xsl:with-param name="text" select="odm:Alias[@Context='SDTM']/@Name"/>
+                              </xsl:call-template>
                             </xsl:otherwise>
                           </xsl:choose>
                         </td>
