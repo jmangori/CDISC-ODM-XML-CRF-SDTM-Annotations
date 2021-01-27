@@ -15,7 +15,7 @@ The following assumptions regarding the specifics of the ODM-XML file's XPATH's 
   <dd>/ODM/Study/MetaDataVersion/ItemDef/Description/TranslatedText</dd>
   <dt>SDTM Annotations</dt>
   <dd>/ODM/Study/MetaDataVersion/ItemDef/Alias/@Name
-    <em>where</em>
+    <br/><em>where</em><br/>
     /ODM/Study/MetaDataVersion/ItemDef/Alias/@Context='SDTM'</dd>
   </dl>
   
