@@ -85,7 +85,7 @@ Distributed under the MIT License. See [LICENSE](https://github.com/jmangori/CDI
 # Contact <a name="Contact"/>
 Jørgen Mangor Iversen [jmi@try2.info](mailto:jmi@try2.info)
 
-[My web page in danish](http://www.try2.info) unrelated to this project.
+My [web page](http://www.try2.info) in danish unrelated to this project.
 
 [Live version](http://try2.info/odm2crf/odm2crf.html) to demonstate the principle.
 
