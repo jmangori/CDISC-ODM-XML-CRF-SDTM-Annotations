@@ -53,7 +53,7 @@ This document is a piece of XSL-xml to display a valid CDISC ODM-xml file as an 
 
 The intended procedure is to refresh the ODM-xml file on your server as it's development progresses, and then refresh the **crf_specification.html** file in the browser to see the rendition. Please notice in the image below that the CRF rendition contains a title page, a live table of contents (links preserved when printed as PDF), a visit matrix if visits are defined in the ODM-xml file, and a separate table per CRF form. When printing, page breaks separating each page and table exists.
 
-Each CRF page has a repeating header section identifying the company, trial, site, investigator, subject, and visit, all of which is controllable via parameters. Any parameter having a blank value will be removed from the header. Only the protocol name remains visible at all pages.
+Each CRF page has a repeating header section identifying the company, trial, site, investigator, subject, and visit, all of which is controllable via parameters specifying their SDTM annotations. Any parameter having a blank value will be removed from the header. Only the protocol name remains visible at all pages.
 
 The CRF rendition consists of one table for each form in the CRF identified as **FormDef** tags.
 * The 1<sup>st</sup> column is any guidance text or instructions for the particular question identified by **Description/TranslatedText** tag within the **ItemDef** tag.
