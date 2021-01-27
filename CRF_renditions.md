@@ -16,7 +16,7 @@ In all browsers, print the CRF renditions as PDF documents on your disk as eithe
 ## Design choises
 All vendor specific name spaces and XML addendums to the ODM-XML file are ignored.
 
-* The following assumptions regarding the specifics of the ODM-XML file's XPATH's are in effect:
+The following assumptions regarding the specifics of the ODM-XML file's XPATH's are in effect:
 <dl>
   <dt>CRF instructions</dt>
   <dd>/ODM/Study/MetaDataVersion/FormDef/Description/TranslatedText</dd>
@@ -24,15 +24,15 @@ All vendor specific name spaces and XML addendums to the ODM-XML file are ignore
   <dd>/ODM/Study/MetaDataVersion/ItemDef/Description/TranslatedText</dd>
   <dt>SDTM Annotations</dt>
   <dd>/ODM/Study/MetaDataVersion/ItemDef/Alias/@Name
-    <br/>
-    where
+    <br/>where<br/>
     /ODM/Study/MetaDataVersion/ItemDef/Alias/@Context='SDTM'</dd>
   </dl>
   
-* Groups (**ItemGroup** tags) in the ODM-xml are not displayed as part of the CRF rendition. They are used solely to cary the SDTM domain dataset name in the **@Domain** attribute.
-* The layout of the CRF is taken from the examples on the CDISC website. I have made very few design choises of my own. These do include a cleanup of the SDTM annotations, such as
-** All text constants are enclosed in quotation marks.
-** Consistent use of single quotation marks in the SDTM annotations.
-** Ommision of table border for additions to the CRF itself.
-** Addition of a reference number for each CRF question. This has proved usefull when revieving CRFs.
-** Instructions/notes are written using a smaller font and in italics.
+Groups (**ItemGroup** tags) in the ODM-xml are not displayed as part of the CRF rendition. They are used solely to cary the SDTM domain dataset name in the **@Domain** attribute.
+
+The layout of the CRF is taken from the examples on the CDISC website. I have made very few design choises of my own. These do include a cleanup of the SDTM annotations, such as
+* All text constants are enclosed in quotation marks.
+* Consistent use of single quotation marks in the SDTM annotations.
+* Ommision of table border for additions to the CRF itself.
+* Addition of a reference number for each CRF question. This has proved usefull when revieving CRFs.
+* Instructions/notes are written using a smaller font and in italics.
