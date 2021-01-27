@@ -34,6 +34,8 @@ This project covers ODM version 1.3.2 only. Other version of ODM-xml files are n
 Transformations are done using **<xsl:stylesheet version="1.0">** creating HTML 4.
 
 # Getting Started <a name="Getting_Started"/>
+Check out examples of [acrf](examples/acrf.pdf) and [bcrf](examples/bcrf.pdf) documents to see the results.
+
 Try a [live version](http://try2.info/odm2crf/odm2crf.html) to test your own ODM file, or my supplied [examples](/example).
 
 ## Installation <a name="Installation"/>
@@ -61,8 +63,6 @@ The CRF rendition consists of one table for each form in the CRF identified as *
 * The 3<sup>rd</sup> column is the question from the CRF forms identified as **Question/TranslatedText** tags.
 * The 4<sup>th</sup> column is the answer to the question distinguised by **DataType** attributes. Each data type is displayed as a browser specific interpretation of an HTML <input> tag of the corresponding type. As no indication of multiple selects exist in the ODM definition, this data type is extracted from the text itself.
 * The 5<sup>th</sup> column is the SDTM annotation identified as **@SDSVarName** attributes. Additional information is added from **Alias/@Name** attributes having a **@Context='SDTM'** attribut as SDTM annotation marker.
-
-![Simple CRF example](images/CRF.png)
 
 ## crf_specification.html <a name="crf_specification_html"/>
 This document is a piece of HTML code containing only JavaScript to link a valid XSL Translating Style Sheet to a valid ODM-xml file without putting the style sheet link into the XML file itself. All XML and XSL files are supported, although some file names are hard coded. The resulting web page can serve as a CRF specification interpreting a valid ODM-xml file. This file needs to be placed on a web server in the same folder as your ODM-xml file and the `crf_1_3_2.xsl` XSL Translating Style Sheet. When opening the HTML file, the browser will perform the transformation of the XML file according to the programming in the XSL file. If the transformation is performed using a stand-alone XSL engine that is not a browser, the HTML file is not needed. I have tested that SAS PROC XSL can perform such a transformation and produce a simmilar result as the `crf_specification.html` file.
