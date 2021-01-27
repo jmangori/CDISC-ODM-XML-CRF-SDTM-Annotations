@@ -23,6 +23,8 @@ This project is to exploit the CDISC ODM standard as a one source of truth defin
 
 All in one blow. The solution is a fairly simple XML translating style sheet allowing the ODM-xml file to be both human and machine readable without changing the content.
 
+See the [CRF_renditions.md](CRF_renditions.md) documents for details of the CRF itself.
+
 ![Infographic about ODM stylesheet](images/odm_overview.png)
 
 ## Built With <a name="Built_With"/>
