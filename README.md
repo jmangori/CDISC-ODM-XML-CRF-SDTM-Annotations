@@ -23,9 +23,9 @@ This project is to exploit the CDISC ODM standard as a one source of truth defin
 
 All in one blow. The solution is a fairly simple XML translating style sheet allowing the ODM-xml file to be both human and machine readable without changing the content.
 
-See the [CRF_renditions.md](CRF_renditions.md) documents for details of the CRF itself.
-
 ![Infographic about ODM stylesheet](images/odm_overview.png)
+
+See the [CRF_renditions.md](CRF_renditions.md) documents for details of the CRF itself.
 
 ## Built With <a name="Built_With"/>
 The main component is a XSLT translating style sheet applied to an ODM-xml file of your own. The result is a webpage displaying the CRF pages, questions, and SDTM annotations. The web page page can be printed from the browser, should anyone still live in a paper based world. The HTML file used to link the XML file to the XSL style sheet will run in modern browsers, NOT Internet Explorer.
