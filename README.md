@@ -36,16 +36,16 @@ Transformations are done using **<xsl:stylesheet version="1.0">** creating HTML 
 # Getting Started <a name="Getting_Started"/>
 Try a [live version](http://try2.info/odm2crf/odm2crf.html) to test your own ODM file, or my supplied [examples](/example).
 
+## Installation <a name="Installation"/>
 Download the files from the [xsl_files](/xsl_files) folder and place them on your web server.
 
-## Installation <a name="Installation"/>
 The XSL Style Sheet can work by itself together with any XSLT processor to render the CRF from an ODM-XML file. However, the HTML file requires that the components
 
 * XSL Style sheet `crf_1_3_2.xsl`
 * HTML file `crf_specification.html`
 * ODM-xml file `odm-file-of-your-choise.xml`
 
-are located __ON A WEB SERVER__ in the same folder. It will not run from a file folder without a web server. The HTML file has some hardcoding of file names for ODM-xml file and the XSL Style Sheet file. These can be changed by editing the HTML file. The HTML file has an initial prompt for the name of the ODM-xml file, which can easily be replaced with a hardcoding of the file name, and subsequently removal of the prompt.
+are located __ON A WEB SERVER__ in the same folder. The HTML file will not run from a file folder without a web server. The HTML file has some hardcoding of file names for ODM-xml file and the XSL Style Sheet file. These can be changed by editing the HTML file. The HTML file has an initial prompt for the name of the ODM-xml file, which can easily be replaced with a hardcoding of the file name, and subsequently removal of the prompt.
 
 # Usage <a name="Usage"/>
 ## crf_1_3_2.xsl <a name="crf_1_3_2_xsl"/>
