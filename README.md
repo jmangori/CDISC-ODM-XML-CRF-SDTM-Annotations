@@ -34,7 +34,7 @@ This project covers ODM version 1.3.2 only. Other version of ODM-xml files are n
 # Getting Started <a name="Getting_Started"/>
 Try a [live version](http://try2.info/odm2crf/odm2crf.html) to test your own ODM file, or my supplied [examples](/example).
 
-Download the XSL file from the [xsl_files](/xsl_files) folder and place it at the location where it is needed.
+Download the files from the [xsl_files](/xsl_files) folder and place it on your web server.
 
 ## Installation <a name="Installation"/>
 The XSL Style Sheet can work by itself together with any XSLT processor to render the CRF from an ODM-XML file. However, the HTML file requires that the components
