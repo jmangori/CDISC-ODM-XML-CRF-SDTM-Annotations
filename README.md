@@ -55,10 +55,10 @@ Each CRF page has a repeating header section identifying the company, trial, sit
 
 The CRF rendition consists of one table for each form in the CRF identified as **FormDef** tags.
 * The 1<sup>st</sup> column is any guidance text or instructions for the particular question identified by **Description/TranslatedText** tag within the **ItemDef** tag.
-* The 2nd column is a sequence number constructed entirely form the **OrderNumber** attributes at different tags in the ODM-xml file. The number serves as a human reference when discussing and reviewing CRF content, as well as keeping track of the sorting of CRF elements.
-* The 3rd column is the question from the CRF forms identified as **Question/TranslatedText** tags.
-* The 4th column is the answer to the question distinguised by **DataType** attributes. Each data type is displayed as a browser specific interpretation of an HTML <input> tag of the corresponding type. As no indication of multiple selects exist in the ODM definition, this data type is extracted from the text itself.
-* The 5th column is the SDTM annotation identified as **@SDSVarName** attributes. Additional information is added from **Alias/@Name** attributes having a **@Context='SDTM'** attribut as SDTM annotation marker.
+* The 2<sup>nd</sup> column is a sequence number constructed entirely form the **OrderNumber** attributes at different tags in the ODM-xml file. The number serves as a human reference when discussing and reviewing CRF content, as well as keeping track of the sorting of CRF elements.
+* The 3<sup>rd</sup> column is the question from the CRF forms identified as **Question/TranslatedText** tags.
+* The 4<sup>th</sup> column is the answer to the question distinguised by **DataType** attributes. Each data type is displayed as a browser specific interpretation of an HTML <input> tag of the corresponding type. As no indication of multiple selects exist in the ODM definition, this data type is extracted from the text itself.
+* The 5<sup>th</sup> column is the SDTM annotation identified as **@SDSVarName** attributes. Additional information is added from **Alias/@Name** attributes having a **@Context='SDTM'** attribut as SDTM annotation marker.
 
 ![Simple CRF ecample](images/CRF.png)
 
