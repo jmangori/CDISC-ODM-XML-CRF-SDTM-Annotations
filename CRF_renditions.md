@@ -15,9 +15,9 @@ The following assumptions regarding the specifics of the ODM-XML file's XPATH's 
   <dd>/ODM/Study/MetaDataVersion/ItemDef/Description/TranslatedText</dd>
   <dt>SDTM Annotations</dt>
   <dd>/ODM/Study/MetaDataVersion/ItemDef/Alias/@Name
-    <p>
+    <p style="font-style:italic">
     where
-    <p/>
+    </p>
     /ODM/Study/MetaDataVersion/ItemDef/Alias/@Context='SDTM'</dd>
   </dl>
   
@@ -28,7 +28,7 @@ The layout of the CRF is taken from the examples on the CDISC website. I have ma
 * Consistent use of single quotation marks in the SDTM annotations.
 * Ommision of table border for additions to the CRF itself.
 * Addition of a reference number for each CRF question. This has proved usefull when revieving CRFs.
-* Instructions/notes are written using a smaller font and in italics.
+* Instructions/notes are written using a smaller font and in _italics_.
 
 ## Creating PDF documents
 In all browsers, print the CRF renditions as PDF documents on your disk as either `bcrf.pdf` or `acrf.pdf` submission documents, respectively. Please note:
