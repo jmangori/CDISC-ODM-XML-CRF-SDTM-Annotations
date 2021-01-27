@@ -4,6 +4,15 @@ A short description of the CRF generated from the ODM-xml document.
 ## CRF layout
 The main feature of the CRF layout presented here is to put the SDTM annotations in a column adjacent to each question line. This way, the SDTM annotations are displayed at the proper location, but without the need to move boxes of annotations around inside and on top of CRF elements.
 
+Each CRF page has a repeating header section identifying the company, trial, site, investigator, subject, and visit, all of which is controllable via parameters specifying their SDTM annotations. Any parameter having a blank value will be removed from the header. Only the protocol name remains visible at all pages.
+
+The CRF rendition consists of one table for each form in the CRF identified as **FormDef** tags.
+* The 1<sup>st</sup> column is any guidance text or instructions for the particular question identified by **Description/TranslatedText** tag within the **ItemDef** tag.
+* The 2<sup>nd</sup> column is a sequence number constructed entirely form the **OrderNumber** attributes at different tags in the ODM-xml file. The number serves as a human reference when discussing and reviewing CRF content, as well as keeping track of the sorting of CRF elements.
+* The 3<sup>rd</sup> column is the question from the CRF forms identified as **Question/TranslatedText** tags.
+* The 4<sup>th</sup> column is the answer to the question distinguised by **DataType** attributes. Each data type is displayed as a browser specific interpretation of an HTML <input> tag of the corresponding type. As no indication of multiple selects exist in the ODM definition, this data type is extracted from the text itself.
+* The 5<sup>th</sup> column is the SDTM annotation identified as **@SDSVarName** attributes. Additional information is added from **Alias/@Name** attributes having a **@Context='SDTM'** attribut as SDTM annotation marker.
+
 ## Design choises
 All vendor specific name spaces and XML addendums to the ODM-XML file are ignored.
 
