@@ -1,8 +1,7 @@
 # CRF Renditions
+A short description of the CRF generated from the ODM-xml document.
 
 ## CRF layout
-The main benefit of creating the CRF directly from the ODM-xml file, is to avoid manually converting the same information from the ODM-xml file to CRF pages, adding no real value to the execution of clinical trials.
-
 The main feature of the CRF layout presented here is to put the SDTM annotations in a column adjacent to each question line. This way, the SDTM annotations are displayed at the proper location, but without the need to move boxes of annotations around inside and on top of CRF elements.
 
 ## Creating PDF documents
