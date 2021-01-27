@@ -66,7 +66,7 @@ The CRF rendition consists of one table for each form in the CRF identified as *
 This document is a piece of HTML code containing only JavaScript to link a valid XSL Translating Style Sheet to a valid ODM-xml file without putting the style sheet link into the XML file itself. All XML and XSL files are supported, although some file names are hard coded. The resulting web page can serve as a CRF specification interpreting a valid ODM-xml file. This file needs to be placed on a web server in the same folder as your ODM-xml file and the **crf_1_3_2.xsl** XSL Translating Style Sheet. When clicking this file, the browser will perform the transformation of the XML file according to the programming in the XSL file. If the transformation is performed using a stand-alone XSL engine that is not a browser, this file is not needed. I have tested that SAS PROC XSL can perform such a transformation and produce a simmilar result as the **crf_specification.html** file.
 
 #### Modifications <a name="Modifications"/>
-The file **crf_specification.html** contains a HTML prompt to ask for the name of the ODM-xml file to be processed. If this is to changed, you may do the following:
+The file **crf_specification.html** contains a HTML prompt to ask for the name of the ODM-xml file to be processed. If this is to be changed, you may do the following:
 * If the default name is to be changed, simply replace the name of the ODM-xml file. Likewise the name of the XSL file can be changed as they both are simple hard codings. Furthermore, either file name can be prepended with folder paths referring to locations on whichever server hosts the files.
 * If the prompt is to be removed, simply replace the prompt function call in the parameter to the **transform()** function with a text constant containing the name. You may go all the way and remove the parameter to **transform()** all together, leaving a text constant as the parameter to the first call to the **loadDoc()** function.
 
@@ -75,8 +75,9 @@ Please notice that file names may be case sensitive on your system too.
 # Roadmap <a name="Roadmap"/>
 It is my hope that this way of displaying annotations will catch on and eventually become wide spread throughout the pharma industry.
 
-This is very much a work in progress, but these parts are curently under consideration
-* Displaying editorial (and other) remarks as part of the CRF, pending a uniform way to include notes in the ODM-xml file.
+This is very much a work in progress, and I plan to make new versions of `crf_1_3_2.xsl` as new versions of ODM are released. XSL file names are planned to follow the ODM version.
+
+At the same time I invite others to improve of my XSL programmng, make suggestions to annotation conventions, and generally be involved and debate the use of ODM-xml in the way presented here.
 
 # License <a name="License"/>
 Distributed under the MIT License. See [LICENSE](https://github.com/jmangori/CDISC-ODM-and-Define-XML-tools/blob/master/LICENSE) for more information.
@@ -86,9 +87,11 @@ Jørgen Mangor Iversen [jmi@try2.info](mailto:jmi@try2.info)
 
 [My web page in danish](http://www.try2.info) unrelated to this project.
 
+ [Live version](http://try2.info/odm2crf/odm2crf.html) to demonstate the principle.
+
 [My LinkedIn profile](https://www.linkedin.com/in/jørgen-iversen-ab5908b/)
 
 # Acknowledgements <a name="Acknowledgements"/>
 Thanks to [Martin Honnen](https://github.com/martin-honnen/martin-honnen.github.io/blob/master/xslt/arcor-archive/2016/test2016081501.html) for code to execute asynchronous `XSLTProcessor()` clientside in the browser.
 
-This software is made public with the explicit permission from LEO Pharma A/S
+This software is made public with the explicit permission from LEO Pharma A/S.
