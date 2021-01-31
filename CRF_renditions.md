@@ -28,7 +28,7 @@ The following assumptions regarding the specifics of the ODM-XML file's XPATH's 
   
 Groups (**ItemGroup** tags) in the ODM-xml are not displayed as part of the CRF rendition. They are used solely to cary the SDTM domain dataset name in the **@Domain** attribute.
 
-The layout of the CRF is taken from the examples on the CDISC website. I have made very few design choises of my own. These do include a cleanup of the SDTM annotations, such as
+Great inspiration as well as the CRF contens, is taken from the examples on the CDISC website. I have made very few design choises of my own. These do include a cleanup of the SDTM annotations, such as
 * All text constants are enclosed in quotation marks.
 * Consistent use of single quotation marks in the SDTM annotations.
 * Ommision of table border for additions to the CRF itself.
