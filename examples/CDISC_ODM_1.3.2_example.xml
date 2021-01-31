@@ -1,868 +1,868 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ODM FileOID="Test-Trial" FileType="Snapshot" Description="Test trial contaning selected CRF forms from CDISC" CreationDateTime="2021-01-12T11:48:44+01:00" ODMVersion="1.3.2" Originator="Formedix" SourceSystem="Data Acquisition Designer" SourceSystemVersion="4.8.0" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns="http://www.cdisc.org/ns/odm/v1.3">
-	<Study OID="S.0000">
-		<GlobalVariables>
-			<StudyName>Test Trial</StudyName>
-			<StudyDescription>Selection of CRF forms available at CDISC</StudyDescription>
-			<ProtocolName>Test CRF</ProtocolName>
-		</GlobalVariables>
-		<BasicDefinitions/>
-		<MetaDataVersion OID="MDV.0000" Name="Generic ODM" Description="Generic ODM version of CRF">
-			<Protocol>
-				<StudyEventRef StudyEventOID="SE.0000" Mandatory="Yes" OrderNumber="1"/>
-				<StudyEventRef StudyEventOID="SE.0001" Mandatory="Yes" OrderNumber="2"/>
-				<StudyEventRef StudyEventOID="SE.0002" Mandatory="Yes" OrderNumber="3"/>
-			</Protocol>
-			<StudyEventDef OID="SE.0000" Name="Screening" Repeating="No" Type="Scheduled">
-				<FormRef FormOID="F.0005" Mandatory="Yes" OrderNumber="1"/>
-				<FormRef FormOID="F.0001" Mandatory="Yes" OrderNumber="2"/>
-				<FormRef FormOID="F.0002" Mandatory="Yes" OrderNumber="3"/>
-				<FormRef FormOID="F.0004" Mandatory="Yes" OrderNumber="4"/>
-				<FormRef FormOID="F.0003" Mandatory="Yes" OrderNumber="5"/>
-			</StudyEventDef>
-			<StudyEventDef OID="SE.0001" Name="Visit 1" Repeating="Yes" Type="Scheduled">
-				<Description>
-					<TranslatedText>Recurng visit</TranslatedText>
-				</Description>
-				<FormRef FormOID="F.0006" Mandatory="Yes" OrderNumber="1"/>
-			</StudyEventDef>
-			<StudyEventDef OID="SE.0002" Name="Death" Repeating="No" Type="Unscheduled">
-				<FormRef FormOID="F.0000" Mandatory="Yes" OrderNumber="1"/>
-			</StudyEventDef>
-			<FormDef OID="F.0000" Name="Death" Repeating="No">
-				<ItemGroupRef ItemGroupOID="IG.0000" Mandatory="Yes" OrderNumber="1"/>
-				<ItemGroupRef ItemGroupOID="IG.0001" Mandatory="Yes" OrderNumber="2"/>
-				<ItemGroupRef ItemGroupOID="IG.0002" Mandatory="Yes" OrderNumber="3"/>
-			</FormDef>
-			<FormDef OID="F.0001" Name="Background Heart Failure Maintenance Medications Part 1" Repeating="No">
-				<Description>
-					<TranslatedText>Indicate whether the listed class/type of background heart failure medication was prescribed to the subject (see the study protocol for details).</TranslatedText>
-				</Description>
-				<ItemGroupRef ItemGroupOID="IG.0003" Mandatory="Yes" OrderNumber="1"/>
-			</FormDef>
-			<FormDef OID="F.0002" Name="Background Heart Failure Maintenance Medications Part 2" Repeating="No">
-				<Description>
-					<TranslatedText>List the specific background heart failure medications used. Include all heart failure medications that are to be continued. When a subject has frequent changes in the dose and schedule for oral diuretics, the dosing information can be recorded as PRN.</TranslatedText>
-				</Description>
-				<ItemGroupRef ItemGroupOID="IG.0004" Mandatory="Yes" OrderNumber="1"/>
-				<ItemGroupRef ItemGroupOID="IG.0005" Mandatory="Yes" OrderNumber="2"/>
-			</FormDef>
-			<FormDef OID="F.0003" Name="Body Sites of Psoriasis Involvement at Baseline" Repeating="No">
-				<Description>
-					<TranslatedText>CRF Instructions: Use one page per affected area.</TranslatedText>
-				</Description>
-				<ItemGroupRef ItemGroupOID="IG.0006" Mandatory="Yes" OrderNumber="1"/>
-			</FormDef>
-			<FormDef OID="F.0004" Name="Prior Psoriasis Treatments" Repeating="No">
-				<ItemGroupRef ItemGroupOID="IG.0007" Mandatory="Yes" OrderNumber="1"/>
-				<ItemGroupRef ItemGroupOID="IG.0008" Mandatory="Yes" OrderNumber="2"/>
-				<ItemGroupRef ItemGroupOID="IG.0009" Mandatory="Yes" OrderNumber="3"/>
-				<ItemGroupRef ItemGroupOID="IG.0010" Mandatory="Yes" OrderNumber="4"/>
-			</FormDef>
-			<FormDef OID="F.0005" Name="Demographics" Repeating="No">
-				<ItemGroupRef ItemGroupOID="IG.0011" Mandatory="Yes" OrderNumber="1"/>
-			</FormDef>
-			<FormDef OID="F.0006" Name="ECG Test Results" Repeating="Yes">
-				<ItemGroupRef ItemGroupOID="IG.0012" Mandatory="Yes" OrderNumber="1"/>
-				<ItemGroupRef ItemGroupOID="IG.0013" Mandatory="Yes" OrderNumber="2"/>
-			</FormDef>
-			<ItemGroupDef OID="IG.0000" Name="Death" Repeating="No" Domain="DD">
-				<ItemRef ItemOID="I.0000" Mandatory="Yes" OrderNumber="1"/>
-				<ItemRef ItemOID="I.0001" Mandatory="Yes" OrderNumber="2"/>
-			</ItemGroupDef>
-			<ItemGroupDef OID="IG.0001" Name="Death date" Repeating="No" Domain="DM">
-				<ItemRef ItemOID="I.0002" Mandatory="Yes" OrderNumber="1"/>
-			</ItemGroupDef>
-			<ItemGroupDef OID="IG.0002" Name="Death details" Repeating="No" Domain="DD">
-				<ItemRef ItemOID="I.0003" Mandatory="Yes" OrderNumber="1"/>
-				<ItemRef ItemOID="I.0004" Mandatory="Yes" OrderNumber="2"/>
-				<ItemRef ItemOID="I.0005" Mandatory="Yes" OrderNumber="3"/>
-				<ItemRef ItemOID="I.0006" Mandatory="Yes" OrderNumber="4"/>
-			</ItemGroupDef>
-			<ItemGroupDef OID="IG.0003" Name="Background Heart Failure Maintenance Medications Part 1" Repeating="No" Domain="CM">
-				<ItemRef ItemOID="I.0007" Mandatory="Yes" OrderNumber="1"/>
-				<ItemRef ItemOID="I.0008" Mandatory="Yes" OrderNumber="2"/>
-				<ItemRef ItemOID="I.0009" Mandatory="Yes" OrderNumber="3"/>
-				<ItemRef ItemOID="I.0010" Mandatory="Yes" OrderNumber="4"/>
-				<ItemRef ItemOID="I.0011" Mandatory="Yes" OrderNumber="5"/>
-				<ItemRef ItemOID="I.0012" Mandatory="Yes" OrderNumber="6"/>
-				<ItemRef ItemOID="I.0013" Mandatory="Yes" OrderNumber="7"/>
-				<ItemRef ItemOID="I.0014" Mandatory="Yes" OrderNumber="8"/>
-				<ItemRef ItemOID="I.0015" Mandatory="Yes" OrderNumber="9"/>
-				<ItemRef ItemOID="I.0016" Mandatory="Yes" OrderNumber="10"/>
-			</ItemGroupDef>
-			<ItemGroupDef OID="IG.0004" Name="Background Heart Failure Maintenance Medications Part 2" Repeating="No" Domain="CM">
-				<ItemRef ItemOID="I.0017" Mandatory="Yes" OrderNumber="1"/>
-				<ItemRef ItemOID="I.0018" Mandatory="Yes" OrderNumber="2"/>
-				<ItemRef ItemOID="I.0019" Mandatory="Yes" OrderNumber="3"/>
-				<ItemRef ItemOID="I.0020" Mandatory="Yes" OrderNumber="4"/>
-				<ItemRef ItemOID="I.0021" Mandatory="Yes" OrderNumber="5"/>
-				<ItemRef ItemOID="I.0022" Mandatory="Yes" OrderNumber="6"/>
-				<ItemRef ItemOID="I.0023" Mandatory="Yes" OrderNumber="7"/>
-				<ItemRef ItemOID="I.0024" Mandatory="Yes" OrderNumber="8"/>
-			</ItemGroupDef>
-			<ItemGroupDef OID="IG.0005" Name="Background Heart Failure Maintenance Medications Part 2 supplement" Repeating="No" Domain="SUPPCM">
-				<ItemRef ItemOID="I.0025" Mandatory="Yes" OrderNumber="1"/>
-				<ItemRef ItemOID="I.0026" Mandatory="Yes" OrderNumber="2"/>
-			</ItemGroupDef>
-			<ItemGroupDef OID="IG.0006" Name="Body Sites of Psoriasis Involvement at Baseline" Repeating="No" Domain="TU">
-				<ItemRef ItemOID="I.0027" Mandatory="Yes" OrderNumber="1"/>
-				<ItemRef ItemOID="I.0028" Mandatory="Yes" OrderNumber="2"/>
-				<ItemRef ItemOID="I.0029" Mandatory="Yes" OrderNumber="3"/>
-			</ItemGroupDef>
-			<ItemGroupDef OID="IG.0007" Name="Prior Psoriasis Treatments 1" Repeating="No" Domain="CM">
-				<ItemRef ItemOID="I.0030" Mandatory="Yes" OrderNumber="1"/>
-				<ItemRef ItemOID="I.0031" Mandatory="Yes" OrderNumber="2"/>
-				<ItemRef ItemOID="I.0032" Mandatory="Yes" OrderNumber="3"/>
-				<ItemRef ItemOID="I.0021" Mandatory="Yes" OrderNumber="4"/>
-				<ItemRef ItemOID="I.0033" Mandatory="Yes" OrderNumber="5"/>
-				<ItemRef ItemOID="I.0019" Mandatory="Yes" OrderNumber="6"/>
-			</ItemGroupDef>
-			<ItemGroupDef OID="IG.0008" Name="Prior Psoriasis Treatments device" Repeating="No" Domain="SUPPCM">
-				<ItemRef ItemOID="I.0034" Mandatory="Yes" OrderNumber="1"/>
-			</ItemGroupDef>
-			<ItemGroupDef OID="IG.0009" Name="Prior Psoriasis Treatments 2" Repeating="No" Domain="CM">
-				<ItemRef ItemOID="I.0035" Mandatory="Yes" OrderNumber="1"/>
-				<ItemRef ItemOID="I.0036" Mandatory="Yes" OrderNumber="2"/>
-				<ItemRef ItemOID="I.0024" Mandatory="Yes" OrderNumber="3"/>
-			</ItemGroupDef>
-			<ItemGroupDef OID="IG.0010" Name="Prior Psoriasis Treatments termination" Repeating="No" Domain="SUPPCM">
-				<ItemRef ItemOID="I.0037" Mandatory="Yes" OrderNumber="1"/>
-			</ItemGroupDef>
-			<ItemGroupDef OID="IG.0011" Name="Demographics" Repeating="No" Domain="DM">
-				<ItemRef ItemOID="I.0038" Mandatory="Yes" OrderNumber="1"/>
-				<ItemRef ItemOID="I.0039" Mandatory="Yes" OrderNumber="2"/>
-				<ItemRef ItemOID="I.0040" Mandatory="Yes" OrderNumber="3"/>
-				<ItemRef ItemOID="I.0041" Mandatory="Yes" OrderNumber="4"/>
-			</ItemGroupDef>
-			<ItemGroupDef OID="IG.0012" Name="ECG Test Results" Repeating="Yes" Domain="EG">
-				<ItemRef ItemOID="I.0042" Mandatory="Yes" OrderNumber="1"/>
-				<ItemRef ItemOID="I.0043" Mandatory="Yes" OrderNumber="2"/>
-				<ItemRef ItemOID="I.0044" Mandatory="Yes" OrderNumber="3"/>
-				<ItemRef ItemOID="I.0045" Mandatory="Yes" OrderNumber="4"/>
-			</ItemGroupDef>
-			<ItemGroupDef OID="IG.0013" Name="ECG Test Results supplentary" Repeating="Yes" Domain="SUPPEG">
-				<ItemRef ItemOID="I.0046" Mandatory="Yes" OrderNumber="1"/>
-			</ItemGroupDef>
-			<ItemDef OID="I.0000" Name="Death collected" DataType="text" Length="1">
-				<Description>
-					<TranslatedText>Indicate if the death details are known. If Yes, include the appropriate details where indicated on the CRF.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>Were any death detail assessments collected?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C66742.NY"/>
-				<Alias Name="NOT SUBMITTED" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0001" Name="Deat collection date" DataType="date" SDSVarName="DDDTC">
-				<Description>
-					<TranslatedText>Record the date of collection using this format (DD-MON-YYYY).</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>Collection Date</TranslatedText>
-				</Question>
-			</ItemDef>
-			<ItemDef OID="I.0002" Name="Death date" DataType="date" SDSVarName="DTHDTC">
-				<Description>
-					<TranslatedText>Record the date of death.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>Death Date</TranslatedText>
-				</Question>
-			</ItemDef>
-			<ItemDef OID="I.0003" Name="Death primary reason" DataType="text" Length="20" SDSVarName="DDORRES">
-				<Description>
-					<TranslatedText>Record the primary cause of death.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>What is the primary cause of death?</TranslatedText>
-				</Question>
-				<Alias Name="DDTESTCD=&apos;DIAGPRIM&apos;, DDTEST=&apos;Primary Diagnosis&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0004" Name="Death secondary reason" DataType="text" Length="20" SDSVarName="DDORRES">
-				<Description>
-					<TranslatedText>Record the secondary cause of death, if applicable.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>What is the secondary cause of death?</TranslatedText>
-				</Question>
-				<Alias Name="DDTESTCD=&apos;DIAGSEC&apos;, DDTEST=&apos;Secondary Diagnosis&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0005" Name="Death location" DataType="text" Length="20" SDSVarName="DDORRES">
-				<Description>
-					<TranslatedText>Record the physical location where the subject died.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>What is the location of death?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.0001"/>
-				<Alias Name="DDTESTCD=&apos;LOCDTH&apos;, DDTEST=&apos;What is the location of death&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0006" Name="Death witnessed" DataType="text" Length="1" SDSVarName="DDORRES">
-				<Description>
-					<TranslatedText>Indicate if the death was witnessed, using NY codelist format.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>Was the death witnessed?</TranslatedText>
-				</Question>
-				<Alias Name="DDTESTCD=&apos;DTHWIT&apos;, DDTEST=&apos;Was Death Witnessed&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0007" Name="Angiotensin-converting enzyme (ACE) inhibitors" DataType="text" Length="20" SDSVarName="CMOCCUR">
-				<Description>
-					<TranslatedText>Indicate if any ARBs were taken. If Yes, include the appropriate information in Part 2.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>Were any angiotensin-converting enzyme (ACE) inhibitors taken?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C66742.NY"/>
-				<Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;ARBs&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0008" Name="Reason not prescribing ACE inhibitors" DataType="text" Length="20" SDSVarName="CMREASND">
-				<Description>
-					<TranslatedText>Indicate the reason ACE inhibitors were not prescribed. If the reason is unknown, select &quot;Unknown.&quot;</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>If No, provide reason for not prescribing ARBs.</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.0002"/>
-				<Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;ARBs&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0009" Name="Angiotensin receptor/neprilysin inhibitors (ARNIs)" DataType="text" Length="1" SDSVarName="CMOCCUR">
-				<Description>
-					<TranslatedText>Indicate if any ARNIs were taken. If Yes, include the appropriate information in Part 2.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>Were any angiotensin receptor/neprilysin inhibitors (ARNIs) taken?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C66742.NY"/>
-				<Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;ARNIs&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0010" Name="Reason not prescribing ARNIs" DataType="text" Length="20" SDSVarName="CMREASND">
-				<Description>
-					<TranslatedText>Indicate the reason ARNIs were not prescribed. If the reason is unknown, select &quot;Unknown.&quot;</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>If No, provide reason for not prescribing ARNIs.</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.0003"/>
-				<Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;ARNIs&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0011" Name="Aldosterone antagonists" DataType="text" Length="1" SDSVarName="CMOCCUR">
-				<Description>
-					<TranslatedText>Indicate if any aldosterone antagonists were taken. If Yes, include the appropriate information in Part 2.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>Were any aldosterone antagonists taken?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C66742.NY"/>
-				<Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;Aldosterone Antagonists&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0012" Name="Reason not prescribing aldosterone antagonists" DataType="text" Length="20" SDSVarName="CMREASND">
-				<Description>
-					<TranslatedText>Indicate the reason aldosterone antagonists were not prescribed. If the reason is unknown, select &quot;Unknown.&quot;</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>If No, provide reason for not prescribing aldosterone antagonists.</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.0002"/>
-				<Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;Aldosterone Antagonists&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0013" Name="Hydralazine" DataType="text" Length="1" SDSVarName="CMOCCUR">
-				<Description>
-					<TranslatedText>Indicate if any hydralazine was taken. If Yes, include the appropriate information in Part 2.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>Was any hydralazine taken?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C66742.NY"/>
-				<Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;Hydralazine&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0014" Name="Reason not prescribing hydralazine" DataType="text" Length="20" SDSVarName="CMREASND">
-				<Description>
-					<TranslatedText>Indicate the reason hydralazine was not prescribed. If the reason is unknown, select &quot;Unknown.&quot;</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>If No, provide reason for not prescribing hydralazine.</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.0002"/>
-				<Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;Hydralazine&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0015" Name="Angiotensin-converting enzyme diuretics" DataType="text" Length="1" SDSVarName="CMOCCUR">
-				<Description>
-					<TranslatedText>Indicate if any diuretics were taken. If Yes, include the appropriate information in Part 2.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>Were any diuretics taken?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C66742.NY"/>
-				<Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;Diuretics&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0016" Name="Reason not prescribing diuretics" DataType="text" Length="20" SDSVarName="CMREASND">
-				<Description>
-					<TranslatedText>Indicate the reason diuretics were not prescribed. If the reason is unknown, select &quot;Unknown.&quot;</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>If No, provide reason for not prescribing diuretics.</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.0002"/>
-				<Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;Diuretics&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0017" Name="Medication name" DataType="text" Length="20" SDSVarName="CMTRT">
-				<Description>
-					<TranslatedText>Record only 1 medication per line. Provide the full trade or proprietary name of the medication; otherwise, the generic name may be recorded.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>What was the medication name?</TranslatedText>
-				</Question>
-			</ItemDef>
-			<ItemDef OID="I.0018" Name="Dose" DataType="integer" SDSVarName="CMDOSE" Length="4">
-				<Description>
-					<TranslatedText>Record the dose of concomitant medication taken per administration (e.g., 200).</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>What was the individual dose of the medication per administration?</TranslatedText>
-				</Question>
-			</ItemDef>
-			<ItemDef OID="I.0019" Name="Dose Unit" DataType="text" SDSVarName="CMDOSU" Length="20">
-				<Description>
-					<TranslatedText>Record the dose unit of the dose of concomitant medication taken (e.g., mg).</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>What is the unit of the medication per administration?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C71620.UNIT.1"/>
-				<Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0020" Name="Dose Frequency" DataType="text" Length="20" SDSVarName="CMDOSFRQ">
-				<Description>
-					<TranslatedText>Record how often the concomitant medication was taken (e.g., BID, PRN).</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>What was the frequency of the medication?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C71113.FREQ.1"/>
-			</ItemDef>
-			<ItemDef OID="I.0021" Name="Route" DataType="text" Length="20" SDSVarName="CMROUTE">
-				<Description>
-					<TranslatedText>Provide the route of administration for the concomitant medication.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>What was the route of administration of the medication?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C66729.ROUTE.1"/>
-				<Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0022" Name="CM Start Date" DataType="date" SDSVarName="CMSTDTC">
-				<Description>
-					<TranslatedText>Record the date the concomitant medication was first taken, using this format (DD-MON-YYYY).</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>Start Date</TranslatedText>
-				</Question>
-			</ItemDef>
-			<ItemDef OID="I.0023" Name="Medication ongoing" DataType="text" Length="20" SDSVarName="CMENRTPT">
-				<Description>
-					<TranslatedText>Record the concomitant medication as ongoing or not, to indicate whether the subject has stopped taking the concomitant medication at the time of data collection. If the concomitant medication is ongoing, leave the end date blank.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>Is the medication ongoing?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C66728.STENRF"/>
-			</ItemDef>
-			<ItemDef OID="I.0024" Name="CM End Date" DataType="date" SDSVarName="CMENDTC">
-				<Description>
-					<TranslatedText>Record the date the concomitant medication was stopped, using this format (DD-MON-YYYY). If the subject has not stopped taking the concomitant medication, leave this field blank.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>End Date</TranslatedText>
-				</Question>
-				<Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0025" Name="Medication given at the recommended regimen" DataType="text" Length="1" SDSVarName="QVAL">
-				<Description>
-					<TranslatedText>Indicate if, in the investigator&apos;s opinion, the dose regimen was given at the recommended regimen, according to the heart failure standard-of-care guidelines referenced in the protocol.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>If applicable, was the medication given at the recommended regimen?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C66742.NY"/>
-				<Alias Name="SUPPCM.QNAM=&apos;CMRRGYN&apos;, SUPPCM.QLABEL=&apos;Was the medication given at the recommended regimen&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0026" Name="Medication not given at the recommended regimen" DataType="text" Length="20" SDSVarName="QVAL">
-				<Description>
-					<TranslatedText>Provide the reason why the recommended dose regimen was not administered at the recommended regimen.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>If applicable, why was the medication not given at the recommended regimen?</TranslatedText>
-				</Question>
-				<Alias Name="SUPPCM.QVAL=&apos;CMRRGREA&apos;, SUPPCM.QLABEL=&apos;why was the medication not given at the recommended regimen&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0027" Name="Location of psoriasis lesion involvement" DataType="text" Length="20" SDSVarName="TULOC">
-				<Description>
-					<TranslatedText>Record the body location which has plaque psoriasis involvement.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>What was the location of psoriasis lesion involvement?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C74456.LOC.1"/>
-				<Alias Name="TUTESTCD=&apos;LESIDENT&apos;, TUTEST=&apos;Lesion Identification&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0028" Name="Laterality of the anatomical location" DataType="text" Length="20" SDSVarName="TULAT">
-				<Description>
-					<TranslatedText>Specify the laterality of the lesion.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>If applicable, what was the laterality of the anatomical location?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C99073.LAT.1"/>
-				<Alias Name="TUTESTCD=&apos;LESIDENT&apos;, TUTEST=&apos;Lesion Identification&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0029" Name="Directionality of the anatomical location" DataType="text" Length="20" SDSVarName="TUDIR">
-				<Description>
-					<TranslatedText>Specify the directionality of the lesion.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>If applicable, what was the directionality of the anatomical location?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C99074.DIR.1"/>
-				<Alias Name="TUTESTCD=&apos;LESIDENT&apos;, TUTEST=&apos;Lesion Identification&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0030" Name="Psoriasis treatments before study start" DataType="text" Length="1" SDSVarName="CMOCCUR">
-				<Description>
-					<TranslatedText>Indicate if the subject had any prior psoriasis treatments. If Yes, include the appropriate details where indicated on the CRF.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>Has the subject had any psoriasis treatments before the study start?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C66742.NY"/>
-				<Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;, CMTRT=&apos;ANTIPSORIATIC&apos;, CMPRESP=&apos;Y&apos;, CMSTRF=&apos;BEFORE&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0031" Name="Treatment subcategory" DataType="text" Length="20" SDSVarName="CMSCAT">
-				<Description>
-					<TranslatedText>Record the treatment subcategory.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>What is the subcategory for the treatment?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.0004"/>
-				<Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0032" Name="Treatment name" DataType="text" Length="20" SDSVarName="CMTRT">
-				<Description>
-					<TranslatedText>Record only 1 treatment per line. Provide the full trade or proprietary name of the; otherwise, the generic name may be recorded.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>What was the name of the treatment?</TranslatedText>
-				</Question>
-				<Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0033" Name="Dose text" DataType="text" Length="20" SDSVarName="CMDOSTXT">
-				<Description>
-					<TranslatedText>Record the dose of medication per administration (e.g., 200).</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>If the treatment was systemic, what was the individual dose?</TranslatedText>
-				</Question>
-				<Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;, CMDOSE if all values of CMDOSTXT are numeric" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0034" Name="Biologic device" DataType="text" Length="20" SDSVarName="QVAL">
-				<Description>
-					<TranslatedText>Record the device that was used for drug administration.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>If the medication was a biologic, what device was used for drug administration?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.0005"/>
-				<Alias Name="SUPPCM.QNAM=&apos;SPDEVID&apos;, SUPPCM.QLABEL=&apos;Device Identifier&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0035" Name="CM Start Date long" DataType="date" SDSVarName="CMSTDTC">
-				<Description>
-					<TranslatedText>Record the date the treatment was first started using this format (DD-MON-YYYY). If the subject has been taking the medication for a considerable amount of time prior to the start of the study, it is acceptable to have an incomplete date. Prior treatments that are exclusionary should have both a start date and an end date.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>Start Date</TranslatedText>
-				</Question>
-				<Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0036" Name="Medication ongoing YN" DataType="text" Length="20" SDSVarName="CMENRTPT">
-				<Description>
-					<TranslatedText>Record the treatment as ongoing if the subject has not stopped the treatment or medication at the time of data collection; the end date should be left blank.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>Is the medication ongoing?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C66742.NY"/>
-				<Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;, If Yes, CMENRTPT=&apos;ONGOING&apos;. If No, CMENRF=blank" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0037" Name="Reason for treatment discontinuation" DataType="text" Length="20" SDSVarName="QVAL">
-				<Description>
-					<TranslatedText>Record the primary reason the treatment was discontinued.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>What was the reason for treatment discontinuation?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.0006"/>
-				<Alias Name="SUPPCM.QNAM=&apos;CMRSDISC&apos;, SUPPCM.QLABEL=&apos;Reason for treatment discontinuation&apos;" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0038" Name="Date of birth" DataType="date" SDSVarName="BRTHDTC">
-				<Description>
-					<TranslatedText>Partial dates are allowed.</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>Birth Date</TranslatedText>
-				</Question>
-				<Alias Name="Partial dates are to be recorded according to ISO 8601." Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0039" Name="Sex" DataType="text" Length="1" SDSVarName="SEX">
-				<Description>
-					<TranslatedText>Sex</TranslatedText>
-				</Description>
-				<CodeListRef CodeListOID="CL.C66731.SEX"/>
-			</ItemDef>
-			<ItemDef OID="I.0040" Name="Ethniicity" DataType="text" Length="20" SDSVarName="ETHNIC">
-				<Description>
-					<TranslatedText>Ethnic</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>Ethnicity</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C66790.ETHNIC"/>
-			</ItemDef>
-			<ItemDef OID="I.0041" Name="Race" DataType="text" Length="20" SDSVarName="RACE">
-				<Description>
-					<TranslatedText>Race</TranslatedText>
-				</Description>
-				<Question>
-					<TranslatedText>Race</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C74457.RACE"/>
-			</ItemDef>
-			<ItemDef OID="I.0042" Name="ECG performed" DataType="text" Length="1">
-				<Question>
-					<TranslatedText>Was the ECG performed?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C66742.NY"/>
-				<Alias Name="NOT SUBMITTED" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0043" Name="ECG date" DataType="date" SDSVarName="EGSTDTC">
-				<Question>
-					<TranslatedText>What was the ECG date?</TranslatedText>
-				</Question>
-				<Alias Name="Date and time are to be combined into one variable according to ISO 8601" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0044" Name="ECG time" DataType="time" SDSVarName="EGSTDTC">
-				<Question>
-					<TranslatedText>What was the ECG time?</TranslatedText>
-				</Question>
-				<Alias Name="Date and time are to be combined into one variable according to ISO 8601" Context="SDTM"/>
-			</ItemDef>
-			<ItemDef OID="I.0045" Name="ECG result" DataType="text" Length="20" SDSVarName="EGORRES">
-				<Question>
-					<TranslatedText>What was the result of the ECG?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.0007"/>
-			</ItemDef>
-			<ItemDef OID="I.0046" Name="ECG clinical significant" DataType="text" Length="1" SDSVarName="QVAL">
-				<Question>
-					<TranslatedText>Was the ECG clinically significant?</TranslatedText>
-				</Question>
-				<CodeListRef CodeListOID="CL.C66742.NY"/>
-				<Alias Name="SUPPEG.QNAM=&apos;EGCLSIG&apos;, SUPPEG.QLABEL=&apos;ECG clinically significant&apos;" Context="SDTM"/>
-			</ItemDef>
-			<CodeList OID="CL.0001" Name="Death location" DataType="text">
-				<CodeListItem CodedValue="HOME" OrderNumber="1">
-					<Decode>
-						<TranslatedText>Home</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="HOSPITAL" OrderNumber="2">
-					<Decode>
-						<TranslatedText>Hospital</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="NURSING/REHABILITATION HOME" OrderNumber="3">
-					<Decode>
-						<TranslatedText>Nursing/Rehabilitation Home</TranslatedText>
-					</Decode>
-				</CodeListItem>
-			</CodeList>
-			<CodeList OID="CL.0002" Name="Reason medication not prescribed" DataType="text">
-				<CodeListItem CodedValue="CONTRAINDICATION" OrderNumber="1">
-					<Decode>
-						<TranslatedText>Contraindication</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="TREATMENT NOT INDICATED" OrderNumber="2">
-					<Decode>
-						<TranslatedText>Treatment not indicated</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="COST" OrderNumber="3">
-					<Decode>
-						<TranslatedText>Cost</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="UNKNOWN" OrderNumber="4">
-					<Decode>
-						<TranslatedText>Unknown</TranslatedText>
-					</Decode>
-				</CodeListItem>
-			</CodeList>
-			<CodeList OID="CL.0003" Name="Reason medication not prescribed long" DataType="text">
-				<CodeListItem CodedValue="CONTRAINDICATION" OrderNumber="1">
-					<Decode>
-						<TranslatedText>Contraindication</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="TREATMENT NOT INDICATED" OrderNumber="2">
-					<Decode>
-						<TranslatedText>Treatment not indicated</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="COST" OrderNumber="3">
-					<Decode>
-						<TranslatedText>Cost</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="UNKNOWN" OrderNumber="4">
-					<Decode>
-						<TranslatedText>Unknown</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="COST2" OrderNumber="5">
-					<Decode>
-						<TranslatedText>Cost 2</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="UNKNOWN2" OrderNumber="6">
-					<Decode>
-						<TranslatedText>Unknown 2</TranslatedText>
-					</Decode>
-				</CodeListItem>
-			</CodeList>
-			<CodeList OID="CL.C66728.STENRF" Name="Relation to Reference Period" DataType="text">
-				<Description>
-					<TranslatedText>The relative relationship of a timepoint to a reference timepoint.</TranslatedText>
-				</Description>
-				<EnumeratedItem CodedValue="AFTER" OrderNumber="1"/>
-				<EnumeratedItem CodedValue="BEFORE" OrderNumber="2"/>
-				<EnumeratedItem CodedValue="COINCIDENT" OrderNumber="3"/>
-				<EnumeratedItem CodedValue="DURING" OrderNumber="4"/>
-				<EnumeratedItem CodedValue="DURING/AFTER" OrderNumber="5"/>
-				<EnumeratedItem CodedValue="ONGOING" OrderNumber="6"/>
-				<EnumeratedItem CodedValue="UNKNOWN" OrderNumber="7"/>
-			</CodeList>
-			<CodeList OID="CL.C66742.NY" Name="No Yes Response" DataType="text">
-				<Description>
-					<TranslatedText>A term that is used to indicate a question with permissible values of yes/no/unknown/not applicable.</TranslatedText>
-				</Description>
-				<EnumeratedItem CodedValue="N" OrderNumber="1"/>
-				<EnumeratedItem CodedValue="Y" OrderNumber="2"/>
-			</CodeList>
-			<CodeList OID="CL.0004" Name="Treatment subcategory" DataType="text">
-				<CodeListItem CodedValue="BIOLOGIC" OrderNumber="1">
-					<Decode>
-						<TranslatedText>Biologic</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="NON-BIOLOGIC" OrderNumber="2">
-					<Decode>
-						<TranslatedText>Non-Biologic</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="PHOTOTHERAPY" OrderNumber="3">
-					<Decode>
-						<TranslatedText>Phototherapy</TranslatedText>
-					</Decode>
-				</CodeListItem>
-			</CodeList>
-			<CodeList OID="CL.0005" Name="Biologic device" DataType="text">
-				<CodeListItem CodedValue="SINGLE-DOSE PEN" OrderNumber="1">
-					<Decode>
-						<TranslatedText>Single-dose pen</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="MULTIPLE-DOSE PEN" OrderNumber="2">
-					<Decode>
-						<TranslatedText>Multiple-dose pen</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="PRE-FILLED SYRINGE" OrderNumber="3">
-					<Decode>
-						<TranslatedText>Pre-filled syringe</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="SYRINGE" OrderNumber="4">
-					<Decode>
-						<TranslatedText>Syringe</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="NOT APPLICABLE" OrderNumber="5">
-					<Decode>
-						<TranslatedText>Not Applicable</TranslatedText>
-					</Decode>
-				</CodeListItem>
-			</CodeList>
-			<CodeList OID="CL.0006" Name="Treatment discontinuation" DataType="text">
-				<CodeListItem CodedValue="INADEQUATE EFFICACY" OrderNumber="1">
-					<Decode>
-						<TranslatedText>Inadequate efficiacy</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="ADVERSE EVENT" OrderNumber="2">
-					<Decode>
-						<TranslatedText>Adverse event</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="OTHER-NOT RELATED TO EFFICACY/ADVERSE EVENTS" OrderNumber="3">
-					<Decode>
-						<TranslatedText>Other-not related to efficacy/adverse event</TranslatedText>
-					</Decode>
-				</CodeListItem>
-			</CodeList>
-			<CodeList OID="CL.C66731.SEX" Name="Sex" DataType="text">
-				<Description>
-					<TranslatedText>The assemblage of physical properties or qualities by which male is distinguished from female; the physical difference between male and female; the distinguishing peculiarity of male or female. (NCI)</TranslatedText>
-				</Description>
-				<EnumeratedItem CodedValue="F" OrderNumber="1"/>
-				<EnumeratedItem CodedValue="M" OrderNumber="2"/>
-				<EnumeratedItem CodedValue="U" OrderNumber="3"/>
-				<EnumeratedItem CodedValue="UNDIFFERENTIATED" OrderNumber="4"/>
-			</CodeList>
-			<CodeList OID="CL.C66790.ETHNIC" Name="Ethnic Group" DataType="text">
-				<Description>
-					<TranslatedText>A social group characterized by a distinctive social and cultural tradition maintained from generation to generation, a common history and origin and a sense of identification with the group; members of the group have distinctive features in their way of life, shared experiences and often a common genetic heritage; these features may be reflected in their experience of health and disease. (NCI)</TranslatedText>
-				</Description>
-				<EnumeratedItem CodedValue="HISPANIC OR LATINO" OrderNumber="1"/>
-				<EnumeratedItem CodedValue="NOT HISPANIC OR LATINO" OrderNumber="2"/>
-				<EnumeratedItem CodedValue="NOT REPORTED" OrderNumber="3"/>
-				<EnumeratedItem CodedValue="UNKNOWN" OrderNumber="4"/>
-			</CodeList>
-			<CodeList OID="CL.C74457.RACE" Name="Race" DataType="text">
-				<Description>
-					<TranslatedText>Terminology codelist used to identify the race of an individual within the Clinical Data Interchange Standards Consortium Study Data Tabulation Model.</TranslatedText>
-				</Description>
-				<EnumeratedItem CodedValue="AMERICAN INDIAN OR ALASKA NATIVE" OrderNumber="1"/>
-				<EnumeratedItem CodedValue="ASIAN" OrderNumber="2"/>
-				<EnumeratedItem CodedValue="BLACK OR AFRICAN AMERICAN" OrderNumber="3"/>
-				<EnumeratedItem CodedValue="NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" OrderNumber="4"/>
-				<EnumeratedItem CodedValue="NOT REPORTED" OrderNumber="5"/>
-				<EnumeratedItem CodedValue="UNKNOWN" OrderNumber="6"/>
-				<EnumeratedItem CodedValue="WHITE" OrderNumber="7"/>
-			</CodeList>
-			<CodeList OID="CL.0007" Name="Normal abnormal" DataType="text">
-				<CodeListItem CodedValue="NORMAL" OrderNumber="1">
-					<Decode>
-						<TranslatedText>Normal</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<CodeListItem CodedValue="ABNORMAL" OrderNumber="2">
-					<Decode>
-						<TranslatedText>Abnormal</TranslatedText>
-					</Decode>
-				</CodeListItem>
-			</CodeList>
-			<CodeList OID="CL.C71620.UNIT.1" Name="Unit" DataType="text">
-				<CodeListItem CodedValue="ug" OrderNumber="1">
-					<Decode>
-						<TranslatedText>mcg</TranslatedText>
-					</Decode>
-					<Alias Context="nci:ExtCodeID" Name="C48152"/>
-				</CodeListItem>
-				<CodeListItem CodedValue="mg" OrderNumber="2">
-					<Decode>
-						<TranslatedText>mg</TranslatedText>
-					</Decode>
-					<Alias Context="nci:ExtCodeID" Name="C28253"/>
-				</CodeListItem>
-				<CodeListItem CodedValue="g" OrderNumber="3">
-					<Decode>
-						<TranslatedText>g</TranslatedText>
-					</Decode>
-					<Alias Context="nci:ExtCodeID" Name="C48155"/>
-				</CodeListItem>
-				<CodeListItem CodedValue="mL" OrderNumber="4">
-					<Decode>
-						<TranslatedText>Ml</TranslatedText>
-					</Decode>
-					<Alias Context="nci:ExtCodeID" Name="C28254"/>
-				</CodeListItem>
-				<CodeListItem CodedValue="APPLICATION" OrderNumber="5">
-					<Decode>
-						<TranslatedText>Application</TranslatedText>
-					</Decode>
-					<Alias Context="nci:ExtCodeID" Name="C25397"/>
-				</CodeListItem>
-				<CodeListItem CodedValue="IU" OrderNumber="6">
-					<Decode>
-						<TranslatedText>International Unit (IU)</TranslatedText>
-					</Decode>
-					<Alias Context="nci:ExtCodeID" Name="C48579"/>
-				</CodeListItem>
-				<CodeListItem CodedValue="TABLET" OrderNumber="7">
-					<Decode>
-						<TranslatedText>Tablet</TranslatedText>
-					</Decode>
-					<Alias Context="nci:ExtCodeID" Name="C48542"/>
-				</CodeListItem>
-				<CodeListItem CodedValue="CAPSULE" OrderNumber="8">
-					<Decode>
-						<TranslatedText>Capsule</TranslatedText>
-					</Decode>
-					<Alias Context="nci:ExtCodeID" Name="C48480"/>
-				</CodeListItem>
-				<CodeListItem CodedValue="OTHER" OrderNumber="9">
-					<Decode>
-						<TranslatedText>Other</TranslatedText>
-					</Decode>
-				</CodeListItem>
-				<Alias Context="nci:ExtCodeID" Name="C71620"/>
-			</CodeList>
-			<CodeList OID="CL.C99073.LAT.1" Name="Laterality" DataType="text">
-				<Description>
-					<TranslatedText>CDISC terminology for anatomical location or specimen further detailing the side(s) of interest.</TranslatedText>
-				</Description>
-				<EnumeratedItem CodedValue="LEFT" OrderNumber="1"/>
-				<EnumeratedItem CodedValue="RIGHT" OrderNumber="2"/>
-				<EnumeratedItem CodedValue="NOT APPLICABLE" OrderNumber="3"/>
-			</CodeList>
-			<CodeList OID="CL.C99074.DIR.1" Name="Directionality" DataType="text">
-				<Description>
-					<TranslatedText>CDISC terminology for anatomical location or specimen further detailing directionality.</TranslatedText>
-				</Description>
-				<EnumeratedItem CodedValue="ANTERIOR" OrderNumber="1"/>
-				<EnumeratedItem CodedValue="POSTERIOR" OrderNumber="2"/>
-				<EnumeratedItem CodedValue="NOT APPLICABLE" OrderNumber="3"/>
-			</CodeList>
-			<CodeList OID="CL.C66729.ROUTE.1" Name="Route of Administration Response" DataType="text">
-				<Description>
-					<TranslatedText>A terminology codelist relevant to the course by which a substance is administered in order to reach the site of action in the body.</TranslatedText>
-				</Description>
-				<EnumeratedItem CodedValue="ORAL" OrderNumber="1"/>
-				<EnumeratedItem CodedValue="SUBCUTANEOUS" OrderNumber="2"/>
-				<EnumeratedItem CodedValue="TOPICAL" OrderNumber="3"/>
-				<EnumeratedItem CodedValue="TRANSDERMAL" OrderNumber="4"/>
-			</CodeList>
-			<CodeList OID="CL.C71113.FREQ.1" Name="Frequency" DataType="text">
-				<Description>
-					<TranslatedText>The terminology that includes terms pertaining to frequency within CDISC.</TranslatedText>
-				</Description>
-				<EnumeratedItem CodedValue="BID" OrderNumber="1"/>
-				<EnumeratedItem CodedValue="PRN" OrderNumber="2"/>
-			</CodeList>
-			<CodeList OID="CL.C74456.LOC.1" Name="Anatomical Location" DataType="text">
-				<Description>
-					<TranslatedText>Terminology codelist used for anatomical location within CDISC.</TranslatedText>
-				</Description>
-				<EnumeratedItem CodedValue="FACE" OrderNumber="1"/>
-				<EnumeratedItem CodedValue="GENITALIA" OrderNumber="2"/>
-				<EnumeratedItem CodedValue="HAND" OrderNumber="3"/>
-				<EnumeratedItem CodedValue="HEAD" OrderNumber="4"/>
-				<EnumeratedItem CodedValue="LIMB, LOWER" OrderNumber="5"/>
-				<EnumeratedItem CodedValue="LIMB, UPPER" OrderNumber="6"/>
-				<EnumeratedItem CodedValue="SCALP" OrderNumber="7"/>
-				<EnumeratedItem CodedValue="TRUNK" OrderNumber="8"/>
-			</CodeList>
-		</MetaDataVersion>
-	</Study>
+<ODM FileOID="Test-Trial" FileType="Snapshot" Description="Test trial contaning selected CRF forms from CDISC" CreationDateTime="2021-01-12T11:48:44+01:00" ODMVersion="1.3.2" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns="http://www.cdisc.org/ns/odm/v1.3">
+  <Study OID="S.0000">
+    <GlobalVariables>
+      <StudyName>Test Trial</StudyName>
+      <StudyDescription>Selection of CRF forms available at CDISC</StudyDescription>
+      <ProtocolName>Test CRF</ProtocolName>
+    </GlobalVariables>
+    <BasicDefinitions/>
+    <MetaDataVersion OID="MDV.0000" Name="Generic ODM" Description="Generic ODM version of CRF">
+      <Protocol>
+        <StudyEventRef StudyEventOID="SE.0000" Mandatory="Yes" OrderNumber="1"/>
+        <StudyEventRef StudyEventOID="SE.0001" Mandatory="Yes" OrderNumber="2"/>
+        <StudyEventRef StudyEventOID="SE.0002" Mandatory="Yes" OrderNumber="3"/>
+      </Protocol>
+      <StudyEventDef OID="SE.0000" Name="Screening" Repeating="No" Type="Scheduled">
+        <FormRef FormOID="F.0005" Mandatory="Yes" OrderNumber="1"/>
+        <FormRef FormOID="F.0001" Mandatory="Yes" OrderNumber="2"/>
+        <FormRef FormOID="F.0002" Mandatory="Yes" OrderNumber="3"/>
+        <FormRef FormOID="F.0004" Mandatory="Yes" OrderNumber="4"/>
+        <FormRef FormOID="F.0003" Mandatory="Yes" OrderNumber="5"/>
+      </StudyEventDef>
+      <StudyEventDef OID="SE.0001" Name="Visit 1" Repeating="Yes" Type="Scheduled">
+        <Description>
+          <TranslatedText>Recurng visit</TranslatedText>
+        </Description>
+        <FormRef FormOID="F.0006" Mandatory="Yes" OrderNumber="1"/>
+      </StudyEventDef>
+      <StudyEventDef OID="SE.0002" Name="Death" Repeating="No" Type="Unscheduled">
+        <FormRef FormOID="F.0000" Mandatory="Yes" OrderNumber="1"/>
+      </StudyEventDef>
+      <FormDef OID="F.0000" Name="Death" Repeating="No">
+        <ItemGroupRef ItemGroupOID="IG.0000" Mandatory="Yes" OrderNumber="1"/>
+        <ItemGroupRef ItemGroupOID="IG.0001" Mandatory="Yes" OrderNumber="2"/>
+        <ItemGroupRef ItemGroupOID="IG.0002" Mandatory="Yes" OrderNumber="3"/>
+      </FormDef>
+      <FormDef OID="F.0001" Name="Background Heart Failure Maintenance Medications Part 1" Repeating="No">
+        <Description>
+          <TranslatedText>Indicate whether the listed class/type of background heart failure medication was prescribed to the subject (see the study protocol for details).</TranslatedText>
+        </Description>
+        <ItemGroupRef ItemGroupOID="IG.0003" Mandatory="Yes" OrderNumber="1"/>
+      </FormDef>
+      <FormDef OID="F.0002" Name="Background Heart Failure Maintenance Medications Part 2" Repeating="No">
+        <Description>
+          <TranslatedText>List the specific background heart failure medications used. Include all heart failure medications that are to be continued. When a subject has frequent changes in the dose and schedule for oral diuretics, the dosing information can be recorded as PRN.</TranslatedText>
+        </Description>
+        <ItemGroupRef ItemGroupOID="IG.0004" Mandatory="Yes" OrderNumber="1"/>
+        <ItemGroupRef ItemGroupOID="IG.0005" Mandatory="Yes" OrderNumber="2"/>
+      </FormDef>
+      <FormDef OID="F.0003" Name="Body Sites of Psoriasis Involvement at Baseline" Repeating="No">
+        <Description>
+          <TranslatedText>CRF Instructions: Use one page per affected area.</TranslatedText>
+        </Description>
+        <ItemGroupRef ItemGroupOID="IG.0006" Mandatory="Yes" OrderNumber="1"/>
+      </FormDef>
+      <FormDef OID="F.0004" Name="Prior Psoriasis Treatments" Repeating="No">
+        <ItemGroupRef ItemGroupOID="IG.0007" Mandatory="Yes" OrderNumber="1"/>
+        <ItemGroupRef ItemGroupOID="IG.0008" Mandatory="Yes" OrderNumber="2"/>
+        <ItemGroupRef ItemGroupOID="IG.0009" Mandatory="Yes" OrderNumber="3"/>
+        <ItemGroupRef ItemGroupOID="IG.0010" Mandatory="Yes" OrderNumber="4"/>
+      </FormDef>
+      <FormDef OID="F.0005" Name="Demographics" Repeating="No">
+        <ItemGroupRef ItemGroupOID="IG.0011" Mandatory="Yes" OrderNumber="1"/>
+      </FormDef>
+      <FormDef OID="F.0006" Name="ECG Test Results" Repeating="Yes">
+        <ItemGroupRef ItemGroupOID="IG.0012" Mandatory="Yes" OrderNumber="1"/>
+        <ItemGroupRef ItemGroupOID="IG.0013" Mandatory="Yes" OrderNumber="2"/>
+      </FormDef>
+      <ItemGroupDef OID="IG.0000" Name="Death" Repeating="No" Domain="DD">
+        <ItemRef ItemOID="I.0000" Mandatory="Yes" OrderNumber="1"/>
+        <ItemRef ItemOID="I.0001" Mandatory="Yes" OrderNumber="2"/>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.0001" Name="Death date" Repeating="No" Domain="DM">
+        <ItemRef ItemOID="I.0002" Mandatory="Yes" OrderNumber="1"/>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.0002" Name="Death details" Repeating="No" Domain="DD">
+        <ItemRef ItemOID="I.0003" Mandatory="Yes" OrderNumber="1"/>
+        <ItemRef ItemOID="I.0004" Mandatory="Yes" OrderNumber="2"/>
+        <ItemRef ItemOID="I.0005" Mandatory="Yes" OrderNumber="3"/>
+        <ItemRef ItemOID="I.0006" Mandatory="Yes" OrderNumber="4"/>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.0003" Name="Background Heart Failure Maintenance Medications Part 1" Repeating="No" Domain="CM">
+        <ItemRef ItemOID="I.0007" Mandatory="Yes" OrderNumber="1"/>
+        <ItemRef ItemOID="I.0008" Mandatory="Yes" OrderNumber="2"/>
+        <ItemRef ItemOID="I.0009" Mandatory="Yes" OrderNumber="3"/>
+        <ItemRef ItemOID="I.0010" Mandatory="Yes" OrderNumber="4"/>
+        <ItemRef ItemOID="I.0011" Mandatory="Yes" OrderNumber="5"/>
+        <ItemRef ItemOID="I.0012" Mandatory="Yes" OrderNumber="6"/>
+        <ItemRef ItemOID="I.0013" Mandatory="Yes" OrderNumber="7"/>
+        <ItemRef ItemOID="I.0014" Mandatory="Yes" OrderNumber="8"/>
+        <ItemRef ItemOID="I.0015" Mandatory="Yes" OrderNumber="9"/>
+        <ItemRef ItemOID="I.0016" Mandatory="Yes" OrderNumber="10"/>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.0004" Name="Background Heart Failure Maintenance Medications Part 2" Repeating="No" Domain="CM">
+        <ItemRef ItemOID="I.0017" Mandatory="Yes" OrderNumber="1"/>
+        <ItemRef ItemOID="I.0018" Mandatory="Yes" OrderNumber="2"/>
+        <ItemRef ItemOID="I.0019" Mandatory="Yes" OrderNumber="3"/>
+        <ItemRef ItemOID="I.0020" Mandatory="Yes" OrderNumber="4"/>
+        <ItemRef ItemOID="I.0021" Mandatory="Yes" OrderNumber="5"/>
+        <ItemRef ItemOID="I.0022" Mandatory="Yes" OrderNumber="6"/>
+        <ItemRef ItemOID="I.0023" Mandatory="Yes" OrderNumber="7"/>
+        <ItemRef ItemOID="I.0024" Mandatory="Yes" OrderNumber="8"/>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.0005" Name="Background Heart Failure Maintenance Medications Part 2 supplement" Repeating="No" Domain="SUPPCM">
+        <ItemRef ItemOID="I.0025" Mandatory="Yes" OrderNumber="1"/>
+        <ItemRef ItemOID="I.0026" Mandatory="Yes" OrderNumber="2"/>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.0006" Name="Body Sites of Psoriasis Involvement at Baseline" Repeating="No" Domain="TU">
+        <ItemRef ItemOID="I.0027" Mandatory="Yes" OrderNumber="1"/>
+        <ItemRef ItemOID="I.0028" Mandatory="Yes" OrderNumber="2"/>
+        <ItemRef ItemOID="I.0029" Mandatory="Yes" OrderNumber="3"/>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.0007" Name="Prior Psoriasis Treatments 1" Repeating="No" Domain="CM">
+        <ItemRef ItemOID="I.0030" Mandatory="Yes" OrderNumber="1"/>
+        <ItemRef ItemOID="I.0031" Mandatory="Yes" OrderNumber="2"/>
+        <ItemRef ItemOID="I.0032" Mandatory="Yes" OrderNumber="3"/>
+        <ItemRef ItemOID="I.0021" Mandatory="Yes" OrderNumber="4"/>
+        <ItemRef ItemOID="I.0033" Mandatory="Yes" OrderNumber="5"/>
+        <ItemRef ItemOID="I.0019" Mandatory="Yes" OrderNumber="6"/>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.0008" Name="Prior Psoriasis Treatments device" Repeating="No" Domain="SUPPCM">
+        <ItemRef ItemOID="I.0034" Mandatory="Yes" OrderNumber="1"/>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.0009" Name="Prior Psoriasis Treatments 2" Repeating="No" Domain="CM">
+        <ItemRef ItemOID="I.0035" Mandatory="Yes" OrderNumber="1"/>
+        <ItemRef ItemOID="I.0036" Mandatory="Yes" OrderNumber="2"/>
+        <ItemRef ItemOID="I.0024" Mandatory="Yes" OrderNumber="3"/>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.0010" Name="Prior Psoriasis Treatments termination" Repeating="No" Domain="SUPPCM">
+        <ItemRef ItemOID="I.0037" Mandatory="Yes" OrderNumber="1"/>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.0011" Name="Demographics" Repeating="No" Domain="DM">
+        <ItemRef ItemOID="I.0038" Mandatory="Yes" OrderNumber="1"/>
+        <ItemRef ItemOID="I.0039" Mandatory="Yes" OrderNumber="2"/>
+        <ItemRef ItemOID="I.0040" Mandatory="Yes" OrderNumber="3"/>
+        <ItemRef ItemOID="I.0041" Mandatory="Yes" OrderNumber="4"/>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.0012" Name="ECG Test Results" Repeating="Yes" Domain="EG">
+        <ItemRef ItemOID="I.0042" Mandatory="Yes" OrderNumber="1"/>
+        <ItemRef ItemOID="I.0043" Mandatory="Yes" OrderNumber="2"/>
+        <ItemRef ItemOID="I.0044" Mandatory="Yes" OrderNumber="3"/>
+        <ItemRef ItemOID="I.0045" Mandatory="Yes" OrderNumber="4"/>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.0013" Name="ECG Test Results supplentary" Repeating="Yes" Domain="SUPPEG">
+        <ItemRef ItemOID="I.0046" Mandatory="Yes" OrderNumber="1"/>
+      </ItemGroupDef>
+      <ItemDef OID="I.0000" Name="Death collected" DataType="text" Length="1">
+        <Description>
+          <TranslatedText>Indicate if the death details are known. If Yes, include the appropriate details where indicated on the CRF.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>Were any death detail assessments collected?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C66742.NY"/>
+        <Alias Name="NOT SUBMITTED" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0001" Name="Deat collection date" DataType="date" SDSVarName="DDDTC">
+        <Description>
+          <TranslatedText>Record the date of collection using this format (DD-MON-YYYY).</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>Collection Date</TranslatedText>
+        </Question>
+      </ItemDef>
+      <ItemDef OID="I.0002" Name="Death date" DataType="date" SDSVarName="DTHDTC">
+        <Description>
+          <TranslatedText>Record the date of death.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>Death Date</TranslatedText>
+        </Question>
+      </ItemDef>
+      <ItemDef OID="I.0003" Name="Death primary reason" DataType="text" Length="20" SDSVarName="DDORRES">
+        <Description>
+          <TranslatedText>Record the primary cause of death.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>What is the primary cause of death?</TranslatedText>
+        </Question>
+        <Alias Name="DDTESTCD=&apos;DIAGPRIM&apos;, DDTEST=&apos;Primary Diagnosis&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0004" Name="Death secondary reason" DataType="text" Length="20" SDSVarName="DDORRES">
+        <Description>
+          <TranslatedText>Record the secondary cause of death, if applicable.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>What is the secondary cause of death?</TranslatedText>
+        </Question>
+        <Alias Name="DDTESTCD=&apos;DIAGSEC&apos;, DDTEST=&apos;Secondary Diagnosis&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0005" Name="Death location" DataType="text" Length="20" SDSVarName="DDORRES">
+        <Description>
+          <TranslatedText>Record the physical location where the subject died.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>What is the location of death?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.0001"/>
+        <Alias Name="DDTESTCD=&apos;LOCDTH&apos;, DDTEST=&apos;What is the location of death&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0006" Name="Death witnessed" DataType="text" Length="1" SDSVarName="DDORRES">
+        <Description>
+          <TranslatedText>Indicate if the death was witnessed, using NY codelist format.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>Was the death witnessed?</TranslatedText>
+        </Question>
+        <Alias Name="DDTESTCD=&apos;DTHWIT&apos;, DDTEST=&apos;Was Death Witnessed&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0007" Name="Angiotensin-converting enzyme (ACE) inhibitors" DataType="text" Length="20" SDSVarName="CMOCCUR">
+        <Description>
+          <TranslatedText>Indicate if any ARBs were taken. If Yes, include the appropriate information in Part 2.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>Were any angiotensin-converting enzyme (ACE) inhibitors taken?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C66742.NY"/>
+        <Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;ARBs&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0008" Name="Reason not prescribing ACE inhibitors" DataType="text" Length="20" SDSVarName="CMREASND">
+        <Description>
+          <TranslatedText>Indicate the reason ACE inhibitors were not prescribed. If the reason is unknown, select &quot;Unknown.&quot;</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>If No, provide reason for not prescribing ARBs.</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.0002"/>
+        <Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;ARBs&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0009" Name="Angiotensin receptor/neprilysin inhibitors (ARNIs)" DataType="text" Length="1" SDSVarName="CMOCCUR">
+        <Description>
+          <TranslatedText>Indicate if any ARNIs were taken. If Yes, include the appropriate information in Part 2.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>Were any angiotensin receptor/neprilysin inhibitors (ARNIs) taken?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C66742.NY"/>
+        <Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;ARNIs&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0010" Name="Reason not prescribing ARNIs" DataType="text" Length="20" SDSVarName="CMREASND">
+        <Description>
+          <TranslatedText>Indicate the reason ARNIs were not prescribed. If the reason is unknown, select &quot;Unknown.&quot;</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>If No, provide reason for not prescribing ARNIs.</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.0003"/>
+        <Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;ARNIs&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0011" Name="Aldosterone antagonists" DataType="text" Length="1" SDSVarName="CMOCCUR">
+        <Description>
+          <TranslatedText>Indicate if any aldosterone antagonists were taken. If Yes, include the appropriate information in Part 2.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>Were any aldosterone antagonists taken?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C66742.NY"/>
+        <Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;Aldosterone Antagonists&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0012" Name="Reason not prescribing aldosterone antagonists" DataType="text" Length="20" SDSVarName="CMREASND">
+        <Description>
+          <TranslatedText>Indicate the reason aldosterone antagonists were not prescribed. If the reason is unknown, select &quot;Unknown.&quot;</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>If No, provide reason for not prescribing aldosterone antagonists.</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.0002"/>
+        <Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;Aldosterone Antagonists&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0013" Name="Hydralazine" DataType="text" Length="1" SDSVarName="CMOCCUR">
+        <Description>
+          <TranslatedText>Indicate if any hydralazine was taken. If Yes, include the appropriate information in Part 2.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>Was any hydralazine taken?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C66742.NY"/>
+        <Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;Hydralazine&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0014" Name="Reason not prescribing hydralazine" DataType="text" Length="20" SDSVarName="CMREASND">
+        <Description>
+          <TranslatedText>Indicate the reason hydralazine was not prescribed. If the reason is unknown, select &quot;Unknown.&quot;</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>If No, provide reason for not prescribing hydralazine.</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.0002"/>
+        <Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;Hydralazine&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0015" Name="Angiotensin-converting enzyme diuretics" DataType="text" Length="1" SDSVarName="CMOCCUR">
+        <Description>
+          <TranslatedText>Indicate if any diuretics were taken. If Yes, include the appropriate information in Part 2.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>Were any diuretics taken?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C66742.NY"/>
+        <Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;Diuretics&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0016" Name="Reason not prescribing diuretics" DataType="text" Length="20" SDSVarName="CMREASND">
+        <Description>
+          <TranslatedText>Indicate the reason diuretics were not prescribed. If the reason is unknown, select &quot;Unknown.&quot;</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>If No, provide reason for not prescribing diuretics.</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.0002"/>
+        <Alias Name="CMCAT=&apos;Heart Failure Maintenance Medication&apos;, CMPRESP=&apos;Y&apos;, CMTRT=&apos;Diuretics&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0017" Name="Medication name" DataType="text" Length="20" SDSVarName="CMTRT">
+        <Description>
+          <TranslatedText>Record only 1 medication per line. Provide the full trade or proprietary name of the medication; otherwise, the generic name may be recorded.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>What was the medication name?</TranslatedText>
+        </Question>
+      </ItemDef>
+      <ItemDef OID="I.0018" Name="Dose" DataType="integer" SDSVarName="CMDOSE" Length="4">
+        <Description>
+          <TranslatedText>Record the dose of concomitant medication taken per administration (e.g., 200).</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>What was the individual dose of the medication per administration?</TranslatedText>
+        </Question>
+      </ItemDef>
+      <ItemDef OID="I.0019" Name="Dose Unit" DataType="text" SDSVarName="CMDOSU" Length="20">
+        <Description>
+          <TranslatedText>Record the dose unit of the dose of concomitant medication taken (e.g., mg).</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>What is the unit of the medication per administration?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C71620.UNIT.1"/>
+        <Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0020" Name="Dose Frequency" DataType="text" Length="20" SDSVarName="CMDOSFRQ">
+        <Description>
+          <TranslatedText>Record how often the concomitant medication was taken (e.g., BID, PRN).</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>What was the frequency of the medication?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C71113.FREQ.1"/>
+      </ItemDef>
+      <ItemDef OID="I.0021" Name="Route" DataType="text" Length="20" SDSVarName="CMROUTE">
+        <Description>
+          <TranslatedText>Provide the route of administration for the concomitant medication.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>What was the route of administration of the medication?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C66729.ROUTE.1"/>
+        <Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0022" Name="CM Start Date" DataType="date" SDSVarName="CMSTDTC">
+        <Description>
+          <TranslatedText>Record the date the concomitant medication was first taken, using this format (DD-MON-YYYY).</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>Start Date</TranslatedText>
+        </Question>
+      </ItemDef>
+      <ItemDef OID="I.0023" Name="Medication ongoing" DataType="text" Length="20" SDSVarName="CMENRTPT">
+        <Description>
+          <TranslatedText>Record the concomitant medication as ongoing or not, to indicate whether the subject has stopped taking the concomitant medication at the time of data collection. If the concomitant medication is ongoing, leave the end date blank.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>Is the medication ongoing?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C66728.STENRF"/>
+      </ItemDef>
+      <ItemDef OID="I.0024" Name="CM End Date" DataType="date" SDSVarName="CMENDTC">
+        <Description>
+          <TranslatedText>Record the date the concomitant medication was stopped, using this format (DD-MON-YYYY). If the subject has not stopped taking the concomitant medication, leave this field blank.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>End Date</TranslatedText>
+        </Question>
+        <Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0025" Name="Medication given at the recommended regimen" DataType="text" Length="1" SDSVarName="QVAL">
+        <Description>
+          <TranslatedText>Indicate if, in the investigator&apos;s opinion, the dose regimen was given at the recommended regimen, according to the heart failure standard-of-care guidelines referenced in the protocol.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>If applicable, was the medication given at the recommended regimen?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C66742.NY"/>
+        <Alias Name="SUPPCM.QNAM=&apos;CMRRGYN&apos;, SUPPCM.QLABEL=&apos;Was the medication given at the recommended regimen&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0026" Name="Medication not given at the recommended regimen" DataType="text" Length="20" SDSVarName="QVAL">
+        <Description>
+          <TranslatedText>Provide the reason why the recommended dose regimen was not administered at the recommended regimen.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>If applicable, why was the medication not given at the recommended regimen?</TranslatedText>
+        </Question>
+        <Alias Name="SUPPCM.QVAL=&apos;CMRRGREA&apos;, SUPPCM.QLABEL=&apos;why was the medication not given at the recommended regimen&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0027" Name="Location of psoriasis lesion involvement" DataType="text" Length="20" SDSVarName="TULOC">
+        <Description>
+          <TranslatedText>Record the body location which has plaque psoriasis involvement.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>What was the location of psoriasis lesion involvement?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C74456.LOC.1"/>
+        <Alias Name="TUTESTCD=&apos;LESIDENT&apos;, TUTEST=&apos;Lesion Identification&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0028" Name="Laterality of the anatomical location" DataType="text" Length="20" SDSVarName="TULAT">
+        <Description>
+          <TranslatedText>Specify the laterality of the lesion.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>If applicable, what was the laterality of the anatomical location?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C99073.LAT.1"/>
+        <Alias Name="TUTESTCD=&apos;LESIDENT&apos;, TUTEST=&apos;Lesion Identification&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0029" Name="Directionality of the anatomical location" DataType="text" Length="20" SDSVarName="TUDIR">
+        <Description>
+          <TranslatedText>Specify the directionality of the lesion.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>If applicable, what was the directionality of the anatomical location?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C99074.DIR.1"/>
+        <Alias Name="TUTESTCD=&apos;LESIDENT&apos;, TUTEST=&apos;Lesion Identification&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0030" Name="Psoriasis treatments before study start" DataType="text" Length="1" SDSVarName="CMOCCUR">
+        <Description>
+          <TranslatedText>Indicate if the subject had any prior psoriasis treatments. If Yes, include the appropriate details where indicated on the CRF.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>Has the subject had any psoriasis treatments before the study start?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C66742.NY"/>
+        <Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;, CMTRT=&apos;ANTIPSORIATIC&apos;, CMPRESP=&apos;Y&apos;, CMSTRF=&apos;BEFORE&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0031" Name="Treatment subcategory" DataType="text" Length="20" SDSVarName="CMSCAT">
+        <Description>
+          <TranslatedText>Record the treatment subcategory.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>What is the subcategory for the treatment?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.0004"/>
+        <Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0032" Name="Treatment name" DataType="text" Length="20" SDSVarName="CMTRT">
+        <Description>
+          <TranslatedText>Record only 1 treatment per line. Provide the full trade or proprietary name of the; otherwise, the generic name may be recorded.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>What was the name of the treatment?</TranslatedText>
+        </Question>
+        <Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0033" Name="Dose text" DataType="text" Length="20" SDSVarName="CMDOSTXT">
+        <Description>
+          <TranslatedText>Record the dose of medication per administration (e.g., 200).</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>If the treatment was systemic, what was the individual dose?</TranslatedText>
+        </Question>
+        <Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;, CMDOSE if all values of CMDOSTXT are numeric" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0034" Name="Biologic device" DataType="text" Length="20" SDSVarName="QVAL">
+        <Description>
+          <TranslatedText>Record the device that was used for drug administration.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>If the medication was a biologic, what device was used for drug administration?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.0005"/>
+        <Alias Name="SUPPCM.QNAM=&apos;SPDEVID&apos;, SUPPCM.QLABEL=&apos;Device Identifier&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0035" Name="CM Start Date long" DataType="date" SDSVarName="CMSTDTC">
+        <Description>
+          <TranslatedText>Record the date the treatment was first started using this format (DD-MON-YYYY). If the subject has been taking the medication for a considerable amount of time prior to the start of the study, it is acceptable to have an incomplete date. Prior treatments that are exclusionary should have both a start date and an end date.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>Start Date</TranslatedText>
+        </Question>
+        <Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0036" Name="Medication ongoing YN" DataType="text" Length="20" SDSVarName="CMENRTPT">
+        <Description>
+          <TranslatedText>Record the treatment as ongoing if the subject has not stopped the treatment or medication at the time of data collection; the end date should be left blank.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>Is the medication ongoing?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C66742.NY"/>
+        <Alias Name="CMCAT=&apos;ANTIPSORIATIC&apos;, If Yes, CMENRTPT=&apos;ONGOING&apos;. If No, CMENRF=blank" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0037" Name="Reason for treatment discontinuation" DataType="text" Length="20" SDSVarName="QVAL">
+        <Description>
+          <TranslatedText>Record the primary reason the treatment was discontinued.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>What was the reason for treatment discontinuation?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.0006"/>
+        <Alias Name="SUPPCM.QNAM=&apos;CMRSDISC&apos;, SUPPCM.QLABEL=&apos;Reason for treatment discontinuation&apos;" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0038" Name="Date of birth" DataType="date" SDSVarName="BRTHDTC">
+        <Description>
+          <TranslatedText>Partial dates are allowed.</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>Birth Date</TranslatedText>
+        </Question>
+        <Alias Name="Partial dates are to be recorded according to ISO 8601." Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0039" Name="Sex" DataType="text" Length="1" SDSVarName="SEX">
+        <Description>
+          <TranslatedText>Sex</TranslatedText>
+        </Description>
+        <CodeListRef CodeListOID="CL.C66731.SEX"/>
+      </ItemDef>
+      <ItemDef OID="I.0040" Name="Ethniicity" DataType="text" Length="20" SDSVarName="ETHNIC">
+        <Description>
+          <TranslatedText>Ethnic</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>Ethnicity</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C66790.ETHNIC"/>
+      </ItemDef>
+      <ItemDef OID="I.0041" Name="Race" DataType="text" Length="20" SDSVarName="RACE">
+        <Description>
+          <TranslatedText>Race</TranslatedText>
+        </Description>
+        <Question>
+          <TranslatedText>Race</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C74457.RACE"/>
+      </ItemDef>
+      <ItemDef OID="I.0042" Name="ECG performed" DataType="text" Length="1">
+        <Question>
+          <TranslatedText>Was the ECG performed?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C66742.NY"/>
+        <Alias Name="NOT SUBMITTED" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0043" Name="ECG date" DataType="date" SDSVarName="EGSTDTC">
+        <Question>
+          <TranslatedText>What was the ECG date?</TranslatedText>
+        </Question>
+        <Alias Name="Date and time are to be combined into one variable according to ISO 8601" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0044" Name="ECG time" DataType="time" SDSVarName="EGSTDTC">
+        <Question>
+          <TranslatedText>What was the ECG time?</TranslatedText>
+        </Question>
+        <Alias Name="Date and time are to be combined into one variable according to ISO 8601" Context="SDTM"/>
+      </ItemDef>
+      <ItemDef OID="I.0045" Name="ECG result" DataType="text" Length="20" SDSVarName="EGORRES">
+        <Question>
+          <TranslatedText>What was the result of the ECG?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.0007"/>
+      </ItemDef>
+      <ItemDef OID="I.0046" Name="ECG clinical significant" DataType="text" Length="1" SDSVarName="QVAL">
+        <Question>
+          <TranslatedText>Was the ECG clinically significant?</TranslatedText>
+        </Question>
+        <CodeListRef CodeListOID="CL.C66742.NY"/>
+        <Alias Name="SUPPEG.QNAM=&apos;EGCLSIG&apos;, SUPPEG.QLABEL=&apos;ECG clinically significant&apos;" Context="SDTM"/>
+      </ItemDef>
+      <CodeList OID="CL.0001" Name="Death location" DataType="text">
+        <CodeListItem CodedValue="HOME" OrderNumber="1">
+          <Decode>
+            <TranslatedText>Home</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="HOSPITAL" OrderNumber="2">
+          <Decode>
+            <TranslatedText>Hospital</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="NURSING/REHABILITATION HOME" OrderNumber="3">
+          <Decode>
+            <TranslatedText>Nursing/Rehabilitation Home</TranslatedText>
+          </Decode>
+        </CodeListItem>
+      </CodeList>
+      <CodeList OID="CL.0002" Name="Reason medication not prescribed" DataType="text">
+        <CodeListItem CodedValue="CONTRAINDICATION" OrderNumber="1">
+          <Decode>
+            <TranslatedText>Contraindication</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="TREATMENT NOT INDICATED" OrderNumber="2">
+          <Decode>
+            <TranslatedText>Treatment not indicated</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="COST" OrderNumber="3">
+          <Decode>
+            <TranslatedText>Cost</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="UNKNOWN" OrderNumber="4">
+          <Decode>
+            <TranslatedText>Unknown</TranslatedText>
+          </Decode>
+        </CodeListItem>
+      </CodeList>
+      <CodeList OID="CL.0003" Name="Reason medication not prescribed long" DataType="text">
+        <CodeListItem CodedValue="CONTRAINDICATION" OrderNumber="1">
+          <Decode>
+            <TranslatedText>Contraindication</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="TREATMENT NOT INDICATED" OrderNumber="2">
+          <Decode>
+            <TranslatedText>Treatment not indicated</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="COST" OrderNumber="3">
+          <Decode>
+            <TranslatedText>Cost</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="UNKNOWN" OrderNumber="4">
+          <Decode>
+            <TranslatedText>Unknown</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="COST2" OrderNumber="5">
+          <Decode>
+            <TranslatedText>Cost 2</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="UNKNOWN2" OrderNumber="6">
+          <Decode>
+            <TranslatedText>Unknown 2</TranslatedText>
+          </Decode>
+        </CodeListItem>
+      </CodeList>
+      <CodeList OID="CL.C66728.STENRF" Name="Relation to Reference Period" DataType="text">
+        <Description>
+          <TranslatedText>The relative relationship of a timepoint to a reference timepoint.</TranslatedText>
+        </Description>
+        <EnumeratedItem CodedValue="AFTER" OrderNumber="1"/>
+        <EnumeratedItem CodedValue="BEFORE" OrderNumber="2"/>
+        <EnumeratedItem CodedValue="COINCIDENT" OrderNumber="3"/>
+        <EnumeratedItem CodedValue="DURING" OrderNumber="4"/>
+        <EnumeratedItem CodedValue="DURING/AFTER" OrderNumber="5"/>
+        <EnumeratedItem CodedValue="ONGOING" OrderNumber="6"/>
+        <EnumeratedItem CodedValue="UNKNOWN" OrderNumber="7"/>
+      </CodeList>
+      <CodeList OID="CL.C66742.NY" Name="No Yes Response" DataType="text">
+        <Description>
+          <TranslatedText>A term that is used to indicate a question with permissible values of yes/no/unknown/not applicable.</TranslatedText>
+        </Description>
+        <EnumeratedItem CodedValue="N" OrderNumber="1"/>
+        <EnumeratedItem CodedValue="Y" OrderNumber="2"/>
+      </CodeList>
+      <CodeList OID="CL.0004" Name="Treatment subcategory" DataType="text">
+        <CodeListItem CodedValue="BIOLOGIC" OrderNumber="1">
+          <Decode>
+            <TranslatedText>Biologic</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="NON-BIOLOGIC" OrderNumber="2">
+          <Decode>
+            <TranslatedText>Non-Biologic</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="PHOTOTHERAPY" OrderNumber="3">
+          <Decode>
+            <TranslatedText>Phototherapy</TranslatedText>
+          </Decode>
+        </CodeListItem>
+      </CodeList>
+      <CodeList OID="CL.0005" Name="Biologic device" DataType="text">
+        <CodeListItem CodedValue="SINGLE-DOSE PEN" OrderNumber="1">
+          <Decode>
+            <TranslatedText>Single-dose pen</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="MULTIPLE-DOSE PEN" OrderNumber="2">
+          <Decode>
+            <TranslatedText>Multiple-dose pen</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="PRE-FILLED SYRINGE" OrderNumber="3">
+          <Decode>
+            <TranslatedText>Pre-filled syringe</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="SYRINGE" OrderNumber="4">
+          <Decode>
+            <TranslatedText>Syringe</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="NOT APPLICABLE" OrderNumber="5">
+          <Decode>
+            <TranslatedText>Not Applicable</TranslatedText>
+          </Decode>
+        </CodeListItem>
+      </CodeList>
+      <CodeList OID="CL.0006" Name="Treatment discontinuation" DataType="text">
+        <CodeListItem CodedValue="INADEQUATE EFFICACY" OrderNumber="1">
+          <Decode>
+            <TranslatedText>Inadequate efficiacy</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="ADVERSE EVENT" OrderNumber="2">
+          <Decode>
+            <TranslatedText>Adverse event</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="OTHER-NOT RELATED TO EFFICACY/ADVERSE EVENTS" OrderNumber="3">
+          <Decode>
+            <TranslatedText>Other-not related to efficacy/adverse event</TranslatedText>
+          </Decode>
+        </CodeListItem>
+      </CodeList>
+      <CodeList OID="CL.C66731.SEX" Name="Sex" DataType="text">
+        <Description>
+          <TranslatedText>The assemblage of physical properties or qualities by which male is distinguished from female; the physical difference between male and female; the distinguishing peculiarity of male or female. (NCI)</TranslatedText>
+        </Description>
+        <EnumeratedItem CodedValue="F" OrderNumber="1"/>
+        <EnumeratedItem CodedValue="M" OrderNumber="2"/>
+        <EnumeratedItem CodedValue="U" OrderNumber="3"/>
+        <EnumeratedItem CodedValue="UNDIFFERENTIATED" OrderNumber="4"/>
+      </CodeList>
+      <CodeList OID="CL.C66790.ETHNIC" Name="Ethnic Group" DataType="text">
+        <Description>
+          <TranslatedText>A social group characterized by a distinctive social and cultural tradition maintained from generation to generation, a common history and origin and a sense of identification with the group; members of the group have distinctive features in their way of life, shared experiences and often a common genetic heritage; these features may be reflected in their experience of health and disease. (NCI)</TranslatedText>
+        </Description>
+        <EnumeratedItem CodedValue="HISPANIC OR LATINO" OrderNumber="1"/>
+        <EnumeratedItem CodedValue="NOT HISPANIC OR LATINO" OrderNumber="2"/>
+        <EnumeratedItem CodedValue="NOT REPORTED" OrderNumber="3"/>
+        <EnumeratedItem CodedValue="UNKNOWN" OrderNumber="4"/>
+      </CodeList>
+      <CodeList OID="CL.C74457.RACE" Name="Race" DataType="text">
+        <Description>
+          <TranslatedText>Terminology codelist used to identify the race of an individual within the Clinical Data Interchange Standards Consortium Study Data Tabulation Model.</TranslatedText>
+        </Description>
+        <EnumeratedItem CodedValue="AMERICAN INDIAN OR ALASKA NATIVE" OrderNumber="1"/>
+        <EnumeratedItem CodedValue="ASIAN" OrderNumber="2"/>
+        <EnumeratedItem CodedValue="BLACK OR AFRICAN AMERICAN" OrderNumber="3"/>
+        <EnumeratedItem CodedValue="NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" OrderNumber="4"/>
+        <EnumeratedItem CodedValue="NOT REPORTED" OrderNumber="5"/>
+        <EnumeratedItem CodedValue="UNKNOWN" OrderNumber="6"/>
+        <EnumeratedItem CodedValue="WHITE" OrderNumber="7"/>
+      </CodeList>
+      <CodeList OID="CL.0007" Name="Normal abnormal" DataType="text">
+        <CodeListItem CodedValue="NORMAL" OrderNumber="1">
+          <Decode>
+            <TranslatedText>Normal</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <CodeListItem CodedValue="ABNORMAL" OrderNumber="2">
+          <Decode>
+            <TranslatedText>Abnormal</TranslatedText>
+          </Decode>
+        </CodeListItem>
+      </CodeList>
+      <CodeList OID="CL.C71620.UNIT.1" Name="Unit" DataType="text">
+        <CodeListItem CodedValue="ug" OrderNumber="1">
+          <Decode>
+            <TranslatedText>mcg</TranslatedText>
+          </Decode>
+          <Alias Context="nci:ExtCodeID" Name="C48152"/>
+        </CodeListItem>
+        <CodeListItem CodedValue="mg" OrderNumber="2">
+          <Decode>
+            <TranslatedText>mg</TranslatedText>
+          </Decode>
+          <Alias Context="nci:ExtCodeID" Name="C28253"/>
+        </CodeListItem>
+        <CodeListItem CodedValue="g" OrderNumber="3">
+          <Decode>
+            <TranslatedText>g</TranslatedText>
+          </Decode>
+          <Alias Context="nci:ExtCodeID" Name="C48155"/>
+        </CodeListItem>
+        <CodeListItem CodedValue="mL" OrderNumber="4">
+          <Decode>
+            <TranslatedText>Ml</TranslatedText>
+          </Decode>
+          <Alias Context="nci:ExtCodeID" Name="C28254"/>
+        </CodeListItem>
+        <CodeListItem CodedValue="APPLICATION" OrderNumber="5">
+          <Decode>
+            <TranslatedText>Application</TranslatedText>
+          </Decode>
+          <Alias Context="nci:ExtCodeID" Name="C25397"/>
+        </CodeListItem>
+        <CodeListItem CodedValue="IU" OrderNumber="6">
+          <Decode>
+            <TranslatedText>International Unit (IU)</TranslatedText>
+          </Decode>
+          <Alias Context="nci:ExtCodeID" Name="C48579"/>
+        </CodeListItem>
+        <CodeListItem CodedValue="TABLET" OrderNumber="7">
+          <Decode>
+            <TranslatedText>Tablet</TranslatedText>
+          </Decode>
+          <Alias Context="nci:ExtCodeID" Name="C48542"/>
+        </CodeListItem>
+        <CodeListItem CodedValue="CAPSULE" OrderNumber="8">
+          <Decode>
+            <TranslatedText>Capsule</TranslatedText>
+          </Decode>
+          <Alias Context="nci:ExtCodeID" Name="C48480"/>
+        </CodeListItem>
+        <CodeListItem CodedValue="OTHER" OrderNumber="9">
+          <Decode>
+            <TranslatedText>Other</TranslatedText>
+          </Decode>
+        </CodeListItem>
+        <Alias Context="nci:ExtCodeID" Name="C71620"/>
+      </CodeList>
+      <CodeList OID="CL.C99073.LAT.1" Name="Laterality" DataType="text">
+        <Description>
+          <TranslatedText>CDISC terminology for anatomical location or specimen further detailing the side(s) of interest.</TranslatedText>
+        </Description>
+        <EnumeratedItem CodedValue="LEFT" OrderNumber="1"/>
+        <EnumeratedItem CodedValue="RIGHT" OrderNumber="2"/>
+        <EnumeratedItem CodedValue="NOT APPLICABLE" OrderNumber="3"/>
+      </CodeList>
+      <CodeList OID="CL.C99074.DIR.1" Name="Directionality" DataType="text">
+        <Description>
+          <TranslatedText>CDISC terminology for anatomical location or specimen further detailing directionality.</TranslatedText>
+        </Description>
+        <EnumeratedItem CodedValue="ANTERIOR" OrderNumber="1"/>
+        <EnumeratedItem CodedValue="POSTERIOR" OrderNumber="2"/>
+        <EnumeratedItem CodedValue="NOT APPLICABLE" OrderNumber="3"/>
+      </CodeList>
+      <CodeList OID="CL.C66729.ROUTE.1" Name="Route of Administration Response" DataType="text">
+        <Description>
+          <TranslatedText>A terminology codelist relevant to the course by which a substance is administered in order to reach the site of action in the body.</TranslatedText>
+        </Description>
+        <EnumeratedItem CodedValue="ORAL" OrderNumber="1"/>
+        <EnumeratedItem CodedValue="SUBCUTANEOUS" OrderNumber="2"/>
+        <EnumeratedItem CodedValue="TOPICAL" OrderNumber="3"/>
+        <EnumeratedItem CodedValue="TRANSDERMAL" OrderNumber="4"/>
+      </CodeList>
+      <CodeList OID="CL.C71113.FREQ.1" Name="Frequency" DataType="text">
+        <Description>
+          <TranslatedText>The terminology that includes terms pertaining to frequency within CDISC.</TranslatedText>
+        </Description>
+        <EnumeratedItem CodedValue="BID" OrderNumber="1"/>
+        <EnumeratedItem CodedValue="PRN" OrderNumber="2"/>
+      </CodeList>
+      <CodeList OID="CL.C74456.LOC.1" Name="Anatomical Location" DataType="text">
+        <Description>
+          <TranslatedText>Terminology codelist used for anatomical location within CDISC.</TranslatedText>
+        </Description>
+        <EnumeratedItem CodedValue="FACE" OrderNumber="1"/>
+        <EnumeratedItem CodedValue="GENITALIA" OrderNumber="2"/>
+        <EnumeratedItem CodedValue="HAND" OrderNumber="3"/>
+        <EnumeratedItem CodedValue="HEAD" OrderNumber="4"/>
+        <EnumeratedItem CodedValue="LIMB, LOWER" OrderNumber="5"/>
+        <EnumeratedItem CodedValue="LIMB, UPPER" OrderNumber="6"/>
+        <EnumeratedItem CodedValue="SCALP" OrderNumber="7"/>
+        <EnumeratedItem CodedValue="TRUNK" OrderNumber="8"/>
+      </CodeList>
+    </MetaDataVersion>
+  </Study>
 </ODM>
