@@ -16,7 +16,7 @@ All vendor specific name spaces and XML addendums to the ODM-XML file are ignore
 
 The following assumptions regarding the specifics of the ODM-XML file's XPATH's are in effect:
 <dl>
-  <dt>CRF instructions</dt>
+  <dt>CRF instructions/guidance</dt>
   <dd>/ODM/Study/MetaDataVersion/FormDef/Description/TranslatedText</dd>
   <dt>Question instructions</dt>
   <dd>/ODM/Study/MetaDataVersion/ItemDef/Description/TranslatedText</dd>
