@@ -39,7 +39,7 @@
   <!-- Parameters to be passed from outside -->
   <xsl:param name="parmanno"/>
   <xsl:param name="parmname"/>
-  <xsl:param name="parmlogo"/>
+  <xsl:param name="parmlogo"/> <!-- Base 64 data string -->
   <xsl:param name="parmstudy"/>
   <xsl:param name="parmsite"/>
   <xsl:param name="parminv"/>
@@ -49,34 +49,13 @@
 
   <!-- Special characters in a variables for enhanced readability -->
   <xsl:variable name="checkmark"    select="'&#10004;'"/>
-  <xsl:variable name="infinity"     select="'&#8734;'"/>
+  <xsl:variable name="infinity"      select="'&#8734;'"/>
   <xsl:variable name="spacechar"    select="' '"/>
 
   <xsl:variable name="studyname"    select="/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyName"/>
   <xsl:variable name="protocolname" select="/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:ProtocolName"/>
   <xsl:variable name="created"      select="/odm:ODM/@CreationDateTime"/>
   <xsl:variable name="changed"      select="/odm:ODM/@AsOfDateTime"/>
-
-  <!-- Replace occurences of '. ' (period blank) with HTML line break -->
-  <xsl:template name="break_lines">
-    <xsl:param name="text"/>
-    <xsl:choose>
-      <xsl:when test="$text = ''">
-        <!-- Prevent this routine from hanging -->
-        <xsl:value-of select="$text"/>
-      </xsl:when>
-      <xsl:when test="contains($text, '. ')">
-        <xsl:value-of select="substring-before($text, '. ')"/>.
-        <br/>
-        <xsl:call-template name="break_lines">
-          <xsl:with-param name="text" select="substring-after($text, '. ')"/>
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="$text"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
 
   <xsl:template match="/">
     <html>
@@ -174,7 +153,7 @@
           <p>
             <img alt="Company Logo" title="Company Logo">
               <xsl:attribute name="src">
-                <xsl:value-of select="$parmlogo"/>
+                data:image/png;base64,<xsl:value-of select="$parmlogo"/>
               </xsl:attribute>
             </img>
           </p>
@@ -296,7 +275,7 @@
                           <xsl:if test="$parmlogo != ''">
                             <img alt="Company Logo" title="Company Logo">
                               <xsl:attribute name="src">
-                                <xsl:value-of select="$parmlogo"/>
+                                data:image/png;base64,<xsl:value-of select="$parmlogo"/>
                               </xsl:attribute>
                             </img>
                           </xsl:if>
@@ -432,13 +411,13 @@
                             <xsl:when test="@DataType = 'date'">
                               <input type="date"/>
                               <p class="note left">
-                                The displayed date is formatted based on the locale of the user's browser. Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM.
+                                The displayed date is formatted based on the locale of the user's browser. Always collect dates as YYYY-MM-DD.
                               </p>
                             </xsl:when>
                             <xsl:when test="@DataType = 'time'">
                               <input type="time"/>
                               <p class="note left">
-                                The displayed time is formatted based on the locale of the user's browser. Always store times as ISO8601 in SDTM.
+                                The displayed time is formatted based on the locale of the user's browser
                               </p>
                             </xsl:when>
                             <xsl:otherwise>
@@ -458,15 +437,10 @@
                               <xsl:value-of select="$domain"/>.<xsl:value-of select="@SDSVarName"/>
                             </xsl:when>
                             <xsl:when test="normalize-space(@SDSVarName) = ''">
-                              <xsl:call-template name="break_lines">
-                                <xsl:with-param name="text" select="odm:Alias[@Context='SDTM']/@Name"/>
-                              </xsl:call-template>
+                              <xsl:value-of select="odm:Alias[@Context='SDTM']/@Name"/>
                             </xsl:when>
                             <xsl:otherwise>
-                              <xsl:value-of select="$domain"/>.<xsl:value-of select="@SDSVarName"/>,<br/>
-                              <xsl:call-template name="break_lines">
-                                <xsl:with-param name="text" select="odm:Alias[@Context='SDTM']/@Name"/>
-                              </xsl:call-template>
+                              <xsl:value-of select="$domain"/>.<xsl:value-of select="@SDSVarName"/>,<br/><xsl:value-of select="odm:Alias[@Context='SDTM']/@Name"/>
                             </xsl:otherwise>
                           </xsl:choose>
                         </td>
