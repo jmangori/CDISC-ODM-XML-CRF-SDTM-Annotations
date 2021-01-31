@@ -36,7 +36,7 @@ Great inspiration as well as the CRF contens, is taken from the examples on the 
 * Instructions/notes are written using a smaller font and in _italics_.
 
 ## Creating PDF documents
-In all browsers, print the CRF renditions as PDF documents on your disk as either `bcrf.pdf` or `acrf.pdf` submission documents, respectively. Please note:
+In all browsers, print the CRF renditions as PDF documents on your disk as either [acrf](examples/acrf.pdf) or [bcrf](examples/bcrf.pdf) submission documents, respectively. Please note:
 * The on-screen buttons are not included in PDF documents created by printing to a PDF file.
 * The TOC will work correctly as links within the PDF documents.
 * Form names in the visit matrix works as links as well.
