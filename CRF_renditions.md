@@ -9,7 +9,7 @@ The CRF rendition consists of one table for each form in the CRF identified as *
 * The 2<sup>nd</sup> column is a sequence number constructed entirely form the **OrderNumber** attributes at different tags in the ODM-xml file. The number serves as a human reference when discussing and reviewing CRF content, as well as keeping track of the sorting of CRF elements.
 * The 3<sup>rd</sup> column is the question from the CRF forms identified as **Question/TranslatedText** tags.
 * The 4<sup>th</sup> column is the answer to the question distinguised by **DataType** attributes. Each data type is displayed as a browser specific interpretation of an HTML <input> tag of the corresponding type. As no indication of multiple selects exist in the ODM definition, this data type is extracted from the text itself.
-* The 5<sup>th</sup> column is the SDTM annotation identified as **@SDSVarName** attributes. Additional information is added from **Alias/@Name** attributes having a **@Context='SDTM'** attribut as SDTM annotation marker.
+* The 5<sup>th</sup> column is the SDTM annotation identified as **@SDSVarName** attributes. Additional information is added from **Alias/@Name** attributes having a **@Context='SDTM'** attribut as SDTM annotation marker. Each sentence in the SDTM annotation is presented on a line of its own for readability.
 
 ## Design choises
 All vendor specific name spaces and XML addendums to the ODM-XML file are ignored.
