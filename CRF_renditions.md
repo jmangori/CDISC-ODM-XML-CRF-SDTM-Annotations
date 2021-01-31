@@ -18,7 +18,7 @@ The following assumptions regarding the specifics of the ODM-XML file's XPATH's 
 <dl>
   <dt>CRF instructions/guidance</dt>
   <dd>/ODM/Study/MetaDataVersion/FormDef/Description/TranslatedText</dd>
-  <dt>Question instructions</dt>
+  <dt>Questions</dt>
   <dd>/ODM/Study/MetaDataVersion/ItemDef/Description/TranslatedText</dd>
   <dt>SDTM Annotations</dt>
   <dd>/ODM/Study/MetaDataVersion/ItemDef/Alias/@Name
