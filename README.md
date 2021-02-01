@@ -38,6 +38,8 @@ Transformations are done using **<xsl:stylesheet version="1.0">** creating HTML 
 # Getting Started <a name="Getting_Started"/>
 Check out examples of [acrf](examples/acrf.pdf) and [bcrf](examples/bcrf.pdf) documents to see the results.
 
+![Live version demo](images/odm2crf_demo.PNG)
+
 Try a [live version](http://try2.info/odm2crf/odm2crf.html) to test your own ODM file, or my supplied [example](/examples) odm file.
 
 ## Installation <a name="Installation"/>
