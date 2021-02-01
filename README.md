@@ -38,7 +38,7 @@ Transformations are done using **<xsl:stylesheet version="1.0">** creating HTML 
 # Getting Started <a name="Getting_Started"/>
 Check out examples of [acrf](examples/acrf.pdf) and [bcrf](examples/bcrf.pdf) documents to see the results.
 
-Try a [live version](http://try2.info/odm2crf/odm2crf.html) to test your own ODM file, or my supplied [examples](/example).
+Try a [live version](http://try2.info/odm2crf/odm2crf.html) to test your own ODM file, or my supplied [example](/examples).
 
 ## Installation <a name="Installation"/>
 Download the files from the [xsl_files](/xsl_files) folder and place them on your web server.
