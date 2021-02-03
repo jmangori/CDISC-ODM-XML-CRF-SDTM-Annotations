@@ -57,31 +57,10 @@
   <xsl:variable name="created"      select="/odm:ODM/@CreationDateTime"/>
   <xsl:variable name="changed"      select="/odm:ODM/@AsOfDateTime"/>
 
-  <!-- Replace occurences of '. ' (period blank) with HTML line break -->
-  <xsl:template name="break_lines">
-    <xsl:param name="text"/>
-    <xsl:choose>
-      <xsl:when test="$text = ''">
-        <!-- Prevent this routine from hanging -->
-        <xsl:value-of select="$text"/>
-      </xsl:when>
-      <xsl:when test="contains($text, '. ')">
-        <xsl:value-of select="substring-before($text, '. ')"/>.
-        <br/>
-        <xsl:call-template name="break_lines">
-          <xsl:with-param name="text" select="substring-after($text, '. ')"/>
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="$text"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-
   <xsl:template match="/">
     <html>
       <head>
-        <title>CRF Specification</title>
+        <title>CRF Specification <xsl:value-of select="$studyname"/></title>
         <meta http-equiv="Content-Type"    content="text/html;charset=utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=9"/>
         <meta http-equiv="cache-control"   content="no-cache"/>
@@ -482,5 +461,26 @@
         </xsl:for-each>
       </body>
     </html>
+  </xsl:template>
+
+  <!-- Replace occurences of '. ' (period blank) with HTML line break -->
+  <xsl:template name="break_lines">
+    <xsl:param name="text"/>
+    <xsl:choose>
+      <xsl:when test="$text = ''">
+        <!-- Prevent this routine from hanging -->
+        <xsl:value-of select="$text"/>
+      </xsl:when>
+      <xsl:when test="contains($text, '. ')">
+        <xsl:value-of select="substring-before($text, '. ')"/>.
+        <br/>
+        <xsl:call-template name="break_lines">
+          <xsl:with-param name="text" select="substring-after($text, '. ')"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$text"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 </xsl:stylesheet>
