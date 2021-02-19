@@ -85,6 +85,7 @@
           .nolrborder   { border-left: none; border-right: none; }
           .nolborder    { border-left: none; }
           .norborder    { border-right: none; }
+          .notbborder   { border-top: none; border-bottom: none; padding: 0; vertical-align: top; }
           @media print  { .noprint { display: none; } }
           .noprint      { position: fixed; bottom: 0.5em; right: 0.5em; z-index: 99; }
           .rotate span  { writing-mode: vertical-rl; transform: rotate(180deg); padding: 0.2em; }
@@ -101,6 +102,7 @@
           .small        { font-size: 0.7em; }
           .even         { width: 20em; text-align: left; }
           .seqw         { width: 5em; }
+          .inpw         { width: 5em; }
         <xsl:if test="$parmanno = 'acrf'">
           .anno         { background-color: LightYellow; }
           .insw         { width: 25%; }
@@ -197,7 +199,6 @@
                     </xsl:for-each>
                   </th>
                 </xsl:for-each>
-                <th id="anno" class="anno noborder">TV.VISITNUM</th>
               </tr>
               <tr>
                 <th class="left crfhead">Event/<br/>Form</th>
@@ -208,7 +209,6 @@
                     <th class="crfhead rotate"><span><xsl:value-of select="@Name"/></span></th>
                   </xsl:for-each>
                 </xsl:for-each>
-                <th id="anno" class="anno noborder">TV.VISIT</th>
               </tr>
               <tr>
                 <th class="left crfhead">Mandatory visit</th>
@@ -216,7 +216,6 @@
                   <xsl:sort select="@OrderNumber" data-type="number"/>
                   <th class="crfhead"><xsl:value-of select="@Mandatory"/></th>
                 </xsl:for-each>
-                <td id="anno" class="anno noborder">NOT SUBMITTED</td>
               </tr>
             </thead>
             <tbody>
@@ -248,7 +247,6 @@
                       </xsl:for-each>
                     </td>
                   </xsl:for-each>
-                  <td id="anno" class="anno noborder">NOT SUBMITTED</td>
                 </tr>
               </xsl:for-each>
             </tbody>
@@ -261,7 +259,7 @@
           <xsl:sort select="@Name" data-type="text"/>
           <xsl:sort select="@Name" data-type="text"/>
           <xsl:variable name="form" select="@OID"/>
-          <table class="maintable">
+          <table class="maintable" style="height: 100%;">
             <thead>
               <tr>
                 <th class="noborder" colspan="5">
@@ -284,7 +282,7 @@
                       <xsl:if test="$parmstudy != ''">
                         <td class="plain small left even norborder">Study/Trial:</td>
                         <td class="plain small left even nolrborder">
-                          <input type="text" size="4">
+                          <input type="text" class="inpw">
                             <xsl:attribute name="value">
                               <xsl:value-of select="$studyname"/>
                             </xsl:attribute>
@@ -297,19 +295,19 @@
                       </xsl:if>
                       <xsl:if test="$parmsubject != ''">
                         <td class="plain small left even norborder">Subject Number:</td>
-                        <td class="plain small left even nolrborder"><input type="text" size="4"/></td>
+                        <td class="plain small left even nolrborder"><input type="text" class="inpw"/></td>
                         <td class="plain small left even nolborder"><div id="anno" class="anno"><xsl:value-of select="$parmsubject"/></div></td>
                       </xsl:if>
                     </tr>
                     <tr>
                       <xsl:if test="$parmsite != ''">
                         <td class="plain small left even norborder">Site Number:</td>
-                        <td class="plain small left even nolrborder"><input type="text" size="4"/></td>
+                        <td class="plain small left even nolrborder"><input type="text" class="inpw"/></td>
                         <td class="plain small left even nolborder"><div id="anno" class="anno"><xsl:value-of select="$parmsite"/></div></td>
                       </xsl:if>
                       <xsl:if test="$parminit != ''">
                         <td class="plain small left even norborder">Subject Initials:</td>
-                        <td class="plain small left even nolrborder"><input type="text" size="4"/></td>
+                        <td class="plain small left even nolrborder"><input type="text" class="inpw"/></td>
                         <td class="plain small left even nolborder"><div id="anno" class="anno"><xsl:value-of select="$parminit"/></div></td>
                       </xsl:if>
                     </tr>
@@ -317,12 +315,12 @@
                       <td class="plain small insw">Protocol: <xsl:value-of select="$protocolname"/></td>
                       <xsl:if test="$parminv != ''">
                         <td class="plain small left even norborder">Investigator:</td>
-                        <td class="plain small left even nolrborder"><input type="text" size="4"/></td>
+                        <td class="plain small left even nolrborder"><input type="text" class="inpw"/></td>
                         <td class="plain small left even nolborder"><div id="anno" class="anno"><xsl:value-of select="$parminv"/></div></td>
                       </xsl:if>
                       <xsl:if test="$parmvisit != ''">
                         <td class="plain small left even norborder">Visit:</td>
-                        <td class="plain small left even nolrborder"><input type="text" size="4"/></td>
+                        <td class="plain small left even nolrborder"><input type="text" class="inpw"/></td>
                         <td class="plain small left even nolborder"><div id="anno" class="anno"><xsl:value-of select="$parmvisit"/></div></td>
                       </xsl:if>
                     </tr>
@@ -365,6 +363,34 @@
                 <xsl:variable name="gnum"  select="@OrderNumber"/>
                 <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemGroupDef[@OID=$group]">
                   <xsl:variable name="domain" select="@Domain"/>
+                  <xsl:variable name="grouprepeat" select="@Repeating"/>
+
+                  <!-- Show repeated group questions horizontally -->
+                  <xsl:if test="normalize-space(@Repeating) = 'Yes'">
+                    <tr>
+                      <td class="noborder small note" style="height: 100%;">Repeating group layout.<br/>This section is specified below, referenced by the numbers.</td>
+                      <td colspan="3" style="padding:0;">
+                        <table style="height: 100%;">
+                          <tr style="height: 100%;">
+                            <xsl:for-each select="odm:ItemRef">
+                              <xsl:sort select="@OrderNumber" data-type="number"/>
+                              <xsl:variable name="itemrepeat" select="@ItemOID"/>
+                              <xsl:variable name="rnum" select="@OrderNumber"/>
+                              <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemDef[@OID=$itemrepeat]">
+                                <td class="notbborder small" style="height: 100%;">
+                                  <xsl:value-of select="$gnum"/>.<xsl:value-of select="$rnum"/>
+                                  <hr/>
+                                  <xsl:value-of select="odm:Question/odm:TranslatedText"/>
+                                </td>
+                              </xsl:for-each>
+                            </xsl:for-each>
+                          </tr>
+                        </table>
+                      </td>
+                      <td id="anno" class="annw anno noborder">ANNOTATIONS AS SPECIFIED BELOW</td>
+                    </tr>
+                  </xsl:if>
+
                   <xsl:for-each select="odm:ItemRef">
                     <xsl:sort select="@OrderNumber" data-type="number"/>
                     <xsl:variable name="item" select="@ItemOID"/>
@@ -372,6 +398,9 @@
                     <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemDef[@OID=$item]">
                       <tr>
                         <td class="insw noborder">
+                          <xsl:if test="$grouprepeat = 'Yes'">
+                            <div class="note">Repeating section</div>
+                          </xsl:if>
                           <div class="note"><xsl:value-of select="odm:Description/odm:TranslatedText"/></div>
                         </td>
                         <td class="seqw">
@@ -395,7 +424,15 @@
                               <!-- CodeListItem and EnumeratedItem are mutually exclusive, thus processing them in sequence displays only any one having data -->
                               <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:CodeList/odm:CodeListItem[../@OID=$radio]">
                                 <xsl:sort select="@OrderNumber" data-type="number"/>
-                                <input type="radio" name="$radio"/><label for="$radio"><xsl:value-of select="odm:Decode/odm:TranslatedText"/><span class="note"> (<xsl:value-of select="@CodedValue"/>)</span></label><br/>
+                                <input type="radio" name="$radio"/>
+                                  <label for="$radio">
+                                    <xsl:value-of select="odm:Decode/odm:TranslatedText"/>
+                                    <xsl:if test="normalize-space(odm:Decode/odm:TranslatedText) = ''">
+                                      <xsl:value-of select="@CodedValue"/>
+                                    </xsl:if>
+                                    <span class="note"> (<xsl:value-of select="@CodedValue"/>)</span>
+                                  </label>
+                                  <br/>
                               </xsl:for-each>
                               <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:CodeList/odm:EnumeratedItem[../@OID=$radio]">
                                 <xsl:sort select="@OrderNumber" data-type="number"/>
