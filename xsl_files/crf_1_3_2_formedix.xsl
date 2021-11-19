@@ -38,11 +38,11 @@
                 version="4.0"/>
 
   <!-- Parameter passed from outside. Default is a blank CRF with addendums:
-         bcrf: Blank CRF for submission
+         <any> Blank CRF for submission
          acrf: SDTM annotated CRF for submission with SDTM annotations
          spec: CRF specifcation with selection buttons, LEO notes, SDTM annotations
-         book: Complete CRF book with forms repeated by visit
-         data: Final CRF ready for data collection
+         book: Complete CRF book with forms repeated by visit (future)
+         data: Final CRF ready for data collection (future)
   -->
   <xsl:param name="parmdisplay"/>
 
@@ -154,7 +154,7 @@
                           <xsl:call-template name="sequence_number">
                             <xsl:with-param name="major"    select="$gnum"/>
                             <xsl:with-param name="minor"    select="$inum"/>
-                            <xsl:with-param name="has_note" select="normalize-space(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value) != ''"/>
+                            <xsl:with-param name="has_note" select="normalize-space(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value) != ''"/> <!-- Implementation Notes -->
                           </xsl:call-template>
                         </td>
                         <td class="quew">
@@ -249,10 +249,10 @@
     <h2>Table of Contents</h2>
     <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:FormDef">
       <xsl:sort select="@Name" data-type="text"/>
-      <xsl:sort select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'Title']/fdx:Value" data-type="text"/>
+      <xsl:sort select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'Title']/fdx:Value" data-type="text"/> <!-- Form Title -->
       <p>
         <xsl:call-template name="form_link">
-          <xsl:with-param name="title" select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'Title']/fdx:Value"/>
+          <xsl:with-param name="title" select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'Title']/fdx:Value"/> <!-- Form Title -->
           <xsl:with-param name="name"  select="@Name"/>
           <xsl:with-param name="oid"   select="@OID"/>
         </xsl:call-template>
@@ -284,11 +284,11 @@
           <tr>
             <td>
               <xsl:call-template name="form_link">
-                <xsl:with-param name="title" select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'Title']/fdx:Value"/>
+                <xsl:with-param name="title" select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'Title']/fdx:Value"/> <!-- Form Title -->
                 <xsl:with-param name="name"  select="@Name"/>
                 <xsl:with-param name="oid"   select="@OID"/>
               </xsl:call-template>
-              <xsl:if test="contains(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value, 'Repeating form')">
+              <xsl:if test="contains(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value, 'Repeating form')"> <!-- Implementation Notes -->
                 <em class="check"> [<xsl:value-of select="$infinity"/>]</em>
               </xsl:if>
             </td>
@@ -324,21 +324,21 @@
               <span>
                 <!-- Predefined algorithm for form name -->
                 <xsl:call-template name="form_name">
-                  <xsl:with-param name="title" select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'Title']/fdx:Value"/>
+                  <xsl:with-param name="title" select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'Title']/fdx:Value"/> <!-- Form Title -->
                   <xsl:with-param name="name"  select="@Name"/>
                 </xsl:call-template>
               </span>
             </a>
-            <xsl:if test="normalize-space(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value) != ''">
+            <xsl:if test="normalize-space(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value) != ''"> <!-- Implementation Notes -->
               #
             </xsl:if>
           </div>
         </th>
       </tr>
-      <xsl:if test="normalize-space(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'NotesTop']/fdx:Value) != ''">
+      <xsl:if test="normalize-space(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'NotesTop']/fdx:Value) != ''"> <!-- Completion Instructions -->
         <tr>
           <th colspan="4" class="noborder">
-            <xsl:apply-templates select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'NotesTop']"/>
+            <xsl:apply-templates select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'NotesTop']"/> <!-- Completion Instructions -->
           </th>
         </tr>
       </xsl:if>
@@ -362,7 +362,7 @@
   </xsl:template>
 
   <!-- Add Guidance text from Custom NotesTop -->
-  <xsl:template match="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'NotesTop']">
+  <xsl:template match="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'NotesTop']"> <!-- Completion Instructions -->
     <div class="left note">
       <xsl:value-of select="fdx:Value"/>
     </div>
@@ -371,7 +371,7 @@
   <!-- Add LEO Note from Descrition/TranslatedText -->
   <xsl:template match="odm:Description">
     <div id="internal" class="left note">
-      <xsl:value-of select="odm:TranslatedText"/>
+      <xsl:value-of select="odm:TranslatedText"/> <!-- Implementation Notes -->
     </div>
   </xsl:template>
 
@@ -417,12 +417,12 @@
 
   <!-- Show a note above the next question -->
   <xsl:template name="notes_above">
-    <xsl:if test="normalize-space(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'NotesAbove']/fdx:Value) != ''">
+    <xsl:if test="normalize-space(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'NotesAbove']/fdx:Value) != ''"> <!-- Completion Instructions -->
       <tr>
         <td class="seqw">
         </td>
         <td class="note" colspan="2">
-          <xsl:value-of select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'NotesAbove']/fdx:Value"/>
+          <xsl:value-of select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'NotesAbove']/fdx:Value"/> <!-- Completion Instructions -->
         </td>
         <td id="anno" class="annw anno">NOT SUBMITTED</td>
       </tr>
@@ -443,7 +443,7 @@
   <!-- Show one question on the form, including guidance text and LEO note -->
   <xsl:template name="question">
     <xsl:value-of select="odm:Question/odm:TranslatedText"/>
-    <p class="note left"><xsl:value-of select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'Notes']/fdx:Value"/></p>
+    <p class="note left"><xsl:value-of select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'Notes']/fdx:Value"/></p> <!-- Completion Instructions -->
     <xsl:apply-templates select="odm:Description"/>
   </xsl:template>
 
@@ -619,7 +619,7 @@
         <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemGroupDef[@OID=$groupkey1]">
           <xsl:for-each select="odm:ItemRef">
             <xsl:variable name="itemkey1" select="@ItemOID"/>
-            <xsl:if test="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemDef[@OID=$itemkey1]/fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value">
+            <xsl:if test="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemDef[@OID=$itemkey1]/fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value"> <!-- Implementation Notes -->
               Design note
             </xsl:if>
           </xsl:for-each>
@@ -646,7 +646,7 @@
                 <xsl:variable name="itemnote" select="@ItemOID"/>
                 <xsl:variable name="inumnote" select="@OrderNumber"/>
                 <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemDef[@OID=$itemnote]">
-                  <xsl:variable name="questionnote" select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value"/>
+                  <xsl:variable name="questionnote" select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value"/> <!-- Implementation Notes -->
                   <xsl:if test="normalize-space($questionnote) != ''">
                     <tr>
                       <td class="seqw">
@@ -670,14 +670,14 @@
 
   <!-- Form Design Note, if any -->
   <xsl:template name="form_notes">
-    <xsl:if test="normalize-space(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value) != ''">
+    <xsl:if test="normalize-space(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value) != ''"> <!-- Implementation Notes -->
       <p/>
       <table class="desw">
         <thead>
           <tr><th class="left">Form design note</th></tr>
         </thead>
         <tbody>
-          <tr><td class="note"><xsl:value-of select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value"/></td></tr>
+          <tr><td class="note"><xsl:value-of select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value"/></td></tr> <!-- Implementation Notes -->
         </tbody>
       </table>
     </xsl:if>
