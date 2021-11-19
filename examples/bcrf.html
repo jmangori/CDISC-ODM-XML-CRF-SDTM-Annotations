@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- Light adoptation from Martin Honnen. Thanks a lot.
+     https://github.com/martin-honnen/martin-honnen.github.io/blob/master/xslt/arcor-archive/2016/test2016081501.html
+     Removed attempt to support Internet Explorer, as it don't understand Promise, and is outdated and unsafe anyway
+-->
+<script>
+  function loadDoc(url) {
+    return new Promise(function(resolve) {
+      var req = new XMLHttpRequest();
+      req.open("GET", url);
+      req.onload = function() {
+        resolve(this.responseXML)
+      }
+      req.send();
+    });
+  }
+
+  function transform(xmlUrl, xslUrl, targetElement) {
+    Promise.all([loadDoc(xmlUrl), loadDoc(xslUrl)]).then(function(data) {
+      var xmlDoc = data[0];
+      var xslDoc = data[1];
+
+        var proc = new XSLTProcessor();
+        proc.importStylesheet(xslDoc);
+        proc.setParameter(null, "parmdisplay", "bcrf");
+
+        var resultFrag = proc.transformToFragment(xmlDoc, targetElement.ownerDocument);
+
+        targetElement.textContent = '';
+        targetElement.appendChild(resultFrag);
+    });
+  }
+
+// This is the only part necessary to change from Martin Honnens original code, to match my documents.
+  document.addEventListener('DOMContentLoaded', function() {
+    transform("CRF.xml", 'crf_1_3_2_formedix.xsl', document.documentElement);
+  })
+
+</script>
