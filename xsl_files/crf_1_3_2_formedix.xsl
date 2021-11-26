@@ -37,14 +37,21 @@
                 doctype-public="-//W3C//DTD HTML 4.01//EN"
                 version="4.0"/>
 
-  <!-- Parameter passed from outside. Default is a blank CRF with addendums:
+  <!-- Parameters passed from outside. Default display mode is a blank CRF:
          <any> Blank CRF for submission
          acrf: SDTM annotated CRF for submission with SDTM annotations
          spec: CRF specifcation with selection buttons, LEO notes, SDTM annotations
          book: Complete CRF book with forms repeated by visit (future)
          data: Final CRF ready for data collection (future)
+       Standard name, version, and status could be derived from a file name defined externally
+       Any image logo file may be resized to fit the text height of a headline, preserving aspect
   -->
-  <xsl:param name="parmdisplay"/>
+  <xsl:param name="parmdisplay"/>                      <!-- Display mode -->
+  <xsl:param name="parmstandard"/>                     <!-- Name of any standard defined in the ODM-XML file -->
+  <xsl:param name="parmversion"/>                      <!-- Version of the ODM-XML file -->
+  <xsl:param name="parmstatus"/>                       <!-- Status of the ODM-XML file -->
+  <xsl:param name="parmname" select="'Company Name'"/> <!-- Company name for CRF book -->
+  <xsl:param name="parmlogo" select="'logo.png'"/>     <!-- Company logo for CRF book -->
 
   <!-- Keys to sort forms in the order of visit schedule, if present -->
   <xsl:key name="by_StudyEventRef" match="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:Protocol/odm:StudyEventRef" use="@StudyEventOID"/>
@@ -78,7 +85,7 @@
                           border-right:  1px solid DarkGrey;
                           border-top:    1px solid DarkGrey;
                           border-bottom: 1px solid DarkGrey; padding: 0.1em; }
-          @media print  { .noprint { display: none; } }
+          @media print  { .noprint { display: none; } thead {display: table-header-group; } }
           .noprint      { position: fixed; bottom: 0.5em; right: 0.5em; z-index: 99; }
           .rotate span  { writing-mode: vertical-rl; transform: rotate(180deg); padding: 0.2em; }
           .noborder     { border: none; }
@@ -89,12 +96,15 @@
           .maintable    { border: 1px; width: 100%; }
           .crfhead      { background-color: Gainsboro; }
           .left         { text-align: left; }
+          .rigth        { text-align: right; }
           .formtitle    { font-style: bold;   font-weight: bold;   font-size: 1.2em; }
           .note         { font-style: italic; font-weight: normal; font-size: 0.8em; }
+          .onew         { width: 1em; }
+          .maxw         { width: 100%; }
+          .seqw         { width: 5em !important; }
           <xsl:choose>
             <xsl:when test="$parmdisplay = 'spec' or $parmdisplay = 'acrf'">
               .anno     { background-color: LightYellow; }
-              .seqw     { width: 5em; }
               .quew     { width: 30%; }
               .answ     { width: 25%; }
               .annw     { width: 40%; }
@@ -102,7 +112,6 @@
             </xsl:when>
             <xsl:otherwise>
               .anno     { visibility: hidden; display: none; }
-              .seqw     { width:  5em; }
               .quew     { width:  50%; }
               .answ     { width:  45%; }
               .desw     { width: 100%; }
@@ -128,61 +137,93 @@
         </xsl:if>
         <p style="page-break-after: always"/>
 
-        <!-- One table per form becomes one form per page -->
-        <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:FormDef">
-          <!-- If visit structure is not present, forms will be sorted in FormDef tag order -->
-          <xsl:sort select="key('by_StudyEventRef', key('by_FormRef', @OID)/../@OID)/@OrderNumber" data-type="number"/>
-          <xsl:sort select="key('by_FormRef', @OID)/@OrderNumber" data-type="number"/>
-
-          <table class="maintable">
-            <xsl:call-template name="table_head"/>
-            <tbody>
-              <xsl:for-each select="odm:ItemGroupRef">
-                <xsl:sort select="@OrderNumber" data-type="number"/>
-                <xsl:variable name="group" select="@ItemGroupOID"/>
-                <xsl:variable name="gnum"  select="@OrderNumber"/>
-                <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemGroupDef[@OID=$group]">
-                  <xsl:variable name="domain" select="@Domain"/>
-                  <xsl:for-each select="odm:ItemRef">
-                    <xsl:sort select="@OrderNumber" data-type="number"/>
-                    <xsl:variable name="item" select="@ItemOID"/>
-                    <xsl:variable name="inum" select="@OrderNumber"/>
-                    <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemDef[@OID=$item]">
-                      <xsl:call-template name="notes_above"/>
-                      <tr>
-                        <td class="seqw">
-                          <xsl:call-template name="sequence_number">
-                            <xsl:with-param name="major"    select="$gnum"/>
-                            <xsl:with-param name="minor"    select="$inum"/>
-                            <xsl:with-param name="has_note" select="normalize-space(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value) != ''"/> <!-- Implementation Notes -->
-                          </xsl:call-template>
-                        </td>
-                        <td class="quew">
-                          <xsl:call-template name="question"/>
-                        </td>
-                        <td class="answ">
-                          <xsl:call-template name="answer"/>
-                        </td>
-                        <td id="anno" class="annw anno">
-                          <xsl:call-template name="annotation">
-                            <xsl:with-param name="domain" select="$domain"/>
-                          </xsl:call-template>
-                        </td>
-                      </tr>
-                    </xsl:for-each>
-                  </xsl:for-each>
+        <xsl:choose>
+          <xsl:when test="$parmdisplay = 'book' or $parmdisplay = 'data'">
+            <!-- for each visit, for each form -->
+            <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:Protocol/odm:StudyEventRef">
+              <xsl:sort select="@OrderNumber" data-type="number"/>
+              <xsl:variable name="studyeventoid" select="@StudyEventOID"/>
+              <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef[@OID=$studyeventoid]/odm:FormRef">
+                <xsl:sort select="key('by_FormRef', @OID)/@OrderNumber" data-type="number"/>
+                <xsl:variable name="formoid"   select="@FormOID"/>
+                <xsl:variable name="visitname" select="../@Name"/>
+                <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:FormDef[@OID=$formoid]">
+                  <xsl:call-template name="one_form">
+                    <xsl:with-param name="vis_target" select="$studyeventoid"/>
+                    <xsl:with-param name="vis_name"   select="$visitname"/>
+                  </xsl:call-template>
                 </xsl:for-each>
               </xsl:for-each>
-            </tbody>
-          </table>
+            </xsl:for-each>
+          </xsl:when>
+          <xsl:otherwise>
+            <!-- One table per form becomes one form per page -->
+            <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:FormDef">
+              <!-- If visit structure is not present, forms will be sorted in FormDef tag order of the ODM file itself -->
+              <xsl:sort select="key('by_StudyEventRef', key('by_FormRef', @OID)/../@OID)/@OrderNumber" data-type="number"/>
+              <xsl:sort select="key('by_FormRef', @OID)/@OrderNumber" data-type="number"/>
 
-          <xsl:call-template name="form_notes"/>
-          <xsl:call.template name="question_notes"/>
+              <xsl:call-template name="one_form"/>
+            </xsl:for-each>
+          </xsl:otherwise>
+        </xsl:choose>
 
-          <p style="page-break-after: always"/>
-        </xsl:for-each>
       </body>
     </html>
+  </xsl:template>
+
+  <!-- Show one Form -->
+  <xsl:template name="one_form">
+    <xsl:param name="vis_target"/>
+    <xsl:param name="vis_name"/>
+    <table class="maintable">
+      <xsl:call-template name="table_head">
+        <xsl:with-param name="visit_target" select="$vis_target"/>
+        <xsl:with-param name="visit_name"   select="$vis_name"/>
+      </xsl:call-template>
+      <tbody>
+        <xsl:for-each select="odm:ItemGroupRef">
+          <xsl:sort select="@OrderNumber" data-type="number"/>
+          <xsl:variable name="group" select="@ItemGroupOID"/>
+          <xsl:variable name="gnum"  select="@OrderNumber"/>
+          <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemGroupDef[@OID=$group]">
+            <xsl:variable name="domain" select="@Domain"/>
+            <xsl:for-each select="odm:ItemRef">
+              <xsl:sort select="@OrderNumber" data-type="number"/>
+              <xsl:variable name="item" select="@ItemOID"/>
+              <xsl:variable name="inum" select="@OrderNumber"/>
+              <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemDef[@OID=$item]">
+                <xsl:call-template name="notes_above"/>
+                <tr>
+                  <td class="seqw">
+                    <xsl:call-template name="sequence_number">
+                      <xsl:with-param name="major"    select="$gnum"/>
+                      <xsl:with-param name="minor"    select="$inum"/>
+                      <xsl:with-param name="has_note" select="normalize-space(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value) != ''"/> <!-- Implementation Notes -->
+                    </xsl:call-template>
+                  </td>
+                  <td class="quew">
+                    <xsl:call-template name="question"/>
+                  </td>
+                  <td class="answ">
+                    <xsl:call-template name="answer"/>
+                  </td>
+                  <td id="anno" class="annw anno">
+                    <xsl:call-template name="annotation">
+                      <xsl:with-param name="domain" select="$domain"/>
+                    </xsl:call-template>
+                  </td>
+                </tr>
+              </xsl:for-each>
+            </xsl:for-each>
+          </xsl:for-each>
+        </xsl:for-each>
+      </tbody>
+    </table>
+
+    <xsl:call-template name="form_notes"/>
+
+    <p style="page-break-after: always"/>
   </xsl:template>
 
   <!-- Non printable buttons to turn elements off and on.
@@ -214,6 +255,9 @@
   <!-- Identifier for title and name -->
   <xsl:template name="identifier">
     <xsl:choose>
+      <xsl:when test="normalize-space(/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyName) = 'Not applicable' and normalize-space($parmstandard) != ' '">
+        <xsl:value-of select="$parmstandard"/>
+      </xsl:when>
       <xsl:when test="normalize-space(/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyName) = 'Not applicable'">
         Standard
       </xsl:when>
@@ -225,7 +269,24 @@
 
  <!-- Title Page -->
   <xsl:template match="/odm:ODM/odm:Study[1]/odm:GlobalVariables">
+    <xsl:choose>
+      <xsl:when test="$parmdisplay = 'book'">
+        <h1>CRF Book</h1>
+      </xsl:when>
+      <xsl:when test="normalize-space(/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyName) = 'Not applicable'">
+        <h1>Standard</h1>
+      </xsl:when>
+      <xsl:otherwise>
+        <h1>Study</h1>
+      </xsl:otherwise>
+    </xsl:choose>
     <h1>CRF Specification for <xsl:call-template name="identifier"/></h1>
+    <xsl:if test="$parmversion != ''">
+      <h3><xsl:value-of select="$parmversion"/></h3>
+    </xsl:if>
+    <xsl:if test="$parmstatus != ''">
+      <h3>Status: <xsl:value-of select="$parmstatus"/></h3>
+    </xsl:if>
     <xsl:if test="normalize-space(odm:StudyDescription) != 'Not applicable'">
       <p><xsl:value-of select="odm:StudyDescription"/></p>
     </xsl:if>
@@ -242,36 +303,70 @@
     <xsl:if test="normalize-space(@AsOfDateTime) != ''">
       <p>Valid from date: <xsl:value-of select="@AsOfDateTime"/></p>
     </xsl:if>
+    <xsl:if test="$parmdisplay = 'book'">
+      <h3><xsl:value-of select="$parmname"/></h3>
+      <p>
+        <img>
+          <xsl:attribute name="src">
+            <xsl:value-of select="$parmlogo"/>
+          </xsl:attribute>
+        </img>
+      </p>
+    </xsl:if>
   </xsl:template>
 
   <!-- Toc, Alfabetic sorting of Forms by name -->
   <xsl:template name="toc">
-    <h2>Table of Contents</h2>
-    <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:FormDef">
-      <xsl:sort select="@Name" data-type="text"/>
-      <xsl:sort select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'Title']/fdx:Value" data-type="text"/> <!-- Form Title -->
-      <p>
-        <xsl:call-template name="form_link">
-          <xsl:with-param name="title" select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'Title']/fdx:Value"/> <!-- Form Title -->
-          <xsl:with-param name="name"  select="@Name"/>
-          <xsl:with-param name="oid"   select="@OID"/>
-        </xsl:call-template>
-      </p>
-    </xsl:for-each>
+    <table class="center maxw">
+      <thead>
+        <tr>
+          <td class="noborder">
+            <h2 class="center">Table of Contents</h2>
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:FormDef">
+          <xsl:sort select="@Name" data-type="text"/>
+          <xsl:sort select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'Title']/fdx:Value" data-type="text"/> <!-- Form Title -->
+          <tr>
+            <td colspan="3" class="noborder matrix">
+              <xsl:call-template name="form_link">
+                <xsl:with-param name="title" select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'Title']/fdx:Value"/> <!-- Form Title -->
+                <xsl:with-param name="name"  select="@Name"/>
+                <xsl:with-param name="oid"   select="@OID"/>
+              </xsl:call-template>
+              <p/>
+            </td>
+          </tr>
+        </xsl:for-each>
+      </tbody>
+    </table>
   </xsl:template>
 
   <!-- Vist Matrix -->
   <xsl:template name="visit_matrix">
-    <h2><a class="nohover" id="visit_matrix">Visit Matrix</a></h2>
-    <table class="center">
+    <table class="center landscape">
       <thead>
         <tr>
-          <th class="left crfhead">Event/<br/>Form</th>
+          <td class="noborder" colspan="99">
+            <h2 class="center">Visit Matrix</h2>
+          </td>
+        </tr>
+        <tr>
+          <th class="left crfhead onew">Event/<br/>Form</th>
           <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:Protocol/odm:StudyEventRef">
             <xsl:sort select="@OrderNumber" data-type="number"/>
             <xsl:variable name="visithead" select="@StudyEventOID"/>
             <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef[@OID=$visithead]">
-              <th class="crfhead rotate"><span><xsl:value-of select="@Name"/></span></th>
+              <th class="crfhead rotate onew">
+                <span>
+                  <a>
+                    <xsl:attribute name="href">#<xsl:value-of select="$visithead"/></xsl:attribute>
+                    <xsl:value-of select="@Name"/>
+                  </a>
+                </span>
+              </th>
             </xsl:for-each>
           </xsl:for-each>
         </tr>
@@ -313,7 +408,41 @@
 
   <!-- The header of the main table is complex enough to have it's own template -->
   <xsl:template name="table_head">
+    <xsl:param name="visit_target"/>
+    <xsl:param name="visit_name"/>
     <thead>
+      <xsl:if test="$parmdisplay = 'book' or $parmdisplay = 'data'">
+        <tr>
+          <th colspan="4" class="noborder">
+            <table class="maxw">
+              <tr>
+                <xsl:if test="$parmlogo != ''">
+                  <td>
+                    <img height="30">
+                      <xsl:attribute name="src">
+                        <xsl:value-of select="$parmlogo"/>
+                      </xsl:attribute>
+                    </img>
+                  </td>
+                </xsl:if>
+                <xsl:if test="$parmname != ''">
+                  <td>
+                    <xsl:value-of select="$parmname"/>
+                  </td>
+                </xsl:if>
+                <td>
+                  <a class="nohover">
+                    <xsl:attribute name="id">
+                      <xsl:value-of select="$visit_target"/>
+                    </xsl:attribute>
+                    <xsl:value-of select="$visit_name"/>
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </th>
+        </tr>
+      </xsl:if>
       <tr>
         <th colspan="4" class="noborder">
           <div class="left formtitle">

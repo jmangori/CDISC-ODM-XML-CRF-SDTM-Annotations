@@ -21,20 +21,30 @@
       var xmlDoc = data[0];
       var xslDoc = data[1];
 
-        var proc = new XSLTProcessor();
-        proc.importStylesheet(xslDoc);
-        proc.setParameter(null, "parmdisplay", "spec");
+      var proc = new XSLTProcessor();
+      proc.importStylesheet(xslDoc);
+      proc.setParameter(null, "parmdisplay",  "spec");
+      if (standard !== undefined) proc.setParameter(null, "parmstandard", standard);
+      if (version  !== undefined) proc.setParameter(null, "parmversion",  version);
+      if (status   !== undefined) proc.setParameter(null, "parmstatus",   status);
 
-        var resultFrag = proc.transformToFragment(xmlDoc, targetElement.ownerDocument);
+      var resultFrag = proc.transformToFragment(xmlDoc, targetElement.ownerDocument);
 
-        targetElement.textContent = '';
-        targetElement.appendChild(resultFrag);
+      targetElement.textContent = '';
+      targetElement.appendChild(resultFrag);
     });
   }
 
 // This is the only part necessary to change from Martin Honnens original code, to match my documents.
+  var docstr   = prompt("Enter XML document", "CRF.xml");
+  var parts    = docstr.split(" ");
+  if (parts[parts.length - 3] == "Version" && parts[parts.length - 4] == "CRF") {
+    var status   = parts[parts.length - 1].split(".")[0];
+    var version  = parts[parts.length - 3] + ' ' + parts[parts.length - 2];
+    var standard = docstr.substring(0, docstr.search(" CRF "));
+  }
   document.addEventListener('DOMContentLoaded', function() {
-    transform(prompt("Enter XML document", "CDISC_ODM_1.3.2.xml"), 'crf_1_3_2_formedix.xsl', document.documentElement);
+    transform(docstr, 'crf_1_3_2_formedix.xsl', document.documentElement);
   })
 
 </script>
