@@ -208,7 +208,7 @@
         var parmxml  = document.getElementById("parmxml").value;
         var parmxsl  = document.getElementById("parmxsl").value;
         var language = document.getElementById("parmlang").value;
-        var cdash    = document.getElementById("parmcdash").checked              ? "CDASH" : "";
+        var cdash    = document.getElementById("parmcdash").checked              ? "1" : "0";
         var ncli     = document.getElementById("nCodeListItemDisplay").value;
         var method   = document.getElementById("displayMethodsTable").checked    ? "1" : "0";
         var comment  = document.getElementById("displayCommentsTable").checked   ? "1" : "0";
@@ -330,10 +330,10 @@
             <input type="radio" id="book" name="display" class="radio crfparms" value="book"/>
             <label for="book">CRF book (forms per visit)</label>
           </div>
-          <div class="column left crfparms" hidden>
+          <div class="column left crfparms">
             Display CDASH annotations
           </div>
-          <div class="column right crfparms" hidden>
+          <div class="column right crfparms">
             <input type="checkbox" id="parmcdash" class="crfparms"/>
             <label for="parmcdash">Display CDASH annotations</label>
           </div>

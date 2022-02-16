@@ -46,14 +46,14 @@
        Standard name, version, and status are derived from the XML file name externally
        Any image logo file may be resized to fit the text height of a headline, preserving aspect
   -->
-  <xsl:param name="parmdisplay"/> <!-- Display mode -->
-  <xsl:param name="parmstudy"/>   <!-- Name of any study or standard defined in the ODM-XML file -->
-  <xsl:param name="parmversion"/> <!-- Version of the ODM-XML file -->
-  <xsl:param name="parmstatus"/>  <!-- Status of the ODM-XML file -->
-  <xsl:param name="parmname"/>    <!-- Company name for CRF book -->
-  <xsl:param name="parmlogo"/>    <!-- Company logo for CRF book -->
-  <xsl:param name="parmlang"/>    <!-- Language of TranslatedText (future) -->
-  <xsl:param name="parmcdash"/>   <!-- Display CDASH annotation from Alias (if present) -->
+  <xsl:param name="parmdisplay" select="spec"/> <!-- Display mode -->
+  <xsl:param name="parmstudy"/>                 <!-- Name of any study or standard defined in the ODM-XML file -->
+  <xsl:param name="parmversion"/>               <!-- Version of the ODM-XML file -->
+  <xsl:param name="parmstatus"/>                <!-- Status of the ODM-XML file -->
+  <xsl:param name="parmname"/>                  <!-- Company name for CRF book -->
+  <xsl:param name="parmlogo"/>                  <!-- Company logo for CRF book -->
+  <xsl:param name="parmlang"/>                  <!-- Language of TranslatedText (future) -->
+  <xsl:param name="parmcdash" select="1"/>      <!-- Display CDASH annotation from Alias (if present) (0/1) -->
 
   <!-- Keys to sort forms in the order of visit schedule, if present -->
   <xsl:key name="by_StudyEventRef" match="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:Protocol/odm:StudyEventRef" use="@StudyEventOID"/>
@@ -246,7 +246,7 @@
             </button>
           </td>
         </xsl:if>
-        <xsl:if test="$parmcdash != '' and .//odm:Alias[@Context='CDASH']">
+        <xsl:if test="$parmcdash = '1' and .//odm:Alias[@Context='CDASH']">
           <td class="noborder">
             <button onClick="for(var element of document.querySelectorAll('[id=cdash]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';">
               CDASH annotations Off and On
@@ -684,7 +684,7 @@
         </input>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:if test="$parmcdash != '' and odm:Alias[@Context='CDASH']">
+    <xsl:if test="$parmcdash = '1' and odm:Alias[@Context='CDASH']">
       <table class="cdash left" id="cdash">
         <tr>
           <td>
