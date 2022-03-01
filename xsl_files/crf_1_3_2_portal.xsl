@@ -134,7 +134,8 @@
 <!--
         <xsl:value-of select="$parmlang"/>
 -->
-        <p style="page-break-after: always"/>
+        <p style="page-break-after: always;"/>
+        <p><br/></p>
 
         <!-- Either Toc or Visit Matrix for navigation -->
         <xsl:if test="not(/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef)">
@@ -143,7 +144,8 @@
         <xsl:if test="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef">
           <xsl:call-template name="visit_matrix"/>
         </xsl:if>
-        <p style="page-break-after: always"/>
+        <p style="page-break-after: always;"/>
+        <p><br/></p>
 
         <xsl:choose>
           <xsl:when test="$parmdisplay = 'book' or $parmdisplay = 'data'">
@@ -227,7 +229,7 @@
       </tbody>
     </table>
     <xsl:call-template name="form_notes"/>
-    <p style="page-break-after: always"/>
+    <p style="page-break-after: always;"/>
   </xsl:template>
 
   <!-- Non printable buttons to turn elements off and on.
