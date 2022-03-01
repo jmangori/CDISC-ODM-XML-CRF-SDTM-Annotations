@@ -132,8 +132,8 @@
         <xsl:call-template name="buttons"/>
         <xsl:apply-templates select="/odm:ODM/odm:Study[1]/odm:GlobalVariables"/>
         <xsl:apply-templates select="/odm:ODM"/>
-        <p style="page-break-after: always;"/>
-        <p><br/></p>
+
+        <p style="page-break-before: always; margin-top: 0;"/>
 
         <!-- Either Toc or Visit Matrix for navigation -->
         <xsl:if test="not(/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef)">
@@ -142,8 +142,6 @@
         <xsl:if test="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef">
           <xsl:call-template name="visit_matrix"/>
         </xsl:if>
-        <p style="page-break-after: always;"/>
-        <p><br/></p>
 
         <xsl:choose>
           <xsl:when test="$parmdisplay = 'book' or $parmdisplay = 'data'">
@@ -184,6 +182,7 @@
     <xsl:param name="vis_target"/>
     <xsl:param name="vis_name"/>
     <table class="maintable">
+      <p style="page-break-before: always;"/>
       <xsl:call-template name="table_head">
         <xsl:with-param name="visit_target" select="$vis_target"/>
         <xsl:with-param name="visit_name"   select="$vis_name"/>
@@ -228,7 +227,6 @@
       </tbody>
     </table>
     <xsl:call-template name="form_notes"/>
-    <p style="page-break-after: always;"/>
   </xsl:template>
 
   <!-- Non printable buttons to turn elements off and on.
