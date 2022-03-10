@@ -553,17 +553,29 @@
 
   <!-- Show one question on the form, including guidance text and completion note -->
   <xsl:template name="question">
-    <xsl:if test="$parmdisplay != 'data' and odm:Alias[@Context='prompt']">
-      <xsl:value-of select="odm:Question/odm:TranslatedText"/>
+    <xsl:choose>
+      <xsl:when test="$parmdisplay = 'data' and odm:Alias[@Context='prompt']">
+        <xsl:value-of select="normalize-space(odm:Alias[@Context='prompt']/@Name)"/> <!-- Prompt text for data entry -->
+      </xsl:when>
+      <xsl:when test="odm:Question/odm:TranslatedText">
+        <xsl:value-of select="odm:Question/odm:TranslatedText"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="@Name"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:if test="$parmdisplay = 'spec' and odm:Alias[@Context='prompt']">
+      <xsl:value-of select="odm:Alias[@Context='prompt']"/>
     </xsl:if>
-    <xsl:if test="($parmdisplay = 'spec' or $parmdisplay = 'data') and odm:Alias[@Context='prompt']">
+    <xsl:if test="$parmdisplay = 'spec' and odm:Alias[@Context='prompt']">
       <p class="left">
-      <xsl:if test="$parmdisplay != 'data'">
         PROMPT:
-      </xsl:if>
-      <xsl:value-of select="normalize-space(odm:Alias[@Context='prompt']/@Name)"/></p> <!-- Prompt text for data entry -->
+        <xsl:value-of select="odm:Alias[@Context='prompt']/@Name"/>
+      </p> <!-- Prompt text for data entry -->
     </xsl:if>
-    <p class="note left"><xsl:value-of select="odm:Alias[@Context='completionInstructions']/@Name"/></p> <!-- Completion Instructions -->
+    <xsl:if test="odm:Alias[@Context='completionInstructions']/@Name">
+      <p class="note left"><xsl:value-of select="odm:Alias[@Context='completionInstructions']/@Name"/></p> <!-- Completion Instructions -->
+    </xsl:if>
 <!--
     Description at question level contains a repeat of the CDASH Alias in all the CDISC ePortal forms
     <xsl:apply-templates select="odm:Description"/>
@@ -574,7 +586,8 @@
   <xsl:template name="answer">
     <xsl:choose>
       <!-- Questions having the text 'all that apply' associated anywhere are data type Checkbox -->
-      <xsl:when test="contains(odm:Question/odm:TranslatedText,                    'all that apply') or
+      <xsl:when test="contains(@Name,                                              'all that apply') or
+                      contains(odm:Question/odm:TranslatedText,                    'all that apply') or
                       contains(odm:Description/odm:TranslatedText,                 'all that apply') or
                       contains(odm:Alias[@Context='completionInstructions']/@Name, 'all that apply')">
         <xsl:variable name="check" select="odm:CodeListRef/@CodeListOID"/>

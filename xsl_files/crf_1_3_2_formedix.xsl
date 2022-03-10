@@ -603,8 +603,8 @@
   <xsl:template name="answer">
     <xsl:choose>
       <!-- Questions having the text 'all that apply' associated anywhere are data type Checkbox -->
-      <xsl:when test="contains(odm:Question/odm:TranslatedText,                                       'all that apply') or
-                      contains(odm:Description/odm:TranslatedText,                                    'all that apply') or
+      <xsl:when test="contains(@Name,                                                                 'all that apply') or
+                      contains(odm:Question/odm:TranslatedText,                                       'all that apply') or
                       contains(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'Notes']/fdx:Value, 'all that apply')">
         <xsl:variable name="check" select="odm:CodeListRef/@CodeListOID"/>
         <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:CodeList/odm:CodeListItem[../@OID=$check]">
