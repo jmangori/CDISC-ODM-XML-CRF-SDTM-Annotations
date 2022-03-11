@@ -23,9 +23,6 @@ This project is to exploit the CDISC ODM standard as 'a one source of truth' def
 
 The solution is an XML translating style sheet allowing the ODM-xml file to be both human and machine readable without changing the content.
 
-![Infographic about ODM stylesheet](images/overview.png)
-<img src="images/overview.png" alt="Infographic about ODM stylesheet" />
-
 See the [CRF_renditions.md](CRF_renditions.md) document for details of the CRF itself.
 
 ## Built With <a name="Built_With"/>
@@ -40,8 +37,6 @@ Transformations are done using **<xsl:stylesheet version="1.0">** creating HTML 
 
 # Getting Started <a name="Getting_Started"/>
 Check out examples of [acrf](examples/acrf.pdf) and [bcrf](examples/bcrf.pdf) documents to see the results.
-
-![Live version demo](odm2crf_demo.PNG)
 
 Try a [live version](https://try2.info/cdisc-xml/cdisc-xml.html) to test your own ODM file, or my supplied [example](/examples) odm file.
 
