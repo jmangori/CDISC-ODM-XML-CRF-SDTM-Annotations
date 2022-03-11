@@ -7,15 +7,14 @@
   * [Prerequisites](#Prerequisites)
 * [Usage](#Usage)
   * [crf_1_3_2.xsl](#crf_1_3_2_xsl)
-  * [crf_specification.html](#crf_specification_html)
-    * [Modifications](#Modifications)
+  * [crf_specification.html](#cdisc_xml_html)
 * [Roadmap](#Roadmap)
 * [License](#License)
 * [Contact](#Contact)
 * [Acknowledgements](#Acknowledgements)
 
 # About The Project <a name="About_The_Project"/>
-This project is to exploit the CDISC ODM standard as a one source of truth definition of a CRF specification, allowing
+This project is to exploit the CDISC ODM standard as 'a one source of truth' definition of a CRF specification, allowing
 
 * Visual inspection of a CRF design directly from an ODM-xml file
 * Documentation of the link between the CRF questions and the collected data points through SDTM annotations
@@ -29,7 +28,9 @@ The solution is an XML translating style sheet allowing the ODM-xml file to be b
 See the [CRF_renditions.md](CRF_renditions.md) document for details of the CRF itself.
 
 ## Built With <a name="Built_With"/>
-The main component is a XSLT translating style sheet applied to an ODM-xml file of your own. The result is a webpage displaying the CRF pages, questions, and SDTM annotations. The web page page can be printed from the browser, also as PDF. The HTML file used to link the XML file to the XSL style sheet will run in modern browsers, NOT Internet Explorer.
+The main component is an XSLT translating style sheet applied to an ODM-xml file of your own. The result is a webpage displaying the CRF pages, questions, and SDTM annotations. The web page page can be printed from the browser, also as PDF.
+
+The secondary componant is an HTML file used to link the XML file to the XSL style sheet. The HTML file will run in modern browsers, NOT Internet Explorer.
 
 ## Versions <a name="Versions"/>
 This project covers ODM version 1.3.2 only. Other version of ODM-xml files are not expected to work. ODM version 1.0.0 and ODM version 1.1.0 files have been tested, and they don't work.
@@ -41,34 +42,27 @@ Check out examples of [acrf](examples/acrf.pdf) and [bcrf](examples/bcrf.pdf) do
 
 ![Live version demo](odm2crf_demo.PNG)
 
-Try a [live version](http://try2.info/odm2crf/odm2crf.html) to test your own ODM file, or my supplied [example](/examples) odm file.
+Try a [live version](https://try2.info/cdisc-xml/cdisc-xml.html) to test your own ODM file, or my supplied [example](/examples) odm file.
 
 ## Installation <a name="Installation"/>
-Download the files from the [xsl_files](/xsl_files) folder and place them on your web server.
+Download the files from the [xsl_files](/xsl_files) folder and place them in the same folder on your web server.
 
 The XSL Style Sheet can work by itself together with any XSLT processor to render the CRF from an ODM-XML file. However, the HTML file requires that the components
 
 * XSL Style sheet `crf_1_3_2.xsl`
-* HTML file `crf_specification.html`
+* HTML file `cdisc-xml.html`
 * ODM-xml file `odm-file-of-your-choise.xml`
 
-are located __ON A WEB SERVER__ in the same folder. The HTML file will not run from a file folder without a web server. The HTML file has some hardcoding of file names for ODM-xml file and the XSL Style Sheet file. These can be changed by editing the HTML file. The HTML file has an initial prompt for the name of the ODM-xml file, which can easily be replaced with a hardcoding of the file name, and subsequently removal of the prompt.
+are located __ON A WEB SERVER__ in the same folder. The HTML file will not run from a file folder without a web server.
 
 # Usage <a name="Usage"/>
 ## crf_1_3_2.xsl <a name="crf_1_3_2_xsl"/>
-This document is a piece of XSL-xml to display a valid CDISC ODM-xml file as an SDTM annotated CRF in a browser. The selected technology is supported in any modern browser (not Internet Explorer). The resulting web page can toggle SDTM annotations on and off, enabling printing of the CRF with and without this part. Display of SDTM annotations can also be controlled via a parameter to the `crf_1_3_2.xsl` file. The document can be used as a stand-alone XSL style sheet when linked to a valid ODM-xml file. This way of displaying a CRF book with SDTM annotaitons is intended to serve as a visual representation of the ODM-xml file itself.
+This document is a piece of XSL-xml to display a valid CDISC ODM-xml file as an SDTM annotated CRF in a browser. The selected technology is supported in any modern browser (not Internet Explorer). The resulting web page can toggle various elements on and off, enabling printing of the CRF with and without these parts. Display of SDTM annotations and other elements  can also be controlled via parameters to the `crf_1_3_2.xsl` file. This way of displaying a CRF book with SDTM annotations is intended to serve as a visual representation of the ODM-xml file itself.
 
-Each CRF page has a repeating header section identifying the company, trial, site, investigator, subject, and visit, all of which is controllable via parameters specifying their SDTM annotations. Any parameter having a blank value will be removed from the header. Only the protocol name remains visible at all pages.
+The intended procedure is to refresh the ODM-xml file on your server as it's development progresses, and then refresh the **cdisc-xml.html** file in the browser to see the rendition. Please notice in the image below that the CRF rendition contains a title page, a live table of contents (links preserved when printed as PDF), a visit matrix if visits are defined in the ODM-xml file, and a separate table per CRF form. When printing, page breaks separating each page and table exists.
 
-The intended procedure is to refresh the ODM-xml file on your server as it's development progresses, and then refresh the **crf_specification.html** file in the browser to see the rendition. Please notice in the image below that the CRF rendition contains a title page, a live table of contents (links preserved when printed as PDF), a visit matrix if visits are defined in the ODM-xml file, and a separate table per CRF form. When printing, page breaks separating each page and table exists.
-
-## crf_specification.html <a name="crf_specification_html"/>
-This document is a piece of HTML code containing only JavaScript to link a valid XSL Translating Style Sheet to a valid ODM-xml file without putting the style sheet link into the XML file itself. All XML and XSL files are supported, although some file names are hard coded. The resulting web page can serve as a CRF specification interpreting a valid ODM-xml file. This file needs to be placed on a web server in the same folder as your ODM-xml file and the `crf_1_3_2.xsl` XSL Translating Style Sheet. When opening the HTML file, the browser will perform the transformation of the XML file according to the programming in the XSL file. If the transformation is performed using a stand-alone XSL engine that is not a browser, the HTML file is not needed. I have tested that SAS PROC XSL can perform such a transformation and produce a simmilar result as the `crf_specification.html` file.
-
-#### Modifications <a name="Modifications"/>
-The file `crf_specification.html` contains a HTML prompt to ask for the name of the ODM-xml file to be processed. If this is to be changed, you may do the following:
-* If the default name is to be changed, simply replace the name of the ODM-xml file. Likewise the name of the XSL file can be changed as they both are simple hard codings. Furthermore, either file name can be prepended with folder paths referring to locations on whichever server hosts the files.
-* If the prompt is to be removed, simply replace the prompt function call in the parameter to the **transform()** function with a text constant containing the name. You may go all the way and remove the parameter to **transform()** all together, leaving a text constant as the parameter to the first call to the **loadDoc()** function.
+## cdisc-xml.html <a name="cdisc_xml_html"/>
+This document is a piece of HTML code containing only JavaScript to link a valid XSL Translating Style Sheet to a valid ODM-xml file without putting the style sheet link into the XML file itself. All XML and XSL files are supported. The resulting web page can serve as a CRF specification interpreting a valid ODM-xml file. This file needs to be placed on a web server in the same folder as your ODM-xml file and the `crf_1_3_2.xsl` XSL Translating Style Sheet. When opening the HTML file, the browser will perform the transformation of the XML file according to the programming in the XSL file. If the transformation is performed using a stand-alone XSL engine that is not a browser, the HTML file is not needed. I have tested that SAS PROC XSL can perform such a transformation and produce a simmilar result as the `cdisc-xml.html` file.
 
 Please notice that file names may be case sensitive on your system too.
 
@@ -87,7 +81,7 @@ Jørgen Mangor Iversen [jmi@try2.info](mailto:jmi@try2.info)
 
 My [web page](http://www.try2.info) in danish unrelated to this project.
 
-[Live version](http://try2.info/odm2crf/odm2crf.html) to demonstate the principle.
+[Live version](https://try2.info/cdisc-xml/cdisc-xml.html) to demonstate the principle.
 
 My [LinkedIn](https://www.linkedin.com/in/jørgen-iversen-ab5908b/) profile.
 
