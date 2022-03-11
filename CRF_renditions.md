@@ -4,9 +4,7 @@ A short description of the CRF generated from the ODM-xml document.
 ## CRF layout
 The main feature of the CRF layout presented here is to put the SDTM annotations in a column adjacent to each question line. This way, the SDTM annotations are displayed at the proper location, but without the need to move boxes of annotations around inside and on top of CRF elements.
 
-![Example CRF rendition from pure ODM-xml](images/CRF.png)
-
-'''img src='images/CRF.png' />'''
+![Example CRF rendition from pure ODM-xml]('images/CRF.png')
 
 The CRF rendition consists of one table for each form in the CRF identified as **FormDef** tags.
 * The 1<sup>st</sup> column is any guidance text or instructions for the particular question identified by **Description/TranslatedText** tag within the **ItemDef** tag.
