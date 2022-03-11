@@ -11,6 +11,8 @@
 
 %include "%str(&_SASWS_./leo/development/library/metadata/compare_odm_1_3_2.sas)";
 
+%compare_odm_1_3_2(odm1=%str(&_SASWS_./leo/clinical/lp9999/8888/metadata/LEO Common CRF Version 18 Production.xml),debug=x,profile=s,
+                   odm2=%str(&_SASWS_./leo/clinical/lp9999/8888/metadata/LEO Common CRF Version 21 Production.xml));
 %compare_odm_1_3_2(odm1=%str(&_SASWS_./leo/clinical/lp9999/8888/metadata/LEO Common CRF Version 21 Draft.xml),debug=x,
                    odm2=%str(&_SASWS_./leo/clinical/lp9999/8888/metadata/Z Development CRF Version 1 Draft.xml));
 %compare_odm_1_3_2(odm1=%str(&_SASWS_./leo/clinical/lp9999/8888/metadata/1401 CRF Version 7 Draft.xml),

@@ -20,7 +20,7 @@ options minoperator mindelimiter=',' msglevel=i;
                      formedix=BOTH, /* ODMs in Formedix format? (0,1,2,both) */
                        equals=N,    /* Show equal values (y/n)               */
                          oids=Y,    /* Compare using OIDS, else names (y/n)  */
-                        props=D,    /* Show All/Dm/Pgm properties relevant   */
+                      profile=D,    /* Show All/Dm/Pgm/ShrPt props. relevant */
                          lang=,     /* 2 letter Language code, if any        */
                         debug=);    /* If any value, preserve WORK etc.      */
 
@@ -31,15 +31,15 @@ options minoperator mindelimiter=',' msglevel=i;
     %put FORMEDIX: &formedix;
     %put EQUALS:   &equals;
     %put OIDS:     &oids;
-    %put PROPS:    &props;
+    %put PROFILE:  &profile;
     %put LANG:     &lang;
     %put DEBUG:    &debug;
   %end;
 
   /* Validate arguments and setup default values */
-  %let equals = %qupcase(%qsysfunc(first(&equals)));
-  %let oids   = %qupcase(%qsysfunc(first(&oids)));
-  %let props  = %qupcase(%qsysfunc(first(&props)));
+  %let equals  = %qupcase(%qsysfunc(first(&equals)));
+  %let oids    = %qupcase(%qsysfunc(first(&oids)));
+  %let profile = %qupcase(%qsysfunc(first(&profile)));
   %if %nrquote(&odm1) =                   %then %panic(First ODM file is missing.);
   %if %sysfunc(fileexist("&odm1"))  = 0   %then %panic(First ODM file "&odm1" not found.);
   %if %nrquote(&odm2) =                   %then %panic(Second ODM file is missing.);
@@ -48,14 +48,15 @@ options minoperator mindelimiter=',' msglevel=i;
   %if %qupcase(&formedix) in (0,1,2,BOTH) %then; %else %panic(Formedix= must identify 0, 1, 2, or BOTH ODMs having Formedix tags);
   %if %nrquote(&equals) in (Y,N)          %then; %else %panic(%str(Equals must be %(Y%)es or %(N%)o, either case));
   %if %nrquote(&oids) in (Y,N)            %then; %else %panic(%str(OIDs must be %(Y%)es or %(N%)o, either case));
-  %if %nrquote(&props) in (A,D,P)         %then; %else %panic(%str(PROPS="&props" (properties) must be %(A%)ll, %(D%)ata Management, %(P%)rogramming, either case));
+  %if %nrquote(&profile) in (A,D,P,S)     %then; %else %panic(%str(PROFILE="&profile" must be %(A%)ll, %(D%)ata Management, %(P%)rogramming, %(S%)harePoint, either case));
   %if %length(%nrquote(&lang)) = 0 or %length(%nrquote(&lang)) = 2 %then;
                                           %else %panic(Language "&lang" must be blank or a 2 letter code.);
 
-        %if %nrquote(&oids)  = N %then %let profile = No OIDs;
-  %else %if %nrquote(&props) = D %then %let profile = Data Management;
-  %else %if %nrquote(&props) = P %then %let profile = Programming;
-  %else                                %let profile = All;
+        %if %nrquote(&oids)    = N %then %let profile = No OIDs;
+  %else %if %nrquote(&profile) = D %then %let profile = Data Management;
+  %else %if %nrquote(&profile) = P %then %let profile = Programming;
+  %else %if %nrquote(&profile) = S %then %let profile = SharePoint;
+  %else                                  %let profile = All;
 
 /************************************************************************************************/
 /* Set up which properties to display, depending on input files, options, profiles spread sheet */
@@ -67,18 +68,23 @@ options minoperator mindelimiter=',' msglevel=i;
 
   /* Decide on which profile to use. Comparing without OIDs takes precedence */
   proc sql %if %nrquote(&debug) = %then noprint;;
-    select distinct subject
+    select distinct compress(subject)
       into :subject_dsn separated by ' '
       from odm_profiles;
     %let subjects = &sqlobs;
+    %if %nrquote(&debug) ne %then %do;
+      %put &=subjects;
+      %put &=subject_dsn;
+    %end;
 
     create table odm_properties as select distinct
-           subject,
+           compress(subject) as subject,
            cats("'", upcase(property), "'") as property
       from odm_profiles
-     where %if %nrquote(&oids)  = N %then No_OIDs;         %else
-           %if %nrquote(&props) = D %then Data_Management; %else
-           %if %nrquote(&props) = P %then Programming;     %else /* All */
+     where %if %nrquote(&oids)    = N %then No_OIDs;         %else
+           %if %nrquote(&profile) = D %then Data_Management; %else
+           %if %nrquote(&profile) = P %then Programming;     %else
+           %if %nrquote(&profile) = S %then Sharepoint;      %else /* All */
            'X' = 'X';;
   quit;
 
@@ -187,6 +193,58 @@ options minoperator mindelimiter=',' msglevel=i;
   %compare_odm_1_3_2_dataset(dsn=crf_variables);
   %compare_odm_1_3_2_dataset(dsn=crf_codelists);
 
+  /* When a form is deleted, don't repeat all the sub-properties also deleted */
+  %if %nrquote(&profile) in (D,S) and %sysfunc(exist(crf_forms)) %then %do;
+    %let deleted_forms = 0;
+    /* Count and identify forms deleted */
+    proc sql %if %nrquote(&debug) = %then noprint;;
+      select distinct form1
+        into :deleted_form_id separated by '¤'
+        from crf_forms
+       where upcase(compare) = 'DELETED';
+      %let deleted_forms = &sqlobs;
+    %if %nrquote(&debug) ne %then %do;
+      %put &=deleted_forms &=deleted_form_id;
+    %end;
+
+    /* Count and identify sections of deleted forms (questions?) */
+    %let deleted_sects = 0;
+    %if %sysfunc(exist(crf_sections)) %then %do;
+       select distinct sect1
+         into :deleted_sect_id separated by '¤'
+         from crf_forms f
+        inner join crf_sections s
+           on f.form1 = s.form1
+        where upcase(f.compare) = 'DELETED';
+        %let deleted_sects = &sqlobs;
+      %if %nrquote(&debug) ne %then %do;
+        %put &=deleted_sects &=deleted_sect_id;
+      %end;
+    %end;
+    quit;
+
+    /* Don't report sub-properties of deleted forms */
+    proc sql;
+      %do i = 1 %to &deleted_forms;
+          delete from crf_forms
+           where form1 = "%scan(%nrbquote(&deleted_form_id), &i, ¤)" and property ne 'Form';
+        %if %sysfunc(exist(crf_sections)) %then %do;
+          delete from crf_sections
+           where form1 = "%scan(%nrbquote(&deleted_form_id), &i, ¤)";
+        %end;
+        %if %sysfunc(exist(crf_questions)) %then %do;
+          delete from crf_questions
+           where form1 = "%scan(%nrbquote(&deleted_form_id), &i, ¤)";
+        %end;
+      %end;
+
+      /* Don't report deleted datasets from deleted forms' sections */
+      %do i = 1 %to &deleted_sects;
+        delete from crf_datasets where sect1 = "%scan(%nrbquote(&deleted_sect_id), &i, ¤)";
+      %end;
+    quit;
+  %end;
+
 /***********************************************************************************************/
 /***********************************************************************************************/
 /*** Begin create toc **************************************************************************/
@@ -253,7 +311,10 @@ options minoperator mindelimiter=',' msglevel=i;
       from toc1;
 
     %let dsno = &sqlobs;
-    %if %nrquote(&debug) ne %then %put &=dsno;
+    %if %nrquote(&debug) ne %then %do;
+      %put &=dsno;
+      %put &=datasets;
+    %end;
   quit;
 
   /* List of all properties per dataset */
@@ -261,6 +322,7 @@ options minoperator mindelimiter=',' msglevel=i;
     length original_value current_value $ 5000;
     set &datasets indsname=dataset;
     dsn = upcase(scan(dataset, 2, '.'));
+    if compare ne '';
     keep dsn property compare;
   run;
 
@@ -269,11 +331,11 @@ options minoperator mindelimiter=',' msglevel=i;
     create table toc_propnums as select distinct
            dsn length=32,
            property,
-           count(distinct compare) as difs
+           compare,
+           count(distinct cats(compare, property)) as difs
       from toc_properties
      where dsn      ne ''
-       and property ne ''
-     group by dsn, property;
+     group by dsn, property, compare;
   quit;
 
   /* Create Property level toc dataset */
@@ -285,20 +347,14 @@ options minoperator mindelimiter=',' msglevel=i;
                   or upcase(toc1.dsn) in ('CRF_STUDY', 'CRF_VISITS', 'CRF_VSITMATRIX')
                   or ("&equals") = "N" and difs = 0
                 then ''
-                else cats(id, upcase(property))     end as id2,
+                else cats(id, upcase(compare), upcase(property)) end as id2,
            case when property = ''
                   or upcase(toc1.dsn) in ('CRF_STUDY', 'CRF_VISITS', 'CRF_VSITMATRIX')
                   or ("&equals") = "N" and difs = 0
                 then ''
-                else catx(' - ', display, property) end as display2,
+                else catx(' - ', display, catx(' ', compare, property)) end as display2,
            property,
-           case when property = ''
-                  or upcase(toc1.dsn) in ('CRF_STUDY', 'CRF_VISITS', 'CRF_VSITMATRIX')
-                  or ("&equals") = "N" and difs = 0
-                then ''
-                else cats("<a style='display:inline-block;color:white;text-align:center;padding:9px 9px;text-decoration:none;' href='#",
-                     calculated id2, "'>", property, "</a>")
-           end as nav2 label='Property' length=5000
+           compare
       from toc1
       join toc_propnums
         on toc1.dsn = toc_propnums.dsn
@@ -323,7 +379,7 @@ options minoperator mindelimiter=',' msglevel=i;
     %end;
   quit;
 
-  /* Flip the Property level toc for horizontal menu */
+  /* Flip the Property level toc for vertical menu items */
   data toc2_t (keep=col1-col&dsno);
     set toc2 end=tail;
     by seq;
@@ -333,7 +389,7 @@ options minoperator mindelimiter=',' msglevel=i;
     if first.seq then ix = ix + 1;
     if property ne '' then do;
       cols[ix] = cats(cols[ix], "<a style='color:white;padding:9px 9px;text-decoration:none;display:block;text-align:left;' href='#",
-                      id2, "'>", property, "</a>");
+                      id2, "'>", catx(' ', compare, property), "</a>");
     end;
     if tail then do;
       do i = 1 to dim(cols);
@@ -343,7 +399,7 @@ options minoperator mindelimiter=',' msglevel=i;
     end;
   run;
 
-  /* Flip the toc for horizontal menu */
+  /* Flip the toc for horizontal menu items */
   proc transpose data=toc1 out=toc1_t (drop=_:);
     var nav;
   run;
@@ -411,14 +467,13 @@ options minoperator mindelimiter=',' msglevel=i;
 
   /* Print the comparisons */
   title1 "Comparing %trim(&study1) to %trim(&study2)";
-  title2 "Display profile = &profile";
   proc sort data=toc2 nodupkey;
-    by seq property;
+    by seq compare property;
   run;
   data _null_;
     set toc2;
     call execute(cats('%compare_odm_1_3_2_report(dsn=', dsn, ',id=', id, ',display=', display,
-                      ',property=', property, ',id2=', id2, ',display2=', display2, ');'));
+                      ',property=', property, ',compare=', compare, ',id2=', id2, ',display2=', display2, ');'));
   run;
 
   ods html close;
@@ -772,8 +827,12 @@ options minoperator mindelimiter=',' msglevel=i;
   %else %if %qupcase(&dsn) = CRF_FORMS %then %do;
     proc sql;
       create table &dsn as select
-             catx('^n', 'OID=' || odm1.oid, odm1.form) as form1 length=500,
-             catx('^n', 'OID=' || odm2.oid, odm2.form) as form2 length=500,
+             case when cats(odm1.oid, odm1.form) = '' then ''
+                  else catx('^n', 'OID=' || odm1.oid, odm1.form)
+             end as form1 length=500,
+             case when cats(odm2.oid, odm2.form) = '' then ''
+                  else catx('^n', 'OID=' || odm2.oid, odm2.form)
+             end as form2 length=500,
              coalescec(odm1.property, odm2.property) as Property,
              original_value,
              current_value,
@@ -834,10 +893,18 @@ options minoperator mindelimiter=',' msglevel=i;
   %else %if %qupcase(&dsn) = CRF_SECTIONS %then %do;
     proc sql;
       create table &dsn as select
-             catx('^n', 'OID=' || odm1.FormOID, formodm1) as form1 length=500,
-             catx('^n', 'OID=' || odm1.SectOID, sectodm1) as sect1 length=500,
-             catx('^n', 'OID=' || odm2.FormOID, formodm2) as form2 length=500,
-             catx('^n', 'OID=' || odm2.SectOID, sectodm1) as sect2 length=500,
+             case when cats(odm1.FormOID, formodm1) = '' then ''
+                  else catx('^n', 'OID=' || odm1.FormOID, formodm1)
+             end as form1 length=500,
+             case when cats(odm1.SectOID, sectodm1) = '' then ''
+                  else catx('^n', 'OID=' || odm1.SectOID, sectodm1)
+             end as sect1 length=500,
+             case when cats(odm2.FormOID, formodm2) = '' then ''
+                  else catx('^n', 'OID=' || odm2.FormOID, formodm2)
+             end as form2 length=500,
+             case when cats(odm2.FormOID, sectodm2) = '' then ''
+                  else catx('^n', 'OID=' || odm2.SectOID, sectodm2)
+             end as sect2 length=500,
              coalescec(odm1.property, odm2.property) as Property,
              original_value,
              current_value,
@@ -867,12 +934,24 @@ options minoperator mindelimiter=',' msglevel=i;
   %else %if %qupcase(&dsn) = CRF_QUESTIONS %then %do;
     proc sql;
       create table &dsn as select
-             catx('^n', 'OID=' || odm1.FormOID, formodm1)  as form1  length=500,
-             catx('^n', 'OID=' || odm1.SectOID, sectodm1)  as sect1  length=500,
-             catx('^n', 'OID=' || odm1.ItemOID, questodm1) as quest1 length=500,
-             catx('^n', 'OID=' || odm2.FormOID, formodm2)  as form2  length=500,
-             catx('^n', 'OID=' || odm2.SectOID, sectodm1)  as sect2  length=500,
-             catx('^n', 'OID=' || odm2.ItemOID, questodm2) as quest2 length=500,
+             case when cats(odm1.FormOID, formodm1) = '' then ''
+                  else catx('^n', 'OID=' || odm1.FormOID, formodm1)
+             end as form1 length=500,
+             case when cats(odm1.SectOID, sectodm1) = '' then ''
+                  else catx('^n', 'OID=' || odm1.SectOID, sectodm1)
+             end as sect1 length=500,
+             case when cats(odm1.ItemOID, questodm1) = '' then ''
+                  else catx('^n', 'OID=' || odm1.ItemOID, questodm1)
+             end as quest1 length=500,
+             case when cats(odm2.FormOID, formodm2) = '' then ''
+                  else catx('^n', 'OID=' || odm2.FormOID, formodm2)
+             end as form2 length=500,
+             case when cats(odm2.SectOID, sectodm2) = '' then ''
+                  else catx('^n', 'OID=' || odm2.SectOID, sectodm2)
+             end as sect2 length=500,
+             case when cats(odm2.ItemOID, questodm2) = '' then ''
+                  else catx('^n', 'OID=' || odm2.ItemOID, questodm2)
+             end as quest2 length=500,
              coalescec(odm1.property, odm2.property) as Property,
              original_value,
              current_value,
@@ -904,8 +983,12 @@ options minoperator mindelimiter=',' msglevel=i;
   %else %if %qupcase(&dsn) = CRF_DATASETS %then %do;
     proc sql;
       create table &dsn as select
-             catx('^n', 'OID=' || odm1.OID, sectodm1) as sect1 length=500,
-             catx('^n', 'OID=' || odm2.OID, sectodm2) as sect2 length=500,
+             case when cats(odm1.OID, sectodm1) = '' then ''
+                  else catx('^n', 'OID=' || odm1.OID, sectodm1)
+             end as sect1 length=500,
+             case when cats(odm2.OID, sectodm2) = '' then ''
+                  else catx('^n', 'OID=' || odm2.OID, sectodm2)
+             end as sect2 length=500,
              coalescec(odm1.property, odm2.property) as Property,
              original_value,
              current_value,
@@ -949,13 +1032,15 @@ options minoperator mindelimiter=',' msglevel=i;
       if original1 = current2 and original2 = current1;
     run;
     /* Remove duplicates when Alias contains datasets beyond Domain */
-    proc sql;
+    proc sql noprint;
       delete
         from &dsn a
        where exists (select *
                        from odm_datasets_cardinals b
                       where a.sect1 = b.sect1
                         and a.sect2 = b.sect2);
+       alter table &dsn drop OID_cardinal;
+      select distinct * from &dsn; /* Set &sqlobs for later */
     quit;
   %end;
 
@@ -1024,70 +1109,244 @@ options minoperator mindelimiter=',' msglevel=i;
   %end;
 %mend;
 
-/* Print compare report by property */
-%macro compare_odm_1_3_2_report(dsn=, id=, display=, property=, id2=, display2=);
+/* Print comparison by property
+%macro compare_odm_1_3_2_report(dsn=, id=, display=, property=, compare=, id2=, display2=);
   %if %nrquote(&debug) ne %then %do;
     %put MACRO:    &sysmacroname;
     %put DSN:      &dsn;
     %put ID:       &id;
     %put DISPLAY:  &display;
     %put PROPERTY: &property;
+    %put COMPARE:  &compare;
     %put ID2:      &id2;
-    %put DISPLAY2  &display2;
+    %put DISPLAY2: &display2;
   %end;
 
-  title3 "^{raw <a id='&id'>Changes to &display</a>}";
-  title4 "^{raw <a id='&id2'>Changes to &display2</a>}";
+  title2 "^{raw <a id='&id'/><a id='&id2'>&display2 property</a>}";
 
-  proc print data=&dsn noobs label uniform style(table)=[HTMLCLASS='data'];
-    label original_value="&study1" current_value="&study2" compare="Compare";
+  proc print data=&dsn noobs label style(table)=[HTMLCLASS='data'];
+    label original_value="&study1" current_value="&study2";
   %if %qupcase(&dsn) = CRF_STUDY %then %do;
-    var property original_value current_value compare;
+    var property original_value current_value;
     %if %nrquote(&equals) = N %then where original_value ne current_value;;
   %end; %else %if %qupcase(&dsn) = CRF_VISITS %then %do;
     label visit1="&study1 Visit" visit2="&study2 Visit";
-    var visit1 visit2 property original_value current_value compare;
+    var visit1 visit2 property original_value current_value;
     %if %nrquote(&equals) = N %then where original_value ne current_value;;
   %end; %else %if %qupcase(&dsn) = CRF_FORMS %then %do;
     label form1="&study1 Form" form2="&study2 Form";
-    var form1 form2 property original_value current_value compare;
-    where property = "&property"
+    var form1 form2 property original_value current_value;
+    where property = "&property" and compare = "&compare"
     %if %nrquote(&equals) = N %then and original_value ne current_value;;
   %end; %else %if %qupcase(&dsn) in (CRF_VISITMATRIX) %then %do;
     label visitodm1="&study1 Visit" formodm1="&study1 Form" visitodm2="&study2 Visit" formodm2="&study2 Form";
-    var visitodm1 formodm1 visitodm2 formodm2 property original_value current_value compare;
-    where property = "&property"
+    var visitodm1 formodm1 visitodm2 formodm2 property original_value current_value;
+    where property = "&property" and compare = "&compare"
     %if %nrquote(&equals) = N %then and original_value ne current_value;;
   %end; %else %if %qupcase(&dsn) = CRF_SECTIONS %then %do;
     label form1="&study1 Form" sect1="&study1 Section" form2="&study2 Form" sect2="&study2 Section";
-    var form1 sect1 form2 sect2 property original_value current_value compare;
-    where property = "&property"
+    var form1 sect1 form2 sect2 property original_value current_value;
+    where property = "&property" and compare = "&compare"
     %if %nrquote(&equals) = N %then and original_value ne current_value;;
   %end; %else %if %qupcase(&dsn) = CRF_QUESTIONS %then %do;
     label form1="&study1 Form" sect1="&study1 Section" quest1="&study1 Question"
           form2="&study2 Form" sect2="&study2 Section" quest2="&study2 Question";
-    var form1 sect1 quest1 form2 sect2 quest2 property original_value current_value compare;
-    where property = "&property"
+    var form1 sect1 quest1 form2 sect2 quest2 property original_value current_value;
+    where property = "&property" and compare = "&compare"
     %if %nrquote(&equals) = N %then and original_value ne current_value;;
   %end; %else %if %qupcase(&dsn) = CRF_DATASETS %then %do;
     label sect1="&study1 Section" sect2="&study2 Section";
-    var sect1 sect2 property original_value current_value compare;
-    where property = "&property"
+    var sect1 sect2 property original_value current_value;
+    where property = "&property" and compare = "&compare"
     %if %nrquote(&equals) = N %then and original_value ne current_value;;
   %end; %else %if %qupcase(&dsn) = CRF_VARIABLES %then %do;
     label varodm1="&study1 Variable" varodm2="&study2 Variable";
-    var varodm1 varodm2 property original_value current_value compare;
-    where property = "&property"
+    var varodm1 varodm2 property original_value current_value;
+    where property = "&property" and compare = "&compare"
     %if %nrquote(&equals) = N %then and original_value ne current_value;;
   %end; %else %if %qupcase(&dsn) = CRF_CODELISTS %then %do;
     label codeodm1="&study1 CodeList Item" codeodm2="&study2 CodeList Item" name1="&study1 CodeList Name" name2="&study2 CodeList Name";
-    where property = "&property"
+    var name1 codeodm1 name2 codeodm2 property original_value current_value;
+    where property = "&property" and compare = "&compare"
     %if %nrquote(&equals) = N %then and original_value ne current_value;;
-    var name1 codeodm1 name2 codeodm2 property original_value current_value compare;
   %end;
   run;
 %mend;
+ */
+/* Tabulate comparison by property
+%macro compare_odm_1_3_2_report(dsn=, id=, display=, property=, compare=, id2=, display2=);
+  %if %nrquote(&debug) ne %then %do;
+    %put MACRO:    &sysmacroname;
+    %put DSN:      &dsn;
+    %put ID:       &id;
+    %put DISPLAY:  &display;
+    %put PROPERTY: &property;
+    %put COMPARE:  &compare;
+    %put ID2:      &id2;
+    %put DISPLAY2: &display2;
+  %end;
+
+  title2 "^{raw <a id='&id'/><a id='&id2'>&display2 property</a>}";
+
+  %let where = 1=1;
+  %if %nrquote(&equals) = N %then %let where = &where. and original_value ne current_value;
+  %if %qupcase(&dsn) in (CRF_STUDY, CRF_VISITS) %then;
+  %else %let where = &where and property = "&property" and compare = "&compare";
+
+  proc tabulate data=&dsn style=[HTMLCLASS='data'];
+    where &where;;
+    label original_value="&study1" current_value="&study2";
+    class original_value current_value;
+
+  %if %qupcase(&dsn) = CRF_STUDY %then %do;
+    class property;
+    table property original_value current_value;
+  %end; %else %if %qupcase(&dsn) = CRF_VISITS %then %do;
+    label visit1="&study1 Visit" visit2="&study2 Visit";
+    class visit1 visit2 property;
+    table visit1 visit2, property original_value current_value;
+  %end; %else %if %qupcase(&dsn) = CRF_FORMS %then %do;
+    label form1="&study1 Form" form2="&study2 Form";
+    class form1 form2 property;
+    table form1 form2, property original_value current_value;
+  %end; %else %if %qupcase(&dsn) in (CRF_VISITMATRIX) %then %do;
+    label visitodm1="&study1 Visit" formodm1="&study1 Form" visitodm2="&study2 Visit" formodm2="&study2 Form";
+    class visitodm1 formodm1 visitodm2 formodm2 property;
+    table visitodm1 formodm1 visitodm2 formodm2, property original_value current_value;
+  %end; %else %if %qupcase(&dsn) = CRF_SECTIONS %then %do;
+    label form1="&study1 Form" sect1="&study1 Section" form2="&study2 Form" sect2="&study2 Section";
+    class form1 sect1 form2 sect2 property;
+    table form1 sect1 form2 sect2, property original_value current_value;
+  %end; %else %if %qupcase(&dsn) = CRF_QUESTIONS %then %do;
+    label form1="&study1 Form" sect1="&study1 Section" quest1="&study1 Question"
+          form2="&study2 Form" sect2="&study2 Section" quest2="&study2 Question";
+    class form1 sect1 quest1 form2 sect2 quest2 property;
+    table form1 sect1 quest1 form2 sect2 quest2, property original_value current_value;
+  %end; %else %if %qupcase(&dsn) = CRF_DATASETS %then %do;
+    label sect1="&study1 Section" sect2="&study2 Section";
+    class sect1 sect2 property;
+    table sect1 sect2, property original_value current_value;
+  %end; %else %if %qupcase(&dsn) = CRF_VARIABLES %then %do;
+    label varodm1="&study1 Variable" varodm2="&study2 Variable";
+    class varodm1 varodm2 property;
+    table varodm1 varodm2, property original_value current_value;
+  %end; %else %if %qupcase(&dsn) = CRF_CODELISTS %then %do;
+    label codeodm1="&study1 CodeList Item" codeodm2="&study2 CodeList Item" name1="&study1 CodeList Name" name2="&study2 CodeList Name";
+    class name1 codeodm1 name2 codeodm2 property;
+    table name1 codeodm1 name2 codeodm2, property original_value current_value;
+  %end;
+  run;
+%mend;
+ */
+/* Report comparison by property */
+%macro compare_odm_1_3_2_report(dsn=, id=, display=, property=, compare=, id2=, display2=);
+  %if %nrquote(&debug) ne %then %do;
+    %put MACRO:    &sysmacroname;
+    %put DSN:      &dsn;
+    %put ID:       &id;
+    %put DISPLAY:  &display;
+    %put PROPERTY: &property;
+    %put COMPARE:  &compare;
+    %put ID2:      &id2;
+    %put DISPLAY2: &display2;
+  %end;
+
+  title2 "^{raw <a id='&id'/><a id='&id2'>&display2 property</a>}";
+
+  %let where = 1=1;
+  %if %nrquote(&equals) = N %then %let where = &where. and original_value ne current_value;
+  %if %qupcase(&dsn) in (CRF_STUDY, CRF_VISITS) %then;
+  %else %let where = &where and property = "&property" and compare = "&compare";
+
+  proc report data=&dsn style=[HTMLCLASS='data'];
+    where &where;;
+
+    label original_value='Original Value' current_value='Current Value';
+    %if %qupcase(&dsn) = CRF_STUDY %then %do;
+    %end; %else %if %qupcase(&dsn) = CRF_VISITS %then %do;
+      label visit1='Visit' visit2='Visit';
+    %end; %else %if %qupcase(&dsn) = CRF_FORMS %then %do;
+      label form1='Form' form2='Form';
+    %end; %else %if %qupcase(&dsn) in (CRF_VISITMATRIX) %then %do;
+      label visitodm1='Visit' formodm1='Form' visitodm2='Visit' formodm2='Form';
+    %end; %else %if %qupcase(&dsn) = CRF_SECTIONS %then %do;
+      label form1='Form' sect1='Section' form2='Form' sect2='Section';
+    %end; %else %if %qupcase(&dsn) = CRF_QUESTIONS %then %do;
+      label form1='Form' sect1='Section' quest1='Question' form2='Form' sect2='Section' quest2='Question';
+    %end; %else %if %qupcase(&dsn) = CRF_DATASETS %then %do;
+      label sect1='Section' sect2='Section';
+    %end; %else %if %qupcase(&dsn) = CRF_VARIABLES %then %do;
+      label varodm1='Variable' varodm2='Variable';
+    %end; %else %if %qupcase(&dsn) = CRF_CODELISTS %then %do;
+      label codeodm1='CodeList Item' name1='CodeList Name' codeodm2='CodeList Item' name2='CodeList Name';
+    %end;
+
+    column ('Keys'
+    %if %qupcase(&dsn) = CRF_STUDY %then %do;
+    %end; %else %if %qupcase(&dsn) = CRF_VISITS %then %do;
+      ("&study1" visit1) ("&study2" visit2)
+    %end; %else %if %qupcase(&dsn) = CRF_FORMS %then %do;
+      ("&study1" form1) ("&study2" form2)
+    %end; %else %if %qupcase(&dsn) in (CRF_VISITMATRIX) %then %do;
+      ("&study1" visitodm1 formodm1) ("&study2" visitodm2 formodm2)
+    %end; %else %if %qupcase(&dsn) = CRF_SECTIONS %then %do;
+      ("&study1" form1 sect1) ("&study2" form2 sect2)
+    %end; %else %if %qupcase(&dsn) = CRF_QUESTIONS %then %do;
+      ("&study1" form1 sect1 quest1) ("&study2" form2 sect2 quest2)
+    %end; %else %if %qupcase(&dsn) = CRF_DATASETS %then %do;
+      ("&study1" sect1) ("&study2" sect2)
+    %end; %else %if %qupcase(&dsn) = CRF_VARIABLES %then %do;
+      ("&study1" varodm1) ("&study2" varodm2)
+    %end; %else %if %qupcase(&dsn) = CRF_CODELISTS %then %do;
+      ("&study1" name1 codeodm1) ("&study2" name2 codeodm2)
+    %end;
+    ) ('Values' ("&study1" original_value) ("&study2" current_value));
+
 /*
+    %if %qupcase(&dsn) = CRF_STUDY %then %do;
+    %end; %else %if %qupcase(&dsn) = CRF_VISITS %then %do;
+      define visit1    / order;
+      define visit2    / order;
+    %end; %else %if %qupcase(&dsn) = CRF_FORMS %then %do;
+      define form1     / order;
+      define form2     / order;
+    %end; %else %if %qupcase(&dsn) in (CRF_VISITMATRIX) %then %do;
+      define visitodm1 / order;
+      define formodm1  / order;
+      define visitodm2 / order;
+      define formodm2  / order;
+    %end; %else %if %qupcase(&dsn) = CRF_SECTIONS %then %do;
+      define form1     / order;
+      define sect1     / order;
+      define form2     / order;
+      define sect2     / order;
+    %end; %else %if %qupcase(&dsn) = CRF_QUESTIONS %then %do;
+      define form1     / order;
+      define sect1     / order;
+      define quest1    / order;
+      define form2     / order;
+      define sect2     / order;
+      define quest2    / order;
+    %end; %else %if %qupcase(&dsn) = CRF_DATASETS %then %do;
+      define sect1     / order;
+      define sect2     / order;
+    %end; %else %if %qupcase(&dsn) = CRF_VARIABLES %then %do;
+      define varodm1   / order;
+      define varodm2   / order;
+    %end; %else %if %qupcase(&dsn) = CRF_CODELISTS %then %do;
+      define name1     / order;
+      define codeodm1  / order;
+      define name2     / order;
+      define codeodm2  / order;
+    %end;
+*/
+  run;
+%mend;
+
+/*
+%compare_odm_1_3_2(odm1=%str(&_SASWS_./leo/clinical/lp9999/8888/metadata/LEO Common CRF Version 18 Production.xml),debug=x,profile=s,
+                   odm2=%str(&_SASWS_./leo/clinical/lp9999/8888/metadata/LEO Common CRF Version 21 Production.xml));
+
 %compare_odm_1_3_2(odm1=%str(&_SASWS_./leo/clinical/lp9999/8888/metadata/LEO Common CRF Version 21 Draft.xml),debug=x,
                    odm2=%str(&_SASWS_./leo/clinical/lp9999/8888/metadata/Z Development CRF Version 1 Draft.xml));
 
