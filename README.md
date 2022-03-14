@@ -36,9 +36,9 @@ This project covers ODM version 1.3.2 only. Other version of ODM-xml files are n
 Transformations are done using **<xsl:stylesheet version="1.0">** creating HTML 4.
 
 # Getting Started <a name="Getting_Started"/>
-Check out examples of [acrf](examples/acrf.pdf) and [bcrf](examples/bcrf.pdf) documents to see the results.
+Check out examples of [acrf](/examples/acrf.pdf) and [bcrf](/examples/bcrf.pdf) documents to see the results.
 
-Try a [live version](https://try2.info/cdisc-xml/cdisc-xml.html) to test your own ODM file, or my supplied [example](/examples) odm file.
+Try a [live version](https://try2.info/cdisc-xml/cdisc-xml.html) to test your own ODM file, or my supplied [example](/examples/CDISC_ODM_1.3.2_example.xml) odm file.
 
 ## Installation <a name="Installation"/>
 Download the files from the [xsl_files](/xsl_files) folder and place them in the same folder on your web server.
