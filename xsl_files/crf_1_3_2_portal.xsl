@@ -67,8 +67,10 @@
     <html>
       <head>
         <title>
-          <xsl:call-template name="identifier"/> <xsl:value-of select="$spacechar"/>
-          <xsl:value-of select="$parmversion"/>  <xsl:value-of select="$spacechar"/>
+          <xsl:call-template name="identifier"/>
+          <xsl:text> </xsl:text>
+          <xsl:value-of select="$parmversion"/>
+          <xsl:text> </xsl:text>
           <xsl:value-of select="$parmstatus"/>
         </title>
         <meta http-equiv="Content-Type"    content="text/html;charset=utf-8"/>
@@ -122,9 +124,6 @@
               .desw     { width: 100%; }
             </xsl:otherwise>
           </xsl:choose>
-          <xsl:if test="$parmdisplay != 'spec'">
-              #internal { visibility: hidden; display: none; }
-          </xsl:if>
         </style>
       </head>
       <body>
@@ -228,7 +227,6 @@
       </tbody>
     </table>
     <xsl:call-template name="form_notes"/>
-    <p style="page-break-after: always;"/>
   </xsl:template>
 
   <!-- Non printable buttons to turn elements off and on.
@@ -236,13 +234,6 @@
   <xsl:template name="buttons">
     <table class="noprint">
       <tr>
-        <xsl:if test="$parmdisplay = 'spec'">
-          <td class="noborder">
-            <button onClick="for(var element of document.querySelectorAll('[id=internal]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';">
-              Implementation notes Off and On
-            </button>
-          </td>
-        </xsl:if>
         <xsl:if test="$parmcdash = '1' and .//odm:Alias[@Context='CDASH']">
           <td class="noborder">
             <button onClick="for(var element of document.querySelectorAll('[id=cdash]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';">
@@ -305,10 +296,16 @@
   <!-- Title Dates -->
   <xsl:template match="/odm:ODM">
     <xsl:if test="normalize-space(@CreationDateTime) != ''">
-      <p>Creation date: <xsl:value-of select="@CreationDateTime"/></p>
+      <p>
+        Creation date: <xsl:value-of select="substring-before(@CreationDateTime, 'T')"/>
+        time: <xsl:value-of select="substring-before(substring-after(@CreationDateTime, 'T'), '+')"/>
+      </p>
     </xsl:if>
     <xsl:if test="normalize-space(@AsOfDateTime) != ''">
-      <p>Valid from date: <xsl:value-of select="@AsOfDateTime"/></p>
+      <p>
+        Valid from date: <xsl:value-of select="substring-before(@AsOfDateTime, 'T')"/>
+        time: <xsl:value-of select="substring-before(substring-after(@AsOfDateTime, 'T'), '+')"/>
+      </p>
     </xsl:if>
     <h3><xsl:value-of select="$parmname"/></h3>
     <p>
@@ -363,12 +360,19 @@
             <xsl:variable name="visithead" select="@StudyEventOID"/>
             <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef[@OID=$visithead]">
               <th class="crfhead rotate">
+                <xsl:choose>
+                  <xsl:when test="$parmdisplay = 'book' or $parmdisplay = 'data'">
                 <span>
                   <a>
                     <xsl:attribute name="href">#<xsl:value-of select="$visithead"/></xsl:attribute>
                     <xsl:value-of select="@Name"/>
                   </a>
                 </span>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <span><xsl:value-of select="@Name"/></span>
+                  </xsl:otherwise>
+                </xsl:choose>
               </th>
             </xsl:for-each>
           </xsl:for-each>
@@ -386,7 +390,7 @@
                 <xsl:with-param name="oid"   select="@OID"/>
               </xsl:call-template>
               <xsl:if test="contains(odm:Alias[@Context='implementationNotes']/@Name, 'Repeating form')"> <!-- Implementation Notes. Candidate for deletion -->
-                <em class="check"> [<xsl:value-of select="$infinity"/>]</em>
+                <em class="check"> [<xsl:text>&#8734;</xsl:text>]</em> <!-- ∞ -->
               </xsl:if>
             </td>
             <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:Protocol/odm:StudyEventRef">
@@ -396,7 +400,7 @@
                 <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef[@OID=$visitbody]">
                   <xsl:for-each select="odm:FormRef">
                     <xsl:if test="$formrow = @FormOID">
-                      <xsl:value-of select="$checkmark"/>
+                      <xsl:text>&#10004;</xsl:text> <!-- ✔ -->
                     </xsl:if>
                   </xsl:for-each>
                 </xsl:for-each>
@@ -441,7 +445,9 @@
                   <xsl:call-template name="identifier"/>
                 </td>
                 <td class="plain small">
-                  <xsl:value-of select="$parmversion"/> <xsl:value-of select="$parmstatus"/>
+                  <xsl:value-of select="$parmversion"/>
+                  <xsl:text> </xsl:text>
+                  <xsl:value-of select="$parmstatus"/>
                 </td>
               </tr>
               <tr>
@@ -471,7 +477,7 @@
                 <xsl:value-of select="@Name"/>
               </span>
             </a>
-            <xsl:if test="normalize-space(odm:Alias[@Context='implementationNotes']/@Name) != ''"> <!-- Implementation Notes -->
+            <xsl:if test="$parmdisplay = 'spec' and normalize-space(odm:Alias[@Context='implementationNotes']/@Name) != ''"> <!-- Implementation Notes -->
               #
             </xsl:if>
           </div>
@@ -546,7 +552,7 @@
     <xsl:param name="minor"/>
     <xsl:param name="has_note"/>
     <xsl:value-of select="$major"/>.<xsl:value-of select="$minor"/>
-    <xsl:if test="$has_note">
+    <xsl:if test="$parmdisplay = 'spec' and $has_note">
       #
     </xsl:if>
   </xsl:template>
@@ -684,7 +690,7 @@
   <xsl:template name="annotation">
     <xsl:param name="domain"/>
     <xsl:call-template name="dataset">
-      <xsl:with-param name="dsn_domain"     select="$domain"/>
+      <xsl:with-param name="dsn_domain"     select="normalize-space($domain)"/>
       <xsl:with-param name="dsn_sdsvarname" select="normalize-space(@SDSVarName)"/>
       <xsl:with-param name="dsn_alias"      select="normalize-space(odm:Alias[@Context='SDTM']/@Name)"/>
     </xsl:call-template>
@@ -715,15 +721,15 @@
       <xsl:when test="$dsn_domain != ''">
         <xsl:value-of select="$dsn_domain"/><xsl:text>.</xsl:text>
       </xsl:when>
-      <!-- If the SDSVarName attribute for ItemDef has a value with a dot in the first 8 characters -->
+      <!-- If the SDSVarName attribute for ItemDef has a value with a dot in the first 9 characters -->
       <xsl:when test="$dsn_sdsvarname != ''">
-        <xsl:if test="contains(substring($dsn_sdsvarname, 1, 8), '.')">
+        <xsl:if test="contains(substring($dsn_sdsvarname, 1, 9), '.')">
           <xsl:value-of select="substring-before($dsn_sdsvarname, '.')"/><xsl:text>.</xsl:text>
         </xsl:if>
       </xsl:when>
-      <!-- If the SDTM Alias for ItemDef has a value with a dot in the first 8 characters -->
+      <!-- If the SDTM Alias for ItemDef has a value with a dot in the first 9 characters -->
       <xsl:when test="$dsn_alias != ''">
-        <xsl:if test="contains(substring($dsn_alias, 1, 8), '.')">
+        <xsl:if test="contains(substring($dsn_alias, 1, 9), '.')">
           <xsl:value-of select="substring-before($dsn_alias, '.')"/><xsl:text>.</xsl:text>
         </xsl:if>
       </xsl:when>
@@ -741,8 +747,8 @@
       <!-- If SDSVarName attribute has a value -->
       <xsl:when test="$var_sdsvarname != ''">
         <xsl:choose>
-          <!-- If SDSVarName attribute has a dot in the first 8 characters -->
-          <xsl:when test="contains(substring($var_sdsvarname, 1, 8), '.')">
+          <!-- If SDSVarName attribute has a dot in the first 9 characters -->
+          <xsl:when test="contains(substring($var_sdsvarname, 1, 9), '.')">
             <xsl:call-template name="define_anchor">
               <xsl:with-param name="target" select="substring-after($var_sdsvarname, '.')"/>
             </xsl:call-template>
@@ -760,14 +766,24 @@
       <!-- If SDTM Alias has a value -->
       <xsl:when test="$var_alias != ''">
         <xsl:choose>
-          <!-- If SDTM Alias for ItemDef has a value with a dot in the first 8 character, print the word after the dot -->
-          <xsl:when test="contains(substring($var_alias, 1, 8), '.')">
-            <xsl:call-template name="define_anchor">
-              <xsl:with-param name="target" select="substring-before(translate(substring-after($var_alias, '.'), ',.', '  '), ' ')"/>
-            </xsl:call-template>
-            <xsl:value-of select="substring-before(translate(substring-after($var_alias, '.'), ',.', '  '), ' ')"/>
+          <!-- If SDTM Alias for ItemDef has a value with a dot in the first 9 character, print the word after the dot -->
+          <xsl:when test="contains(substring($var_alias, 1, 9), '.')">
+            <xsl:choose>
+              <xsl:when test="contains($var_alias, ' ')">
+                <xsl:call-template name="define_anchor">
+                  <xsl:with-param name="target" select="substring-before(translate(substring-after($var_alias, '.'), ',.', '  '), ' ')"/>
+                </xsl:call-template>
+                <xsl:value-of select="substring-before(translate(substring-after($var_alias, '.'), ',.', '  '), ' ')"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:call-template name="define_anchor">
+                  <xsl:with-param name="target" select="substring-after($var_alias, '.')"/>
+                </xsl:call-template>
+                <xsl:value-of select="substring-after($var_alias, '.')"/>
+              </xsl:otherwise>
+            </xsl:choose>
           </xsl:when>
-          <!-- If SDTM Alias for ItemDef contains mote than one word -->
+          <!-- If SDTM Alias for ItemDef contains more than one word -->
           <xsl:when test="contains($var_alias, ' ')">
             <xsl:call-template name="define_anchor">
               <xsl:with-param name="target" select="substring-before(translate($var_alias, ',.', '  '), ' ')"/>
@@ -845,6 +861,7 @@
   <!-- Show design notes for each question identified by the question reference number -->
   <xsl:template name="question_notes">
     <!-- Collect an indicator for each question design note for this form -->
+    <xsl:if test="$parmdisplay = 'spec'">
     <xsl:variable name="qnotes">
       <xsl:for-each select="odm:ItemGroupRef">
         <xsl:variable name="groupkey1" select="@ItemGroupOID"/>
@@ -898,11 +915,12 @@
         </tbody>
       </table>
     </xsl:if>
+    </xsl:if>
   </xsl:template>
 
   <!-- Form Design Note, if any. Candidate for deletion -->
   <xsl:template name="form_notes">
-    <xsl:if test="normalize-space(odm:Alias[@Context='implementationNotes']/@Name) != ''"> <!-- Implementation Notes -->
+    <xsl:if test="$parmdisplay = 'spec' and normalize-space(odm:Alias[@Context='implementationNotes']/@Name) != ''"> <!-- Implementation Notes -->
       <p/>
       <table class="desw">
         <thead>

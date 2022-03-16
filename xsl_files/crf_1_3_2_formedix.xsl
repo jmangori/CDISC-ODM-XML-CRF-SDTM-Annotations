@@ -50,8 +50,8 @@
   <xsl:param name="parmstudy"/>                 <!-- Name of any study or standard defined in the ODM-XML file -->
   <xsl:param name="parmversion"/>               <!-- Version of the ODM-XML file -->
   <xsl:param name="parmstatus"/>                <!-- Status of the ODM-XML file -->
-  <xsl:param name="parmname"/>                  <!-- Company name for CRF book -->
-  <xsl:param name="parmlogo"/>                  <!-- Company logo for CRF book -->
+  <xsl:param name="parmname"/>                  <!-- Company name -->
+  <xsl:param name="parmlogo"/>                  <!-- Company logo -->
   <xsl:param name="parmlang"/>                  <!-- Language of TranslatedText (future) -->
   <xsl:param name="parmcdash" select="1"/>      <!-- Display CDASH annotation from Alias (if present) (0/1) -->
 
@@ -59,17 +59,14 @@
   <xsl:key name="by_StudyEventRef" match="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:Protocol/odm:StudyEventRef" use="@StudyEventOID"/>
   <xsl:key name="by_FormRef"       match="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef/odm:FormRef"  use="@FormOID"/>
 
-  <!-- Special characters in variables for enhanced readability -->
-  <xsl:variable name="checkmark" select="'&#10004;'"/> <!-- ✔ -->
-  <xsl:variable name="infinity"  select="'&#8734;'"/>  <!-- ∞ -->
-  <xsl:variable name="spacechar" select="'&#0160;'"/>  <!--   -->
-
   <xsl:template match="/">
     <html>
       <head>
         <title>
-          <xsl:call-template name="identifier"/> <xsl:value-of select="$spacechar"/>
-          <xsl:value-of select="$parmversion"/>  <xsl:value-of select="$spacechar"/>
+          <xsl:call-template name="identifier"/>
+          <xsl:text> </xsl:text>
+          <xsl:value-of select="$parmversion"/>
+          <xsl:text> </xsl:text>
           <xsl:value-of select="$parmstatus"/>
         </title>
         <meta http-equiv="Content-Type"    content="text/html;charset=utf-8"/>
@@ -235,11 +232,13 @@
     <table class="noprint">
       <tr>
         <xsl:if test="$parmdisplay = 'spec'">
+<!--
           <td class="noborder">
             <button onClick="for(var element of document.querySelectorAll('[id=anno]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';for(var element of document.querySelectorAll('[id=anno]')) element.style.borderRight = (element.style.borderRight == '0px') ? '1px solid Darkgrey' : '0px';for(var element of document.querySelectorAll('[id=anno]')) element.style.borderBottom = (element.style.borderBottom == '0px') ? '1px solid Darkgrey' : '0px';for(var element of document.querySelectorAll('[id=anno]')) element.style.borderTop = (element.style.borderTop == '0px') ? '1px solid Darkgrey' : '0px';">
               SDTM annotations Off and On
             </button>
           </td>
+-->
           <td class="noborder">
             <button onClick="for(var element of document.querySelectorAll('[id=internal]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';">
               LEO notes Off and On
@@ -308,10 +307,16 @@
   <!-- Title Dates -->
   <xsl:template match="/odm:ODM">
     <xsl:if test="normalize-space(@CreationDateTime) != ''">
-      <p>Creation date: <xsl:value-of select="@CreationDateTime"/></p>
+      <p>
+        Creation date: <xsl:value-of select="substring-before(@CreationDateTime, 'T')"/>
+        time: <xsl:value-of select="substring-before(substring-after(@CreationDateTime, 'T'), '+')"/>
+      </p>
     </xsl:if>
     <xsl:if test="normalize-space(@AsOfDateTime) != ''">
-      <p>Valid from date: <xsl:value-of select="@AsOfDateTime"/></p>
+      <p>
+        Valid from date: <xsl:value-of select="substring-before(@AsOfDateTime, 'T')"/>
+        time: <xsl:value-of select="substring-before(substring-after(@AsOfDateTime, 'T'), '+')"/>
+      </p>
     </xsl:if>
     <h3><xsl:value-of select="$parmname"/></h3>
     <p>
@@ -368,12 +373,19 @@
             <xsl:variable name="visithead" select="@StudyEventOID"/>
             <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef[@OID=$visithead]">
               <th class="crfhead rotate">
-                <span>
-                  <a>
-                    <xsl:attribute name="href">#<xsl:value-of select="$visithead"/></xsl:attribute>
-                    <xsl:value-of select="@Name"/>
-                  </a>
-                </span>
+                <xsl:choose>
+                  <xsl:when test="$parmdisplay = 'book' or $parmdisplay = 'data'">
+                    <span>
+                      <a>
+                        <xsl:attribute name="href">#<xsl:value-of select="$visithead"/></xsl:attribute>
+                        <xsl:value-of select="@Name"/>
+                      </a>
+                    </span>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <span><xsl:value-of select="@Name"/></span>
+                  </xsl:otherwise>
+                </xsl:choose>
               </th>
             </xsl:for-each>
           </xsl:for-each>
@@ -392,7 +404,7 @@
                 <xsl:with-param name="oid"   select="@OID"/>
               </xsl:call-template>
               <xsl:if test="contains(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value, 'Repeating form')"> <!-- Implementation Notes -->
-                <em class="check"> [<xsl:value-of select="$infinity"/>]</em>
+                <em class="check"> [<xsl:text>&#8734;</xsl:text>]</em> <!-- ∞ -->
               </xsl:if>
             </td>
             <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:Protocol/odm:StudyEventRef">
@@ -402,7 +414,7 @@
                 <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef[@OID=$visitbody]">
                   <xsl:for-each select="odm:FormRef">
                     <xsl:if test="$formrow = @FormOID">
-                      <xsl:value-of select="$checkmark"/>
+                      <xsl:text>&#10004;</xsl:text> <!-- ✔ -->
                     </xsl:if>
                   </xsl:for-each>
                 </xsl:for-each>
@@ -447,7 +459,9 @@
                   <xsl:call-template name="identifier"/>
                 </td>
                 <td class="plain small">
-                  <xsl:value-of select="$parmversion"/> <xsl:value-of select="$parmstatus"/>
+                  <xsl:value-of select="$parmversion"/>
+                  <xsl:text> </xsl:text>
+                  <xsl:value-of select="$parmstatus"/>
                 </td>
               </tr>
               <tr>
@@ -481,7 +495,7 @@
                 </xsl:call-template>
               </span>
             </a>
-            <xsl:if test="normalize-space(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value) != ''"> <!-- Implementation Notes -->
+            <xsl:if test="$parmdisplay = 'spec' and fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']"> <!-- Implementation Notes -->
               #
             </xsl:if>
           </div>
@@ -587,7 +601,7 @@
     <xsl:param name="minor"/>
     <xsl:param name="has_note"/>
     <xsl:value-of select="$major"/>.<xsl:value-of select="$minor"/>
-    <xsl:if test="$has_note">
+    <xsl:if test="$parmdisplay = 'spec' and $has_note">
       #
     </xsl:if>
   </xsl:template>
@@ -699,36 +713,123 @@
   <!-- Show the SDTM annotation to the question -->
   <xsl:template name="annotation">
     <xsl:param name="domain"/>
-      <xsl:choose>
-        <xsl:when test="normalize-space(odm:Alias[@Context='SDTM']/@Name) = '' and normalize-space(@SDSVarName) = ''">
-        </xsl:when>
-        <xsl:when test="normalize-space(odm:Alias[@Context='SDTM']/@Name) = ''">
-          <xsl:value-of select="$domain"/>.<xsl:call-template name="define_anchor">
-            <xsl:with-param name="target" select="@SDSVarName"/>
-          </xsl:call-template>
-          <xsl:value-of select="@SDSVarName"/>
-        </xsl:when>
-        <xsl:when test="normalize-space(@SDSVarName) = ''">
-          <xsl:call-template name="break_lines">
-            <xsl:with-param name="text" select="odm:Alias[@Context='SDTM']/@Name"/>
-          </xsl:call-template>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="$domain"/>.<xsl:call-template name="define_anchor">
-            <xsl:with-param name="target" select="@SDSVarName"/>
-          </xsl:call-template><xsl:value-of select="@SDSVarName"/>,
-          <br/>
-          <xsl:call-template name="words">
-            <xsl:with-param name="text_string" select="translate(odm:Alias[@Context='SDTM']/@Name, ',.=:- ', '¤¤¤¤¤¤')"/>
-          </xsl:call-template>
-          <xsl:call-template name="break_lines">
-            <xsl:with-param name="text" select="odm:Alias[@Context='SDTM']/@Name"/>
-          </xsl:call-template>
-        </xsl:otherwise>
-      </xsl:choose>
+    <xsl:call-template name="dataset">
+      <xsl:with-param name="dsn_domain"     select="normalize-space($domain)"/>
+      <xsl:with-param name="dsn_sdsvarname" select="normalize-space(@SDSVarName)"/>
+      <xsl:with-param name="dsn_alias"      select="normalize-space(odm:Alias[@Context='SDTM']/@Name)"/>
+    </xsl:call-template>
+    <xsl:call-template name="variable">
+      <xsl:with-param name="var_sdsvarname" select="normalize-space(@SDSVarName)"/>
+      <xsl:with-param name="var_alias"      select="normalize-space(odm:Alias[@Context='SDTM']/@Name)"/>
+    </xsl:call-template>
+    <!-- Add a comma and a line break if SDTM Alias contains additional annotations, then additional annotatoins -->
+    <xsl:if test="contains(translate(odm:Alias[@Context='SDTM']/@Name, ',=', '  '), ' ')">
+      <xsl:text>,</xsl:text>
+      <br/>
+      <xsl:call-template name="words">
+        <xsl:with-param name="text_string" select="translate(odm:Alias[@Context='SDTM']/@Name, ',.=:- ', '¤¤¤¤¤¤')"/>
+      </xsl:call-template>
+      <xsl:call-template name="break_lines">
+        <xsl:with-param name="lines" select="substring-after(odm:Alias[@Context='SDTM']/@Name, ',')"/>
+      </xsl:call-template>
+    </xsl:if>
   </xsl:template>
 
-  <!-- PDF anchor for define.xml -->
+  <!-- Decide and print dataset name as prefix to variable name delimited by a dot -->
+  <xsl:template name="dataset">
+    <xsl:param name="dsn_domain"/>
+    <xsl:param name="dsn_sdsvarname"/>
+    <xsl:param name="dsn_alias"/>
+    <xsl:choose>
+      <!-- If the Domain attribute for ItemgroupDef has a value -->
+      <xsl:when test="$dsn_domain != ''">
+        <xsl:value-of select="$dsn_domain"/><xsl:text>.</xsl:text>
+      </xsl:when>
+      <!-- If the SDSVarName attribute for ItemDef has a value with a dot in the first 9 characters -->
+      <xsl:when test="$dsn_sdsvarname != ''">
+        <xsl:if test="contains(substring($dsn_sdsvarname, 1, 9), '.')">
+          <xsl:value-of select="substring-before($dsn_sdsvarname, '.')"/><xsl:text>.</xsl:text>
+        </xsl:if>
+      </xsl:when>
+      <!-- If the SDTM Alias for ItemDef has a value with a dot in the first 9 characters -->
+      <xsl:when test="$dsn_alias != ''">
+        <xsl:if test="contains(substring($dsn_alias, 1, 9), '.')">
+          <xsl:value-of select="substring-before($dsn_alias, '.')"/><xsl:text>.</xsl:text>
+        </xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- If no dataset value, don't print it -->
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- Decide and print variable name, possibly first or second word of SDTM annotation -->
+  <xsl:template name="variable">
+    <xsl:param name="var_sdsvarname"/>
+    <xsl:param name="var_alias"/>
+    <xsl:choose>
+      <!-- If SDSVarName attribute has a value -->
+      <xsl:when test="$var_sdsvarname != ''">
+        <xsl:choose>
+          <!-- If SDSVarName attribute has a dot in the first 9 characters -->
+          <xsl:when test="contains(substring($var_sdsvarname, 1, 9), '.')">
+            <xsl:call-template name="define_anchor">
+              <xsl:with-param name="target" select="substring-after($var_sdsvarname, '.')"/>
+            </xsl:call-template>
+            <xsl:value-of select="substring-after($var_sdsvarname, '.')"/>
+          </xsl:when>
+          <!-- Else just print it unaltered -->
+          <xsl:otherwise>
+            <xsl:call-template name="define_anchor">
+              <xsl:with-param name="target" select="@var_sdsvarname"/>
+            </xsl:call-template>
+            <xsl:value-of select="$var_sdsvarname"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
+      <!-- If SDTM Alias has a value -->
+      <xsl:when test="$var_alias != ''">
+        <xsl:choose>
+          <!-- If SDTM Alias for ItemDef has a value with a dot in the first 9 character, print the word after the dot -->
+          <xsl:when test="contains(substring($var_alias, 1, 9), '.')">
+            <xsl:choose>
+              <xsl:when test="contains($var_alias, ' ')">
+                <xsl:call-template name="define_anchor">
+                  <xsl:with-param name="target" select="substring-before(translate(substring-after($var_alias, '.'), ',.', '  '), ' ')"/>
+                </xsl:call-template>
+                <xsl:value-of select="substring-before(translate(substring-after($var_alias, '.'), ',.', '  '), ' ')"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:call-template name="define_anchor">
+                  <xsl:with-param name="target" select="substring-after($var_alias, '.')"/>
+                </xsl:call-template>
+                <xsl:value-of select="substring-after($var_alias, '.')"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:when>
+          <!-- If SDTM Alias for ItemDef contains more than one word -->
+          <xsl:when test="contains($var_alias, ' ')">
+            <xsl:call-template name="define_anchor">
+              <xsl:with-param name="target" select="substring-before(translate($var_alias, ',.', '  '), ' ')"/>
+            </xsl:call-template>
+            <xsl:value-of select="substring-before(translate($var_alias, ',.', '  '), ' ')"/>
+          </xsl:when>
+          <!-- Else just print it unaltered -->
+          <xsl:otherwise>
+            <xsl:call-template name="define_anchor">
+              <xsl:with-param name="target" select="$var_alias"/>
+            </xsl:call-template>
+            <xsl:value-of select="$var_alias"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- If no variable value, don't print it -->
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- PDF anchor for define.xml. Also create a link to the target to preserve the target -->
   <xsl:template name="define_anchor">
     <xsl:param name="target"/>
     <a>
@@ -745,21 +846,21 @@
 
   <!-- Replace occurences of '. ' (period blank) with HTML line break -->
   <xsl:template name="break_lines">
-    <xsl:param name="text"/>
+    <xsl:param name="lines"/>
     <xsl:choose>
-      <xsl:when test="$text = ''">
+      <xsl:when test="$lines = ''">
         <!-- Prevent this routine from hanging -->
-        <xsl:value-of select="$text"/>
+        <xsl:value-of select="$lines"/>
       </xsl:when>
-      <xsl:when test="contains($text, '. ')">
-        <xsl:value-of select="substring-before($text, '. ')"/>.
+      <xsl:when test="contains($lines, '. ')">
+        <xsl:value-of select="substring-before($lines, '. ')"/>.
         <br/>
         <xsl:call-template name="break_lines">
-          <xsl:with-param name="text" select="substring-after($text, '. ')"/>
+          <xsl:with-param name="lines" select="substring-after($lines, '. ')"/>
         </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:value-of select="$text"/>
+        <xsl:value-of select="$lines"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -784,64 +885,66 @@
   <!-- Show design notes for each question identified by the question reference number -->
   <xsl:template name="question_notes">
     <!-- Collect an indicator for each question design note for this form -->
-    <xsl:variable name="qnotes">
-      <xsl:for-each select="odm:ItemGroupRef">
-        <xsl:variable name="groupkey1" select="@ItemGroupOID"/>
-        <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemGroupDef[@OID=$groupkey1]">
-          <xsl:for-each select="odm:ItemRef">
-            <xsl:variable name="itemkey1" select="@ItemOID"/>
-            <xsl:if test="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemDef[@OID=$itemkey1]/fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value"> <!-- Implementation Notes -->
-              Design note
-            </xsl:if>
+    <xsl:if test="$parmdisplay = 'spec'">
+      <xsl:variable name="qnotes">
+        <xsl:for-each select="odm:ItemGroupRef">
+          <xsl:variable name="groupkey1" select="@ItemGroupOID"/>
+          <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemGroupDef[@OID=$groupkey1]">
+            <xsl:for-each select="odm:ItemRef">
+              <xsl:variable name="itemkey1" select="@ItemOID"/>
+              <xsl:if test="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemDef[@OID=$itemkey1]/fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value"> <!-- Implementation Notes -->
+                Design note
+              </xsl:if>
+            </xsl:for-each>
           </xsl:for-each>
         </xsl:for-each>
-      </xsl:for-each>
-    </xsl:variable>
+      </xsl:variable>
 
-    <!-- Question Design Note(s), if any -->
-    <xsl:if test="normalize-space($qnotes) != ''">
-      <p/>
-      <table class="desw">
-        <thead>
-          <tr><th class="left" colspan="2">Question design note(s)</th></tr>
-        </thead>
-        <tbody>
-          <tr><td class="seqw">Question</td><td>Note</td></tr>
-          <xsl:for-each select="odm:ItemGroupRef">
-            <xsl:sort select="@OrderNumber" data-type="number"/>
-            <xsl:variable name="groupnote" select="@ItemGroupOID"/>
-            <xsl:variable name="gnumnote"  select="@OrderNumber"/>
-            <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemGroupDef[@OID=$groupnote]">
-              <xsl:for-each select="odm:ItemRef">
-                <xsl:sort select="@OrderNumber" data-type="number"/>
-                <xsl:variable name="itemnote" select="@ItemOID"/>
-                <xsl:variable name="inumnote" select="@OrderNumber"/>
-                <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemDef[@OID=$itemnote]">
-                  <xsl:variable name="questionnote" select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value"/> <!-- Implementation Notes -->
-                  <xsl:if test="normalize-space($questionnote) != ''">
-                    <tr>
-                      <td class="seqw">
-                        <xsl:call-template name="sequence_number">
-                          <xsl:with-param name="major"    select="$gnumnote"/>
-                          <xsl:with-param name="minor"    select="$inumnote"/>
-                          <xsl:with-param name="has_note" select="false"/>
-                        </xsl:call-template>
-                      </td>
-                      <td class="note"><xsl:value-of select="$questionnote"/></td>
-                    </tr>
-                  </xsl:if>
+      <!-- Question Design Note(s), if any -->
+      <xsl:if test="normalize-space($qnotes) != ''">
+        <p/>
+        <table class="desw">
+          <thead>
+            <tr><th class="left" colspan="2">Question design note(s)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="seqw">Question</td><td>Note</td></tr>
+            <xsl:for-each select="odm:ItemGroupRef">
+              <xsl:sort select="@OrderNumber" data-type="number"/>
+              <xsl:variable name="groupnote" select="@ItemGroupOID"/>
+              <xsl:variable name="gnumnote"  select="@OrderNumber"/>
+              <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemGroupDef[@OID=$groupnote]">
+                <xsl:for-each select="odm:ItemRef">
+                  <xsl:sort select="@OrderNumber" data-type="number"/>
+                  <xsl:variable name="itemnote" select="@ItemOID"/>
+                  <xsl:variable name="inumnote" select="@OrderNumber"/>
+                  <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemDef[@OID=$itemnote]">
+                    <xsl:variable name="questionnote" select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value"/> <!-- Implementation Notes -->
+                    <xsl:if test="normalize-space($questionnote) != ''">
+                      <tr>
+                        <td class="seqw">
+                          <xsl:call-template name="sequence_number">
+                            <xsl:with-param name="major"    select="$gnumnote"/>
+                            <xsl:with-param name="minor"    select="$inumnote"/>
+                            <xsl:with-param name="has_note" select="false"/>
+                          </xsl:call-template>
+                        </td>
+                        <td class="note"><xsl:value-of select="$questionnote"/></td>
+                      </tr>
+                    </xsl:if>
+                  </xsl:for-each>
                 </xsl:for-each>
               </xsl:for-each>
             </xsl:for-each>
-          </xsl:for-each>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </xsl:if>
     </xsl:if>
   </xsl:template>
 
   <!-- Form Design Note, if any -->
   <xsl:template name="form_notes">
-    <xsl:if test="normalize-space(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value) != ''"> <!-- Implementation Notes -->
+    <xsl:if test="$parmdisplay = 'spec' and fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']"> <!-- Implementation Notes -->
       <p/>
       <table class="desw">
         <thead>
