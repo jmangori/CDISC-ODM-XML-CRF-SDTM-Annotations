@@ -41,6 +41,7 @@
       .row:after   { content: ""; display: table; clear: both; }
       .greyed      { color: Grey; }
       .defineparms { color: LightGrey; }
+      .indent      { list-style-type: none; padding-left: 1.4em; }
     </style>
     <script>
       const urlParams   = new URLSearchParams(window.location.search);
@@ -320,7 +321,12 @@
           <div class="column right crfparms">
             <input type="radio" id="spec" name="display" class="radio crfparms" value="spec" checked="checked"/>
             <label for="spec">SDTM annotated CRF specification</label>
-            <br>
+            <ul class="indent">
+              <li>
+                <input type="checkbox" id="parmcdash" class="crfparms"/>
+                <label for="parmcdash">Display CDASH annotations</label>
+              </li>
+            </ul>
             <input type="radio" id="acrf" name="display" class="radio crfparms" value="acrf"/>
             <label for="acrf">SDTM annotated CRF (acrf)</label>
             <br>
@@ -329,13 +335,6 @@
             <br>
             <input type="radio" id="book" name="display" class="radio crfparms" value="book"/>
             <label for="book">CRF book (forms per visit)</label>
-          </div>
-          <div class="column left crfparms">
-            Display CDASH annotations
-          </div>
-          <div class="column right crfparms">
-            <input type="checkbox" id="parmcdash" class="crfparms"/>
-            <label for="parmcdash">Display CDASH annotations</label>
           </div>
           <div class="column left crfparms">
             Company Name
