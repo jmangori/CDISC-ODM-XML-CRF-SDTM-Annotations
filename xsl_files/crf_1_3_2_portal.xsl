@@ -234,7 +234,7 @@
   <xsl:template name="buttons">
     <table class="noprint">
       <tr>
-        <xsl:if test="$parmcdash = '1' and .//odm:Alias[@Context='CDASH']">
+        <xsl:if test="$parmdisplay = 'spec' and $parmcdash = '1' and .//odm:Alias[@Context='CDASH']">
           <td class="noborder">
             <button onClick="for(var element of document.querySelectorAll('[id=cdash]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';">
               CDASH annotations Off and On
@@ -674,7 +674,7 @@
         </input>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:if test="$parmcdash = '1' and odm:Alias[@Context='CDASH']">
+    <xsl:if test="$parmdisplay = 'spec' and $parmcdash = '1' and odm:Alias[@Context='CDASH']">
       <table class="cdash left" id="cdash">
         <tr>
           <td>
@@ -705,9 +705,18 @@
       <xsl:call-template name="words">
         <xsl:with-param name="text_string" select="translate(odm:Alias[@Context='SDTM']/@Name, ',.=:- ', '¤¤¤¤¤¤')"/>
       </xsl:call-template>
-      <xsl:call-template name="break_lines">
-        <xsl:with-param name="lines" select="substring-after(odm:Alias[@Context='SDTM']/@Name, ',')"/>
-      </xsl:call-template>
+      <xsl:choose>
+        <xsl:when test="normalize-space(@SDSVarName) = ''">
+          <xsl:call-template name="break_lines">
+            <xsl:with-param name="lines" select="substring-after(odm:Alias[@Context='SDTM']/@Name, ',')"/>
+          </xsl:call-template>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="break_lines">
+            <xsl:with-param name="lines" select="odm:Alias[@Context='SDTM']/@Name"/>
+          </xsl:call-template>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:if>
   </xsl:template>
 
