@@ -37,9 +37,9 @@
                 version="4.0"/>
 
   <!-- Parameters passed from outside. Default display mode is a blank CRF:
+       * spec: CRF specifcation with selection buttons, LEO notes, SDTM annotations (default)
        * bcrf: Blank CRF for submission (default)
        * acrf: SDTM annotated CRF for submission with SDTM annotations
-       * spec: CRF specifcation with selection buttons, implementation notes, SDTM annotations
        * book: Complete CRF book with forms repeated by visit
        * data: Final CRF ready for data collection (future)
        Standard name, version, and status are derived from the XML file name externally
@@ -57,11 +57,6 @@
   <!-- Keys to sort forms in the order of visit schedule, if present -->
   <xsl:key name="by_StudyEventRef" match="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:Protocol/odm:StudyEventRef" use="@StudyEventOID"/>
   <xsl:key name="by_FormRef"       match="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef/odm:FormRef"  use="@FormOID"/>
-
-  <!-- Special characters in variables for enhanced readability -->
-  <xsl:variable name="checkmark" select="'&#10004;'"/> <!-- ✔ -->
-  <xsl:variable name="infinity"  select="'&#8734;'"/>  <!-- ∞ -->
-  <xsl:variable name="spacechar" select="'&#0160;'"/>  <!--   -->
 
   <xsl:template match="/">
     <html>
@@ -110,7 +105,7 @@
           .seqw         { width: 5em !important; }
           .cdash        { background-color: lightblue; padding: 2px; color: Blue; border: 2px double Blue !important; }
           <xsl:choose>
-            <xsl:when test="$parmdisplay = 'spec' or $parmdisplay = 'acrf'">
+            <xsl:when test="$parmdisplay = 'spec' or $parmdisplay = 'acrf' or normalize-space($parmdisplay) = ''">
               .anno     { background-color: LightYellow; }
               .quew     { width: 30%; }
               .answ     { width: 25%; }
@@ -137,12 +132,10 @@
         <p style="page-break-before: always; margin-top: 0;"/>
 
         <!-- Either Toc or Visit Matrix for navigation -->
-        <xsl:if test="not(/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef)">
-          <xsl:call-template name="toc"/>
-        </xsl:if>
         <xsl:if test="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef">
           <xsl:call-template name="visit_matrix"/>
         </xsl:if>
+        <xsl:call-template name="toc"/>
 
         <xsl:choose>
           <xsl:when test="$parmdisplay = 'book' or $parmdisplay = 'data'">
@@ -234,7 +227,7 @@
   <xsl:template name="buttons">
     <table class="noprint">
       <tr>
-        <xsl:if test="$parmdisplay = 'spec' and $parmcdash = '1' and .//odm:Alias[@Context='CDASH']">
+        <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and $parmcdash = '1' and .//odm:Alias[@Context='CDASH']">
           <td class="noborder">
             <button onClick="for(var element of document.querySelectorAll('[id=cdash]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';">
               CDASH annotations Off and On
@@ -346,7 +339,7 @@
 
   <!-- Vist Matrix -->
   <xsl:template name="visit_matrix">
-    <table class="center landscape">
+    <table class="center">
       <thead>
         <tr>
           <td class="noborder" colspan="99">
@@ -477,7 +470,8 @@
                 <xsl:value-of select="@Name"/>
               </span>
             </a>
-            <xsl:if test="$parmdisplay = 'spec' and normalize-space(odm:Alias[@Context='implementationNotes']/@Name) != ''"> <!-- Implementation Notes -->
+            <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and
+                           normalize-space(odm:Alias[@Context='implementationNotes']/@Name) != ''"> <!-- Implementation Notes -->
               #
             </xsl:if>
           </div>
@@ -502,7 +496,7 @@
         <th class="crfhead seqw left">Ref</th>
         <th class="crfhead quew">CRF Question</th>
         <th class="crfhead answ">Data Collected</th>
-        <xsl:if test="$parmdisplay = 'spec' or $parmdisplay = 'acrf'">
+        <xsl:if test="$parmdisplay = 'spec' or normalize-space($parmdisplay) = '' or $parmdisplay = 'acrf'">
           <th class="crfhead annw" id="anno">SDTM Annotations</th>
         </xsl:if>
       </tr>
@@ -552,7 +546,7 @@
     <xsl:param name="minor"/>
     <xsl:param name="has_note"/>
     <xsl:value-of select="$major"/>.<xsl:value-of select="$minor"/>
-    <xsl:if test="$parmdisplay = 'spec' and $has_note">
+    <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and $has_note">
       #
     </xsl:if>
   </xsl:template>
@@ -570,10 +564,10 @@
         <xsl:value-of select="@Name"/>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:if test="$parmdisplay = 'spec' and odm:Alias[@Context='prompt']">
+    <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and odm:Alias[@Context='prompt']">
       <xsl:value-of select="odm:Alias[@Context='prompt']"/>
     </xsl:if>
-    <xsl:if test="$parmdisplay = 'spec' and odm:Alias[@Context='prompt']">
+    <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and odm:Alias[@Context='prompt']">
       <p class="left">
         PROMPT:
         <xsl:value-of select="odm:Alias[@Context='prompt']/@Name"/>
@@ -674,7 +668,7 @@
         </input>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:if test="$parmdisplay = 'spec' and $parmcdash = '1' and odm:Alias[@Context='CDASH']">
+    <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and $parmcdash = '1' and odm:Alias[@Context='CDASH']">
       <table class="cdash left" id="cdash">
         <tr>
           <td>
@@ -870,7 +864,7 @@
   <!-- Show design notes for each question identified by the question reference number -->
   <xsl:template name="question_notes">
     <!-- Collect an indicator for each question design note for this form -->
-    <xsl:if test="$parmdisplay = 'spec'">
+    <xsl:if test="$parmdisplay = 'spec' or normalize-space($parmdisplay) = ''">
     <xsl:variable name="qnotes">
       <xsl:for-each select="odm:ItemGroupRef">
         <xsl:variable name="groupkey1" select="@ItemGroupOID"/>
@@ -929,7 +923,8 @@
 
   <!-- Form Design Note, if any. Candidate for deletion -->
   <xsl:template name="form_notes">
-    <xsl:if test="$parmdisplay = 'spec' and normalize-space(odm:Alias[@Context='implementationNotes']/@Name) != ''"> <!-- Implementation Notes -->
+    <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and
+                    normalize-space(odm:Alias[@Context='implementationNotes']/@Name) != ''"> <!-- Implementation Notes -->
       <p/>
       <table class="desw">
         <thead>

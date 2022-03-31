@@ -38,9 +38,9 @@
                 version="4.0"/>
 
   <!-- Parameters passed from outside. Default display mode is a blank CRF:
+       * spec: CRF specifcation with selection buttons, LEO notes, SDTM annotations (default)
        * bcrf: Blank CRF for submission (default)
        * acrf: SDTM annotated CRF for submission with SDTM annotations
-       * spec: CRF specifcation with selection buttons, LEO notes, SDTM annotations
        * book: Complete CRF book with forms repeated by visit
        * data: Final CRF ready for data collection (future)
        Standard name, version, and status are derived from the XML file name externally
@@ -86,7 +86,7 @@
           a:visited     { color: black; background-color: transparent; text-decoration: none; }
           a:hover       { color: blue;  background-color: transparent; text-decoration: underline; }
           .nohover      { pointer-events: none; }
-          @media print  { .noprint { display: none; } thead {display: table-header-group; } }
+          @media print  { .noprint { display: none; } thead { display: table-header-group; } }
           .noprint      { position: fixed; bottom: 0.5em; right: 0.5em; z-index: 99; }
           .rotate span  { writing-mode: vertical-rl; transform: rotate(180deg); }
           .noborder     { border: none; }
@@ -106,7 +106,7 @@
           .seqw         { width: 5em !important; }
           .cdash        { background-color: lightblue; padding: 2px; color: Blue; border: 2px double Blue !important; }
           <xsl:choose>
-            <xsl:when test="$parmdisplay = 'spec' or $parmdisplay = 'acrf'">
+            <xsl:when test="$parmdisplay = 'spec' or $parmdisplay = 'acrf' or normalize-space($parmdisplay) = ''">
               .anno     { background-color: LightYellow; }
               .quew     { width: 30%; }
               .answ     { width: 25%; }
@@ -120,7 +120,7 @@
               .desw     { width: 100%; }
             </xsl:otherwise>
           </xsl:choose>
-          <xsl:if test="$parmdisplay != 'spec'">
+          <xsl:if test="$parmdisplay != 'spec' and normalize-space($parmdisplay) != ''">
               #internal { visibility: hidden; display: none; }
           </xsl:if>
         </style>
@@ -133,12 +133,10 @@
         <p style="page-break-before: always; margin-top: 0;"/>
 
         <!-- Either Toc or Visit Matrix for navigation -->
-        <xsl:if test="not(/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef)">
-          <xsl:call-template name="toc"/>
-        </xsl:if>
         <xsl:if test="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef">
           <xsl:call-template name="visit_matrix"/>
         </xsl:if>
+        <xsl:call-template name="toc"/>
 
         <xsl:choose>
           <xsl:when test="$parmdisplay = 'book' or $parmdisplay = 'data'">
@@ -231,7 +229,7 @@
   <xsl:template name="buttons">
     <table class="noprint">
       <tr>
-        <xsl:if test="$parmdisplay = 'spec'">
+        <xsl:if test="$parmdisplay = 'spec' or normalize-space($parmdisplay) = ''">
 <!--
           <td class="noborder">
             <button onClick="for(var element of document.querySelectorAll('[id=anno]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';for(var element of document.querySelectorAll('[id=anno]')) element.style.borderRight = (element.style.borderRight == '0px') ? '1px solid Darkgrey' : '0px';for(var element of document.querySelectorAll('[id=anno]')) element.style.borderBottom = (element.style.borderBottom == '0px') ? '1px solid Darkgrey' : '0px';for(var element of document.querySelectorAll('[id=anno]')) element.style.borderTop = (element.style.borderTop == '0px') ? '1px solid Darkgrey' : '0px';">
@@ -245,7 +243,7 @@
             </button>
           </td>
         </xsl:if>
-        <xsl:if test="$parmdisplay = 'spec' and $parmcdash = '1' and .//odm:Alias[@Context='CDASH']">
+        <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) != '') and $parmcdash = '1' and .//odm:Alias[@Context='CDASH']">
           <td class="noborder">
             <button onClick="for(var element of document.querySelectorAll('[id=cdash]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';">
               CDASH annotations Off and On
@@ -264,7 +262,7 @@
   <!-- Identifier for title and name -->
   <xsl:template name="identifier">
     <xsl:choose>
-      <xsl:when test="normalize-space(/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyName) = 'Not applicable' and normalize-space($parmstudy) != ' '">
+      <xsl:when test="normalize-space(/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyName) = 'Not applicable' and normalize-space($parmstudy) != ''">
         <xsl:value-of select="$parmstudy"/>
       </xsl:when>
       <xsl:when test="normalize-space(/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyName) = 'Not applicable'">
@@ -359,7 +357,7 @@
 
   <!-- Vist Matrix -->
   <xsl:template name="visit_matrix">
-    <table class="center landscape">
+    <table class="center">
       <thead>
         <tr>
           <td class="noborder" colspan="99">
@@ -495,7 +493,8 @@
                 </xsl:call-template>
               </span>
             </a>
-            <xsl:if test="$parmdisplay = 'spec' and fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']"> <!-- Implementation Notes -->
+            <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and 
+                           fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']"> <!-- Implementation Notes -->
               #
             </xsl:if>
           </div>
@@ -520,7 +519,7 @@
         <th class="crfhead seqw left">Ref</th>
         <th class="crfhead quew">CRF Question</th>
         <th class="crfhead answ">Data Collected</th>
-        <xsl:if test="$parmdisplay = 'spec' or $parmdisplay = 'acrf'">
+        <xsl:if test="$parmdisplay = 'spec' or normalize-space($parmdisplay) = '' or $parmdisplay = 'acrf'">
           <th class="crfhead annw" id="anno">SDTM Annotations</th>
         </xsl:if>
       </tr>
@@ -564,7 +563,7 @@
     <xsl:param name="name"/>
     <xsl:choose>
       <xsl:when test="normalize-space($title) != '' and normalize-space($title) != normalize-space($name)">
-        <xsl:if test="$parmdisplay = 'spec'">
+        <xsl:if test="$parmdisplay = 'spec' or normalize-space($parmdisplay) = ''">
           <span id="internal">
             <xsl:value-of select="$name"/>
           </span>
@@ -601,7 +600,7 @@
     <xsl:param name="minor"/>
     <xsl:param name="has_note"/>
     <xsl:value-of select="$major"/>.<xsl:value-of select="$minor"/>
-    <xsl:if test="$parmdisplay = 'spec' and $has_note">
+    <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and $has_note">
       #
     </xsl:if>
   </xsl:template>
@@ -698,7 +697,7 @@
         </input>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:if test="$parmdisplay = 'spec' and $parmcdash = '1' and odm:Alias[@Context='CDASH']">
+    <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and $parmcdash = '1' and odm:Alias[@Context='CDASH']">
       <table class="cdash left" id="cdash">
         <tr>
           <td>
@@ -894,7 +893,7 @@
   <!-- Show design notes for each question identified by the question reference number -->
   <xsl:template name="question_notes">
     <!-- Collect an indicator for each question design note for this form -->
-    <xsl:if test="$parmdisplay = 'spec'">
+    <xsl:if test="$parmdisplay = 'spec' or normalize-space($parmdisplay) = ''">
       <xsl:variable name="qnotes">
         <xsl:for-each select="odm:ItemGroupRef">
           <xsl:variable name="groupkey1" select="@ItemGroupOID"/>
@@ -953,7 +952,8 @@
 
   <!-- Form Design Note, if any -->
   <xsl:template name="form_notes">
-    <xsl:if test="$parmdisplay = 'spec' and fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']"> <!-- Implementation Notes -->
+    <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and
+                   fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']"> <!-- Implementation Notes -->
       <p/>
       <table class="desw">
         <thead>
