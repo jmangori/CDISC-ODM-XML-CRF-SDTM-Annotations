@@ -198,7 +198,9 @@
                     <xsl:call-template name="sequence_number">
                       <xsl:with-param name="major"    select="$gnum"/>
                       <xsl:with-param name="minor"    select="$inum"/>
-                      <xsl:with-param name="has_note" select="normalize-space(odm:Alias[@Context='implementationNotes']/@Name) != ''"/> <!-- Implementation Notes -->
+                      <xsl:with-param name="has_note" select="normalize-space(
+                        odm:Alias[@Context='implementationNotes']/@Name)
+                          != ''"/> <!-- Implementation Notes -->
                     </xsl:call-template>
                   </td>
                   <td class="quew">
@@ -382,7 +384,9 @@
                 <xsl:with-param name="name"  select="@Name"/>
                 <xsl:with-param name="oid"   select="@OID"/>
               </xsl:call-template>
-              <xsl:if test="contains(odm:Alias[@Context='implementationNotes']/@Name, 'Repeating form')"> <!-- Implementation Notes. Candidate for deletion -->
+              <xsl:if test="contains(
+                odm:Alias[@Context='implementationNotes']/@Name,
+                  'Repeating form')"> <!-- Implementation Notes. Candidate for deletion -->
                 <em class="check"> [<xsl:text>&#8734;</xsl:text>]</em> <!-- ∞ -->
               </xsl:if>
             </td>
@@ -471,16 +475,21 @@
               </span>
             </a>
             <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and
-                           normalize-space(odm:Alias[@Context='implementationNotes']/@Name) != ''"> <!-- Implementation Notes -->
+                             normalize-space(odm:Alias[@Context='implementationNotes']/@Name) != ''">
+                               <!-- Implementation Notes -->
               #
             </xsl:if>
           </div>
         </th>
       </tr>
-      <xsl:if test="normalize-space(odm:Alias[@Context='completionInstructions']/@Name) != ''"> <!-- Completion Instructions. Candidate for deletion -->
+      <xsl:if test="normalize-space(
+        odm:Alias[@Context='completionInstructions']/@Name)
+          != ''"> <!-- Completion Instructions. Candidate for deletion -->
         <tr>
           <th colspan="4" class="noborder">
-            <xsl:apply-templates select="odm:Alias[@Context='completionInstructions']/@Name"/> <!-- Completion Instructions. Candidate for deletion -->
+            <xsl:apply-templates select=
+              "odm:Alias[@Context='completionInstructions']/@Name"/>
+                <!-- Completion Instructions. Candidate for deletion -->
           </th>
         </tr>
       </xsl:if>
@@ -693,7 +702,7 @@
       <xsl:with-param name="var_alias"      select="normalize-space(odm:Alias[@Context='SDTM']/@Name)"/>
     </xsl:call-template>
     <!-- Add a comma and a line break if SDTM Alias contains additional annotations, then additional annotatoins -->
-    <xsl:if test="contains(translate(odm:Alias[@Context='SDTM']/@Name, ',=', '  '), ' ')">
+    <xsl:if test="contains(translate(odm:Alias[@Context='SDTM']/@Name, ',.=:-', '¤¤¤¤¤'), '¤')">
       <xsl:text>,</xsl:text>
       <br/>
       <xsl:call-template name="words">
@@ -786,8 +795,8 @@
               </xsl:otherwise>
             </xsl:choose>
           </xsl:when>
-          <!-- If SDTM Alias for ItemDef contains more than one word -->
-          <xsl:when test="contains($var_alias, ' ')">
+          <!-- If SDTM Alias for ItemDef contains additional annotation -->
+          <xsl:when test="contains(translate(odm:Alias[@Context='SDTM']/@Name, ',.=:-', '¤¤¤¤¤'), '¤')">
             <xsl:call-template name="define_anchor">
               <xsl:with-param name="target" select="substring-before(translate($var_alias, ',.', '  '), ' ')"/>
             </xsl:call-template>

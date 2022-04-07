@@ -200,7 +200,9 @@
                     <xsl:call-template name="sequence_number">
                       <xsl:with-param name="major"    select="$gnum"/>
                       <xsl:with-param name="minor"    select="$inum"/>
-                      <xsl:with-param name="has_note" select="normalize-space(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value) != ''"/> <!-- Implementation Notes -->
+                      <xsl:with-param name="has_note" select="normalize-space(
+                        fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value)
+                          != ''"/> <!-- Implementation Notes -->
                     </xsl:call-template>
                   </td>
                   <td class="quew">
@@ -401,7 +403,9 @@
                 <xsl:with-param name="name"  select="@Name"/>
                 <xsl:with-param name="oid"   select="@OID"/>
               </xsl:call-template>
-              <xsl:if test="contains(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value, 'Repeating form')"> <!-- Implementation Notes -->
+              <xsl:if test="contains(
+                fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']/fdx:Value,
+                  'Repeating form')"> <!-- Implementation Notes -->
                 <em class="check"> [<xsl:text>&#8734;</xsl:text>]</em> <!-- ∞ -->
               </xsl:if>
             </td>
@@ -493,17 +497,22 @@
                 </xsl:call-template>
               </span>
             </a>
-            <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and 
-                           fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']"> <!-- Implementation Notes -->
+            <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and
+                             fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'DesignNotes']">
+                               <!-- Implementation Notes -->
               #
             </xsl:if>
           </div>
         </th>
       </tr>
-      <xsl:if test="normalize-space(fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'NotesTop']/fdx:Value) != ''"> <!-- Completion Instructions -->
+      <xsl:if test="normalize-space(
+        fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'NotesTop']/fdx:Value)
+          != ''"> <!-- Completion Instructions -->
         <tr>
           <th colspan="4" class="noborder">
-            <xsl:apply-templates select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'NotesTop']"/> <!-- Completion Instructions -->
+            <xsl:apply-templates select=
+              "fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'NotesTop']"/>
+                <!-- Completion Instructions -->
           </th>
         </tr>
       </xsl:if>
@@ -589,7 +598,6 @@
         <td class="note" colspan="2">
           <xsl:value-of select="fdx:CustomAttributeSet/fdx:CustomAttribute[@Name = 'NotesAbove']/fdx:Value"/> <!-- Completion Instructions -->
         </td>
-        <td id="anno" class="annw anno">NOT SUBMITTED</td>
       </tr>
     </xsl:if>
   </xsl:template>
@@ -722,7 +730,7 @@
       <xsl:with-param name="var_alias"      select="normalize-space(odm:Alias[@Context='SDTM']/@Name)"/>
     </xsl:call-template>
     <!-- Add a comma and a line break if SDTM Alias contains additional annotations, then additional annotatoins -->
-    <xsl:if test="contains(translate(odm:Alias[@Context='SDTM']/@Name, ',=', '  '), ' ')">
+    <xsl:if test="contains(translate(odm:Alias[@Context='SDTM']/@Name, ',.=:-', '¤¤¤¤¤'), '¤')">
       <xsl:text>,</xsl:text>
       <br/>
       <xsl:call-template name="words">
@@ -815,8 +823,8 @@
               </xsl:otherwise>
             </xsl:choose>
           </xsl:when>
-          <!-- If SDTM Alias for ItemDef contains more than one word -->
-          <xsl:when test="contains($var_alias, ' ')">
+          <!-- If SDTM Alias for ItemDef contains additional annotation -->
+          <xsl:when test="contains(translate(odm:Alias[@Context='SDTM']/@Name, ',.=:-', '¤¤¤¤¤'), '¤')">
             <xsl:call-template name="define_anchor">
               <xsl:with-param name="target" select="substring-before(translate($var_alias, ',.', '  '), ' ')"/>
             </xsl:call-template>
