@@ -1,0 +1,2256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="define2-0-0.xsl"?><ODM xmlns="http://www.cdisc.org/ns/odm/v1.3"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:def="http://www.cdisc.org/ns/def/v2.0"
+     xmlns:arm="http://www.cdisc.org/ns/arm/v1.0"
+     FileOID="SDTM 3.2"
+     FileType="Snapshot"
+     CreationDateTime="2022-04-08T15:54:37+02:00"
+     Originator="Formedix"
+     SourceSystem="Dataset Designer"
+     SourceSystemVersion="5.10.0"
+     ODMVersion="1.3.2">
+   <Study OID="Define.xml">
+		    <GlobalVariables>
+			      <StudyName>Test Trial</StudyName>
+			      <StudyDescription>Selection of SDTM domains</StudyDescription>
+			      <ProtocolName>Test</ProtocolName>
+		    </GlobalVariables>
+		    <MetaDataVersion OID="SDTM-IG 3.2" Name="Study Test, Data Definitions"
+                       Description="Study Test, Data Definitions"
+                       def:DefineVersion="2.0.0"
+                       def:StandardName="SDTM-IG"
+                       def:StandardVersion="3.2">
+			      <def:ValueListDef OID="VL.SUPPCM.QVAL">
+				        <ItemRef ItemOID="SUPPCM.QVAL.CMRRGYN" Mandatory="No" OrderNumber="1">
+					          <def:WhereClauseRef WhereClauseOID="WC.SUPPCM.QVAL.CMRRGYN.0000"/>
+				        </ItemRef>
+				        <ItemRef ItemOID="SUPPCM.QVAL.CMRRGREA" Mandatory="No" OrderNumber="2">
+					          <def:WhereClauseRef WhereClauseOID="WC.SUPPCM.QVAL.CMRRGREA.0000"/>
+				        </ItemRef>
+				        <ItemRef ItemOID="SUPPCM.QVAL.CMRSDISC" Mandatory="Yes" OrderNumber="3">
+					          <def:WhereClauseRef WhereClauseOID="WC.SUPPCM.QVAL.CMRSDISC.0000"/>
+				        </ItemRef>
+			      </def:ValueListDef>
+			      <def:ValueListDef OID="VL.SUPPEG.QVAL">
+				        <ItemRef ItemOID="SUPPEG.QVAL.EGCLSIG" Mandatory="Yes" OrderNumber="1">
+					          <def:WhereClauseRef WhereClauseOID="WC.SUPPEG.QVAL.EGCLSIG.0000"/>
+				        </ItemRef>
+			      </def:ValueListDef>
+			      <def:WhereClauseDef OID="WC.SUPPCM.QVAL.CMRRGYN.0000">
+				        <RangeCheck SoftHard="Soft" Comparator="EQ" def:ItemOID="SUPPCM.IDVAR">
+					          <CheckValue>CMSEQ</CheckValue>
+				        </RangeCheck>
+				        <RangeCheck SoftHard="Soft" Comparator="EQ" def:ItemOID="SUPPCM.IDVARVAL">
+					          <CheckValue>CM.CMSEQ</CheckValue>
+				        </RangeCheck>
+			      </def:WhereClauseDef>
+			      <def:WhereClauseDef OID="WC.SUPPCM.QVAL.CMRRGREA.0000">
+				        <RangeCheck SoftHard="Soft" Comparator="EQ" def:ItemOID="SUPPCM.IDVARVAL">
+					          <CheckValue>CMSEQ</CheckValue>
+				        </RangeCheck>
+				        <RangeCheck SoftHard="Soft" Comparator="EQ" def:ItemOID="SUPPCM.IDVARVAL">
+					          <CheckValue>CM.CMSEQ</CheckValue>
+				        </RangeCheck>
+			      </def:WhereClauseDef>
+			      <def:WhereClauseDef OID="WC.SUPPCM.QVAL.CMRSDISC.0000">
+				        <RangeCheck SoftHard="Soft" Comparator="EQ" def:ItemOID="SUPPCM.IDVAR">
+					          <CheckValue>CMSEQ</CheckValue>
+				        </RangeCheck>
+				        <RangeCheck SoftHard="Soft" Comparator="EQ" def:ItemOID="SUPPCM.IDVARVAL">
+					          <CheckValue>CM.CMSEQ</CheckValue>
+				        </RangeCheck>
+			      </def:WhereClauseDef>
+			      <def:WhereClauseDef OID="WC.SUPPEG.QVAL.EGCLSIG.0000">
+				        <RangeCheck SoftHard="Soft" Comparator="NE" def:ItemOID="SUPPEG.USUBJID">
+					          <CheckValue/>
+				        </RangeCheck>
+			      </def:WhereClauseDef>
+			      <ItemGroupDef OID="DM" Name="DM" Repeating="No" IsReferenceData="No" SASDatasetName="DM"
+                       Domain="DM"
+                       Purpose="Tabulation"
+                       def:Structure="One record per subject"
+                       def:Class="SPECIAL PURPOSE"
+                       def:ArchiveLocationID="ARCHIVELOCATION.DM">
+				        <Description>
+					          <TranslatedText>Demographics</TranslatedText>
+				        </Description>
+				        <ItemRef ItemOID="DM.STUDYID" Mandatory="Yes" OrderNumber="1" Role="Identifier"
+                     KeySequence="1"/>
+				        <ItemRef ItemOID="DM.DOMAIN" Mandatory="Yes" OrderNumber="2" Role="Identifier"
+                     KeySequence="2"/>
+				        <ItemRef ItemOID="DM.USUBJID" Mandatory="Yes" OrderNumber="3" Role="Identifier"
+                     KeySequence="3"/>
+				        <ItemRef ItemOID="DM.SUBJID" Mandatory="Yes" OrderNumber="4" Role="Topic"/>
+				        <ItemRef ItemOID="DM.RFSTDTC" Mandatory="No" OrderNumber="5" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="DM.RFENDTC" Mandatory="No" OrderNumber="6" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="DM.RFXSTDTC" Mandatory="No" OrderNumber="7" Role="Record Qualifier"
+                     MethodOID="M.0001"/>
+				        <ItemRef ItemOID="DM.RFXENDTC" Mandatory="No" OrderNumber="8" Role="Record Qualifier"
+                     MethodOID="M.0002"/>
+				        <ItemRef ItemOID="DM.RFICDTC" Mandatory="No" OrderNumber="9" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="DM.RFPENDTC" Mandatory="No" OrderNumber="10" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="DM.DTHDTC" Mandatory="No" OrderNumber="11" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="DM.DTHFL" Mandatory="No" OrderNumber="12" Role="Record Qualifier"
+                     MethodOID="M.0000"/>
+				        <ItemRef ItemOID="DM.SITEID" Mandatory="Yes" OrderNumber="13" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="DM.BRTHDTC" Mandatory="No" OrderNumber="14" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="DM.AGE" Mandatory="No" OrderNumber="15" Role="Record Qualifier"
+                     MethodOID="M.0003"/>
+				        <ItemRef ItemOID="DM.AGEU" Mandatory="No" OrderNumber="16" Role="Variable Qualifier"/>
+				        <ItemRef ItemOID="DM.SEX" Mandatory="Yes" OrderNumber="17" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="DM.RACE" Mandatory="No" OrderNumber="18" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="DM.ETHNIC" Mandatory="No" OrderNumber="19" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="DM.ARMCD" Mandatory="Yes" OrderNumber="20" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="DM.ARM" Mandatory="Yes" OrderNumber="21" Role="Synonym Qualifier"/>
+				        <ItemRef ItemOID="DM.ACTARMCD" Mandatory="Yes" OrderNumber="22" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="DM.ACTARM" Mandatory="Yes" OrderNumber="23" Role="Synonym Qualifier"/>
+				        <ItemRef ItemOID="DM.COUNTRY" Mandatory="Yes" OrderNumber="24" Role="Record Qualifier"/>
+				        <def:leaf ID="ARCHIVELOCATION.DM" xlink:href="dm.xpt">
+					          <def:title>dm.xpt</def:title>
+				        </def:leaf>
+			      </ItemGroupDef>
+			      <ItemGroupDef OID="CM" Name="CM" Repeating="Yes" IsReferenceData="No" SASDatasetName="CM"
+                       Domain="CM"
+                       Purpose="Tabulation"
+                       def:Structure="One record per recorded intervention occurrence or constant-dosing interval per subject"
+                       def:Class="INTERVENTIONS"
+                       def:ArchiveLocationID="ARCHIVELOCATION.CM">
+				        <Description>
+					          <TranslatedText>Concomitant Medications</TranslatedText>
+				        </Description>
+				        <ItemRef ItemOID="CM.STUDYID" Mandatory="Yes" OrderNumber="1" Role="Identifier"
+                     KeySequence="1"/>
+				        <ItemRef ItemOID="CM.DOMAIN" Mandatory="Yes" OrderNumber="2" Role="Identifier"
+                     KeySequence="2"/>
+				        <ItemRef ItemOID="CM.USUBJID" Mandatory="Yes" OrderNumber="3" Role="Identifier"
+                     KeySequence="3"/>
+				        <ItemRef ItemOID="CM.CMSEQ" Mandatory="Yes" OrderNumber="4" Role="Identifier"
+                     MethodOID="M.0004"
+                     KeySequence="4"/>
+				        <ItemRef ItemOID="CM.CMTRT" Mandatory="Yes" OrderNumber="5" Role="Topic"/>
+				        <ItemRef ItemOID="CM.CMCAT" Mandatory="No" OrderNumber="6" Role="Grouping Qualifier"/>
+				        <ItemRef ItemOID="CM.CMSCAT" Mandatory="No" OrderNumber="7" Role="Grouping Qualifier"/>
+				        <ItemRef ItemOID="CM.CMOCCUR" Mandatory="No" OrderNumber="8" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="CM.CMREASND" Mandatory="No" OrderNumber="9" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="CM.CMDOSE" Mandatory="No" OrderNumber="10" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="CM.CMDOSTXT" Mandatory="No" OrderNumber="11" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="CM.CMDOSU" Mandatory="No" OrderNumber="12" Role="Variable Qualifier"/>
+				        <ItemRef ItemOID="CM.CMDOSFRQ" Mandatory="No" OrderNumber="13" Role="Variable Qualifier"/>
+				        <ItemRef ItemOID="CM.CMROUTE" Mandatory="No" OrderNumber="14" Role="Variable Qualifier"/>
+				        <ItemRef ItemOID="CM.CMSTDTC" Mandatory="No" OrderNumber="15" Role="Timing"/>
+				        <ItemRef ItemOID="CM.CMENDTC" Mandatory="No" OrderNumber="16" Role="Timing"/>
+				        <ItemRef ItemOID="CM.CMENRTPT" Mandatory="No" OrderNumber="17" Role="Timing"/>
+				        <def:leaf ID="ARCHIVELOCATION.CM" xlink:href="cm.xpt">
+					          <def:title>cm.xpt</def:title>
+				        </def:leaf>
+			      </ItemGroupDef>
+			      <ItemGroupDef OID="AE" Name="AE" Repeating="Yes" IsReferenceData="No" SASDatasetName="AE"
+                       Domain="AE"
+                       Purpose="Tabulation"
+                       def:Structure="One record per adverse event per subject"
+                       def:Class="EVENTS"
+                       def:ArchiveLocationID="ARCHIVELOCATION.AE">
+				        <Description>
+					          <TranslatedText>Adverse Events</TranslatedText>
+				        </Description>
+				        <ItemRef ItemOID="AE.STUDYID" Mandatory="Yes" OrderNumber="1" Role="Identifier"
+                     KeySequence="1"/>
+				        <ItemRef ItemOID="AE.DOMAIN" Mandatory="Yes" OrderNumber="2" Role="Identifier"
+                     KeySequence="2"/>
+				        <ItemRef ItemOID="AE.USUBJID" Mandatory="Yes" OrderNumber="3" Role="Identifier"
+                     KeySequence="3"/>
+				        <ItemRef ItemOID="AE.AESEQ" Mandatory="Yes" OrderNumber="4" Role="Identifier"
+                     MethodOID="M.0004"
+                     KeySequence="4"/>
+				        <ItemRef ItemOID="AE.AEGRPID" Mandatory="No" OrderNumber="5" Role="Identifier"
+                     KeySequence="5"/>
+				        <ItemRef ItemOID="AE.AESPID" Mandatory="No" OrderNumber="6" Role="Identifier"
+                     KeySequence="6"/>
+				        <ItemRef ItemOID="AE.AETERM" Mandatory="Yes" OrderNumber="7" Role="Topic"/>
+				        <ItemRef ItemOID="AE.AELLT" Mandatory="No" OrderNumber="8" Role="Variable Qualifier"
+                     MethodOID="M.0006"/>
+				        <ItemRef ItemOID="AE.AELLTCD" Mandatory="No" OrderNumber="9" Role="Variable Qualifier"
+                     MethodOID="M.0006"/>
+				        <ItemRef ItemOID="AE.AEDECOD" Mandatory="Yes" OrderNumber="10" Role="Synonym Qualifier"
+                     MethodOID="M.0006"/>
+				        <ItemRef ItemOID="AE.AEPTCD" Mandatory="No" OrderNumber="11" Role="Variable Qualifier"
+                     MethodOID="M.0006"/>
+				        <ItemRef ItemOID="AE.AEHLT" Mandatory="No" OrderNumber="12" Role="Variable Qualifier"
+                     MethodOID="M.0006"/>
+				        <ItemRef ItemOID="AE.AEHLTCD" Mandatory="No" OrderNumber="13" Role="Variable Qualifier"
+                     MethodOID="M.0006"/>
+				        <ItemRef ItemOID="AE.AEHLGT" Mandatory="No" OrderNumber="14" Role="Variable Qualifier"
+                     MethodOID="M.0006"/>
+				        <ItemRef ItemOID="AE.AEHLGTCD" Mandatory="No" OrderNumber="15" Role="Variable Qualifier"
+                     MethodOID="M.0006"/>
+				        <ItemRef ItemOID="AE.AEBODSYS" Mandatory="No" OrderNumber="16" Role="Record Qualifier"
+                     MethodOID="M.0006"/>
+				        <ItemRef ItemOID="AE.AEBDSYCD" Mandatory="No" OrderNumber="17" Role="Variable Qualifier"
+                     MethodOID="M.0006"/>
+				        <ItemRef ItemOID="AE.AESOC" Mandatory="No" OrderNumber="18" Role="Variable Qualifier"
+                     MethodOID="M.0006"/>
+				        <ItemRef ItemOID="AE.AESOCCD" Mandatory="No" OrderNumber="19" Role="Variable Qualifier"
+                     MethodOID="M.0006"/>
+				        <ItemRef ItemOID="AE.AESER" Mandatory="No" OrderNumber="20" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="AE.AEACN" Mandatory="No" OrderNumber="21" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="AE.AEREL" Mandatory="No" OrderNumber="22" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="AE.AERELNST" Mandatory="No" OrderNumber="23" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="AE.AEOUT" Mandatory="No" OrderNumber="24" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="AE.AESCONG" Mandatory="No" OrderNumber="25" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="AE.AESDISAB" Mandatory="No" OrderNumber="26" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="AE.AESDTH" Mandatory="No" OrderNumber="27" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="AE.AESHOSP" Mandatory="No" OrderNumber="28" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="AE.AESLIFE" Mandatory="No" OrderNumber="29" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="AE.AESOD" Mandatory="No" OrderNumber="30" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="AE.AESMIE" Mandatory="No" OrderNumber="31" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="AE.AECONTRT" Mandatory="No" OrderNumber="32" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="AE.AETOXGR" Mandatory="No" OrderNumber="33" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="AE.AESTDTC" Mandatory="No" OrderNumber="34" Role="Timing"/>
+				        <ItemRef ItemOID="AE.AEENDTC" Mandatory="No" OrderNumber="35" Role="Timing"/>
+				        <ItemRef ItemOID="AE.AEENTPT" Mandatory="No" OrderNumber="36" Role="Timing"/>
+				        <def:leaf ID="ARCHIVELOCATION.AE" xlink:href="ae.xpt">
+					          <def:title>ae.xpt</def:title>
+				        </def:leaf>
+			      </ItemGroupDef>
+			      <ItemGroupDef OID="DD" Name="DD" Repeating="Yes" IsReferenceData="No" SASDatasetName="DD"
+                       Domain="DD"
+                       Purpose="Tabulation"
+                       def:Structure="One record per finding per subject"
+                       def:Class="FINDINGS"
+                       def:ArchiveLocationID="ARCHIVELOCATION.DD">
+				        <Description>
+					          <TranslatedText>Death Details</TranslatedText>
+				        </Description>
+				        <ItemRef ItemOID="DD.STUDYID" Mandatory="Yes" OrderNumber="1" Role="Identifier"
+                     KeySequence="1"/>
+				        <ItemRef ItemOID="DD.DOMAIN" Mandatory="Yes" OrderNumber="2" Role="Identifier"
+                     KeySequence="2"/>
+				        <ItemRef ItemOID="DD.USUBJID" Mandatory="Yes" OrderNumber="3" Role="Identifier"
+                     KeySequence="3"/>
+				        <ItemRef ItemOID="DD.DDSEQ" Mandatory="Yes" OrderNumber="4" Role="Identifier"
+                     MethodOID="M.0004"
+                     KeySequence="4"/>
+				        <ItemRef ItemOID="DD.DDTESTCD" Mandatory="Yes" OrderNumber="5" Role="Topic"/>
+				        <ItemRef ItemOID="DD.DDTEST" Mandatory="Yes" OrderNumber="6" Role="Synonym Qualifier"/>
+				        <ItemRef ItemOID="DD.DDORRES" Mandatory="No" OrderNumber="7" Role="Result Qualifier"/>
+				        <ItemRef ItemOID="DD.DDSTRESC" Mandatory="No" OrderNumber="8" Role="Result Qualifier"
+                     MethodOID="M.0005"/>
+				        <ItemRef ItemOID="DD.DDDTC" Mandatory="No" OrderNumber="9" Role="Timing"/>
+				        <def:leaf ID="ARCHIVELOCATION.DD" xlink:href="dd.xpt">
+					          <def:title>dd.xpt</def:title>
+				        </def:leaf>
+			      </ItemGroupDef>
+			      <ItemGroupDef OID="EG" Name="EG" Repeating="Yes" IsReferenceData="No" SASDatasetName="EG"
+                       Domain="EG"
+                       Purpose="Tabulation"
+                       def:Structure="One record per ECG observation per time point per visit per subject"
+                       def:Class="FINDINGS"
+                       def:ArchiveLocationID="ARCHIVELOCATION.EG">
+				        <Description>
+					          <TranslatedText>ECG</TranslatedText>
+				        </Description>
+				        <ItemRef ItemOID="EG.STUDYID" Mandatory="Yes" OrderNumber="1" Role="Identifier"
+                     KeySequence="1"/>
+				        <ItemRef ItemOID="EG.DOMAIN" Mandatory="Yes" OrderNumber="2" Role="Identifier"
+                     KeySequence="2"/>
+				        <ItemRef ItemOID="EG.USUBJID" Mandatory="Yes" OrderNumber="3" Role="Identifier"
+                     KeySequence="3"/>
+				        <ItemRef ItemOID="EG.EGSEQ" Mandatory="Yes" OrderNumber="4" Role="Identifier"
+                     MethodOID="M.0004"
+                     KeySequence="4"/>
+				        <ItemRef ItemOID="EG.EGTESTCD" Mandatory="Yes" OrderNumber="5" Role="Topic"/>
+				        <ItemRef ItemOID="EG.EGTEST" Mandatory="Yes" OrderNumber="6" Role="Synonym Qualifier"/>
+				        <ItemRef ItemOID="EG.EGORRES" Mandatory="No" OrderNumber="7" Role="Result Qualifier"/>
+				        <ItemRef ItemOID="EG.EGSTRESC" Mandatory="No" OrderNumber="8" Role="Result Qualifier"
+                     MethodOID="M.0005"/>
+				        <ItemRef ItemOID="EG.EGBLFL" Mandatory="No" OrderNumber="9" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="EG.VISITNUM" Mandatory="No" OrderNumber="10" Role="Timing"/>
+				        <ItemRef ItemOID="EG.EGDTC" Mandatory="No" OrderNumber="11" Role="Timing"/>
+				        <ItemRef ItemOID="EG.EGSTDTC" Mandatory="No" OrderNumber="12" Role="Timing"/>
+				        <def:leaf ID="ARCHIVELOCATION.EG" xlink:href="eg.xpt">
+					          <def:title>eg.xpt</def:title>
+				        </def:leaf>
+			      </ItemGroupDef>
+			      <ItemGroupDef OID="QS" Name="QS" Repeating="Yes" IsReferenceData="No" SASDatasetName="QS"
+                       Domain="QS"
+                       Purpose="Tabulation"
+                       def:Structure="One record per questionnaire per question per time point per visit per subject"
+                       def:Class="FINDINGS"
+                       def:ArchiveLocationID="ARCHIVELOCATION.QS">
+				        <Description>
+					          <TranslatedText>Questionnaires</TranslatedText>
+				        </Description>
+				        <ItemRef ItemOID="QS.STUDYID" Mandatory="Yes" OrderNumber="1" Role="Identifier"
+                     KeySequence="1"/>
+				        <ItemRef ItemOID="QS.DOMAIN" Mandatory="Yes" OrderNumber="2" Role="Identifier"
+                     KeySequence="2"/>
+				        <ItemRef ItemOID="QS.USUBJID" Mandatory="Yes" OrderNumber="3" Role="Identifier"
+                     KeySequence="3"/>
+				        <ItemRef ItemOID="QS.QSSEQ" Mandatory="Yes" OrderNumber="4" Role="Identifier"
+                     MethodOID="M.0004"
+                     KeySequence="4"/>
+				        <ItemRef ItemOID="QS.QSTESTCD" Mandatory="Yes" OrderNumber="5" Role="Topic"/>
+				        <ItemRef ItemOID="QS.QSTEST" Mandatory="Yes" OrderNumber="6" Role="Synonym Qualifier"/>
+				        <ItemRef ItemOID="QS.QSCAT" Mandatory="Yes" OrderNumber="7" Role="Grouping Qualifier"/>
+				        <ItemRef ItemOID="QS.QSORRES" Mandatory="No" OrderNumber="8" Role="Result Qualifier"/>
+				        <ItemRef ItemOID="QS.QSSTRESC" Mandatory="No" OrderNumber="9" Role="Result Qualifier"
+                     MethodOID="M.0005"/>
+				        <ItemRef ItemOID="QS.QSLOC" Mandatory="No" OrderNumber="10" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="QS.QSLAT" Mandatory="No" OrderNumber="11" Role="Variable Qualifier"/>
+				        <ItemRef ItemOID="QS.QSDIR" Mandatory="No" OrderNumber="12" Role="Variable Qualifier"/>
+				        <ItemRef ItemOID="QS.QSBLFL" Mandatory="No" OrderNumber="13" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="QS.VISITNUM" Mandatory="No" OrderNumber="14" Role="Timing"/>
+				        <ItemRef ItemOID="QS.QSDTC" Mandatory="No" OrderNumber="15" Role="Timing"/>
+				        <def:leaf ID="ARCHIVELOCATION.QS" xlink:href="qs.xpt">
+					          <def:title>qs.xpt</def:title>
+				        </def:leaf>
+			      </ItemGroupDef>
+			      <ItemGroupDef OID="SUPPCM" Name="SUPPCM" Repeating="Yes" IsReferenceData="No"
+                       SASDatasetName="SUPPCM"
+                       Domain="SUPPCM"
+                       Purpose="Tabulation"
+                       def:Structure="One record per IDVAR, IDVARVAL, and QNAM value per subject"
+                       def:Class="RELATIONSHIP"
+                       def:ArchiveLocationID="ARCHIVELOCATION.SUPPCM">
+				        <Description>
+					          <TranslatedText>Supplemental Qualifiers CM</TranslatedText>
+				        </Description>
+				        <ItemRef ItemOID="SUPPCM.STUDYID" Mandatory="Yes" OrderNumber="1" Role="Identifier"
+                     KeySequence="1"/>
+				        <ItemRef ItemOID="SUPPCM.RDOMAIN" Mandatory="Yes" OrderNumber="2" Role="Identifier"
+                     KeySequence="2"/>
+				        <ItemRef ItemOID="SUPPCM.USUBJID" Mandatory="Yes" OrderNumber="3" Role="Identifier"
+                     KeySequence="3"/>
+				        <ItemRef ItemOID="SUPPCM.IDVAR" Mandatory="No" OrderNumber="4" Role="Identifier"
+                     KeySequence="4"/>
+				        <ItemRef ItemOID="SUPPCM.IDVARVAL" Mandatory="No" OrderNumber="5" Role="Identifier"
+                     KeySequence="5"/>
+				        <ItemRef ItemOID="SUPPCM.QNAM" Mandatory="Yes" OrderNumber="6" Role="Identifier"
+                     KeySequence="6"/>
+				        <ItemRef ItemOID="SUPPCM.QLABEL" Mandatory="Yes" OrderNumber="7"
+                     Role="Synonym Qualifier"/>
+				        <ItemRef ItemOID="SUPPCM.QVAL" Mandatory="Yes" OrderNumber="8" Role="Result Qualifier"/>
+				        <ItemRef ItemOID="SUPPCM.QORIG" Mandatory="Yes" OrderNumber="9" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="SUPPCM.QEVAL" Mandatory="No" OrderNumber="10" Role="Record Qualifier"/>
+				        <def:leaf ID="ARCHIVELOCATION.SUPPCM" xlink:href="suppcm.xpt">
+					          <def:title>suppcm.xpt</def:title>
+				        </def:leaf>
+			      </ItemGroupDef>
+			      <ItemGroupDef OID="SUPPEG" Name="SUPPEG" Repeating="Yes" IsReferenceData="No"
+                       SASDatasetName="SUPPEG"
+                       Domain="SUPPEG"
+                       Purpose="Tabulation"
+                       def:Structure="One record per IDVAR, IDVARVAL, and QNAM value per subject"
+                       def:Class="RELATIONSHIP"
+                       def:ArchiveLocationID="ARCHIVELOCATION.SUPPEG">
+				        <Description>
+					          <TranslatedText>Supplemental Qualifiers EG</TranslatedText>
+				        </Description>
+				        <ItemRef ItemOID="SUPPEG.STUDYID" Mandatory="Yes" OrderNumber="1" Role="Identifier"
+                     KeySequence="1"/>
+				        <ItemRef ItemOID="SUPPEG.RDOMAIN" Mandatory="Yes" OrderNumber="2" Role="Identifier"
+                     KeySequence="2"/>
+				        <ItemRef ItemOID="SUPPEG.USUBJID" Mandatory="Yes" OrderNumber="3" Role="Identifier"
+                     KeySequence="3"/>
+				        <ItemRef ItemOID="SUPPEG.IDVAR" Mandatory="No" OrderNumber="4" Role="Identifier"
+                     KeySequence="4"/>
+				        <ItemRef ItemOID="SUPPEG.IDVARVAL" Mandatory="No" OrderNumber="5" Role="Identifier"
+                     KeySequence="5"/>
+				        <ItemRef ItemOID="SUPPEG.QNAM" Mandatory="Yes" OrderNumber="6" Role="Identifier"
+                     KeySequence="6"/>
+				        <ItemRef ItemOID="SUPPEG.QLABEL" Mandatory="Yes" OrderNumber="7"
+                     Role="Synonym Qualifier"/>
+				        <ItemRef ItemOID="SUPPEG.QVAL" Mandatory="Yes" OrderNumber="8" Role="Result Qualifier"/>
+				        <ItemRef ItemOID="SUPPEG.QORIG" Mandatory="Yes" OrderNumber="9" Role="Record Qualifier"/>
+				        <ItemRef ItemOID="SUPPEG.QEVAL" Mandatory="No" OrderNumber="10" Role="Record Qualifier"/>
+				        <def:leaf ID="ARCHIVELOCATION.SUPPEG" xlink:href="suppeg.xpt">
+					          <def:title>suppeg.xpt</def:title>
+				        </def:leaf>
+			      </ItemGroupDef>
+			      <ItemDef OID="DM.STUDYID" Name="STUDYID" DataType="text" Length="200"
+                  SASFieldName="STUDYID">
+				        <Description>
+					          <TranslatedText>Study Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Protocol"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.DOMAIN" Name="DOMAIN" DataType="text" Length="2" SASFieldName="DOMAIN">
+				        <Description>
+					          <TranslatedText>Domain Abbreviation</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.DOMAINS"/>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.USUBJID" Name="USUBJID" DataType="text" Length="200"
+                  SASFieldName="USUBJID">
+				        <Description>
+					          <TranslatedText>Unique Subject Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="eDT"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.SUBJID" Name="SUBJID" DataType="text" Length="200"
+                  SASFieldName="SUBJID">
+				        <Description>
+					          <TranslatedText>Subject Identifier for the Study</TranslatedText>
+				        </Description>
+				        <def:Origin Type="eDT"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.RFSTDTC" Name="RFSTDTC" DataType="datetime" SASFieldName="RFSTDTC">
+				        <Description>
+					          <TranslatedText>Subject Reference Start Date/Time</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.RFENDTC" Name="RFENDTC" DataType="datetime" SASFieldName="RFENDTC">
+				        <Description>
+					          <TranslatedText>Subject Reference End Date/Time</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.RFXSTDTC" Name="RFXSTDTC" DataType="datetime" SASFieldName="RFXSTDTC">
+				        <Description>
+					          <TranslatedText>Date/Time of First Study Treatment</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.RFXENDTC" Name="RFXENDTC" DataType="datetime" SASFieldName="RFXENDTC">
+				        <Description>
+					          <TranslatedText>Date/Time of Last Study Treatment</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.RFICDTC" Name="RFICDTC" DataType="datetime" SASFieldName="RFICDTC">
+				        <Description>
+					          <TranslatedText>Date/Time of Informed Consent</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.RFPENDTC" Name="RFPENDTC" DataType="datetime" SASFieldName="RFPENDTC">
+				        <Description>
+					          <TranslatedText>Date/Time of End of Participation</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.DTHDTC" Name="DTHDTC" DataType="datetime" SASFieldName="DTHDTC">
+				        <Description>
+					          <TranslatedText>Date/Time of Death</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="DTHDTC"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="DM.DTHFL" Name="DTHFL" DataType="text" Length="200" SASFieldName="DTHFL">
+				        <Description>
+					          <TranslatedText>Subject Death Flag</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66742.NY"/>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.SITEID" Name="SITEID" DataType="text" Length="200"
+                  SASFieldName="SITEID">
+				        <Description>
+					          <TranslatedText>Study Site Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="eDT"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.BRTHDTC" Name="BRTHDTC" DataType="datetime" SASFieldName="BRTHDTC">
+				        <Description>
+					          <TranslatedText>Date/Time of Birth</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="BRTHDTC"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="DM.AGE" Name="AGE" DataType="float" Length="200" SASFieldName="AGE"
+                  SignificantDigits="10">
+				        <Description>
+					          <TranslatedText>Age</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.AGEU" Name="AGEU" DataType="text" Length="200" SASFieldName="AGEU">
+				        <Description>
+					          <TranslatedText>Age Units</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66781.AGEU"/>
+				        <def:Origin Type="Protocol"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.SEX" Name="SEX" DataType="text" Length="200" SASFieldName="SEX">
+				        <Description>
+					          <TranslatedText>Sex</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66731.SEX"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="SEX"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="DM.RACE" Name="RACE" DataType="text" Length="200" SASFieldName="RACE">
+				        <Description>
+					          <TranslatedText>Race</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C74457.RACE"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="RACE"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="DM.ETHNIC" Name="ETHNIC" DataType="text" Length="200"
+                  SASFieldName="ETHNIC">
+				        <Description>
+					          <TranslatedText>Ethnicity</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66790.ETHNIC"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="ETHNIC"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="DM.ARMCD" Name="ARMCD" DataType="text" Length="20" SASFieldName="ARMCD">
+				        <Description>
+					          <TranslatedText>Planned Arm Code</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.ARM" Name="ARM" DataType="text" Length="200" SASFieldName="ARM">
+				        <Description>
+					          <TranslatedText>Description of Planned Arm</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.ACTARMCD" Name="ACTARMCD" DataType="text" Length="20"
+                  SASFieldName="ACTARMCD">
+				        <Description>
+					          <TranslatedText>Actual Arm Code</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.ACTARM" Name="ACTARM" DataType="text" Length="200"
+                  SASFieldName="ACTARM">
+				        <Description>
+					          <TranslatedText>Description of Actual Arm</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="DM.COUNTRY" Name="COUNTRY" DataType="text" Length="200"
+                  SASFieldName="COUNTRY">
+				        <Description>
+					          <TranslatedText>Country</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66786.COUNTRY"/>
+				        <def:Origin Type="Protocol"/>
+			      </ItemDef>
+			      <ItemDef OID="CM.STUDYID" Name="STUDYID" DataType="text" Length="200"
+                  SASFieldName="STUDYID">
+				        <Description>
+					          <TranslatedText>Study Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Protocol"/>
+			      </ItemDef>
+			      <ItemDef OID="CM.DOMAIN" Name="DOMAIN" DataType="text" Length="2" SASFieldName="DOMAIN">
+				        <Description>
+					          <TranslatedText>Domain Abbreviation</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.DOMAINS"/>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="CM.USUBJID" Name="USUBJID" DataType="text" Length="200"
+                  SASFieldName="USUBJID">
+				        <Description>
+					          <TranslatedText>Unique Subject Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Predecessor">
+					          <Description>
+						            <TranslatedText>Copy of DM.USUBJID</TranslatedText>
+					          </Description>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="CM.CMSEQ" Name="CMSEQ" DataType="float" Length="200" SASFieldName="CMSEQ"
+                  SignificantDigits="10">
+				        <Description>
+					          <TranslatedText>Sequence Number</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="CM.CMTRT" Name="CMTRT" DataType="text" Length="200" SASFieldName="CMTRT">
+				        <Description>
+					          <TranslatedText>Reported Name of Drug, Med, or Therapy</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="CMTRT"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="CM.CMCAT" Name="CMCAT" DataType="text" Length="200" SASFieldName="CMCAT">
+				        <Description>
+					          <TranslatedText>Category for Medication</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="CMCAT"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="CM.CMSCAT" Name="CMSCAT" DataType="text" Length="200"
+                  SASFieldName="CMSCAT">
+				        <Description>
+					          <TranslatedText>Subcategory for Medication</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="CMSCAT"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="CM.CMOCCUR" Name="CMOCCUR" DataType="text" Length="200"
+                  SASFieldName="CMOCCUR">
+				        <Description>
+					          <TranslatedText>CM Occurrence</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66742.NY"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="CMOCCUR"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="CM.CMREASND" Name="CMREASND" DataType="text" Length="200"
+                  SASFieldName="CMREASND">
+				        <Description>
+					          <TranslatedText>Reason Medication Not Collected</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="CMREASND"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="CM.CMDOSE" Name="CMDOSE" DataType="float" Length="200"
+                  SASFieldName="CMDOSE"
+                  SignificantDigits="10">
+				        <Description>
+					          <TranslatedText>Dose per Administration</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="CMDOSE"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="CM.CMDOSU" Name="CMDOSU" DataType="text" Length="200"
+                  SASFieldName="CMDOSU">
+				        <Description>
+					          <TranslatedText>Dose Units</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C71620.UNIT"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="CMDOSU"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="CM.CMDOSFRQ" Name="CMDOSFRQ" DataType="text" Length="200"
+                  SASFieldName="CMDOSFRQ">
+				        <Description>
+					          <TranslatedText>Dosing Frequency per Interval</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C71113.FREQ"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="CMDOSFRQ"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="CM.CMROUTE" Name="CMROUTE" DataType="text" Length="200"
+                  SASFieldName="CMROUTE">
+				        <Description>
+					          <TranslatedText>Route of Administration</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66729.ROUTE"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="CMROUTE"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="CM.CMSTDTC" Name="CMSTDTC" DataType="datetime" SASFieldName="CMSTDTC">
+				        <Description>
+					          <TranslatedText>Start Date/Time of Medication</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="CMSTDTC"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="CM.CMENDTC" Name="CMENDTC" DataType="datetime" SASFieldName="CMENDTC">
+				        <Description>
+					          <TranslatedText>End Date/Time of Medication</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="CMENDTC"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="CM.CMENRTPT" Name="CMENRTPT" DataType="text" Length="200"
+                  SASFieldName="CMENRTPT">
+				        <Description>
+					          <TranslatedText>End Relative to Reference Time Point</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66728.STENRF"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="CMENRTPT"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="DD.STUDYID" Name="STUDYID" DataType="text" Length="200"
+                  SASFieldName="STUDYID">
+				        <Description>
+					          <TranslatedText>Study Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Protocol"/>
+			      </ItemDef>
+			      <ItemDef OID="DD.DOMAIN" Name="DOMAIN" DataType="text" Length="2" SASFieldName="DOMAIN">
+				        <Description>
+					          <TranslatedText>Domain Abbreviation</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.DOMAINS"/>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="DD.USUBJID" Name="USUBJID" DataType="text" Length="200"
+                  SASFieldName="USUBJID">
+				        <Description>
+					          <TranslatedText>Unique Subject Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Predecessor">
+					          <Description>
+						            <TranslatedText>Copy of DM.USUBJID</TranslatedText>
+					          </Description>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="DD.DDSEQ" Name="DDSEQ" DataType="float" Length="200" SASFieldName="DDSEQ"
+                  SignificantDigits="10">
+				        <Description>
+					          <TranslatedText>Sequence Number</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="DD.DDTESTCD" Name="DDTESTCD" DataType="text" Length="8"
+                  SASFieldName="DDTESTCD">
+				        <Description>
+					          <TranslatedText>Death Detail Assessment Short Name</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="DDTESTCD"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="DD.DDTEST" Name="DDTEST" DataType="text" Length="40" SASFieldName="DDTEST">
+				        <Description>
+					          <TranslatedText>Death Detail Assessment Name</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="DDTEST"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="DD.DDORRES" Name="DDORRES" DataType="text" Length="200"
+                  SASFieldName="DDORRES">
+				        <Description>
+					          <TranslatedText>Result or Finding as Collected</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="DDORRES"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="DD.DDSTRESC" Name="DDSTRESC" DataType="text" Length="200"
+                  SASFieldName="DDSTRESC">
+				        <Description>
+					          <TranslatedText>Character Result/Finding in Std Format</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="DD.DDDTC" Name="DDDTC" DataType="datetime" SASFieldName="DDDTC">
+				        <Description>
+					          <TranslatedText>Date/Time of Collection</TranslatedText>
+				        </Description>
+				        <def:Origin Type="eDT"/>
+			      </ItemDef>
+			      <ItemDef OID="CM.CMDOSTXT" Name="CMDOSTXT" DataType="text" Length="200"
+                  SASFieldName="CMDOSTXT">
+				        <Description>
+					          <TranslatedText>Dose Description</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="CMDOSTXT"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="EG.STUDYID" Name="STUDYID" DataType="text" Length="200"
+                  SASFieldName="STUDYID">
+				        <Description>
+					          <TranslatedText>Study Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Protocol"/>
+			      </ItemDef>
+			      <ItemDef OID="EG.DOMAIN" Name="DOMAIN" DataType="text" Length="2" SASFieldName="DOMAIN">
+				        <Description>
+					          <TranslatedText>Domain Abbreviation</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.DOMAINS"/>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="EG.USUBJID" Name="USUBJID" DataType="text" Length="200"
+                  SASFieldName="USUBJID">
+				        <Description>
+					          <TranslatedText>Unique Subject Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Predecessor">
+					          <Description>
+						            <TranslatedText>Copy of DM.USUBJID</TranslatedText>
+					          </Description>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="EG.EGSEQ" Name="EGSEQ" DataType="float" Length="200" SASFieldName="EGSEQ"
+                  SignificantDigits="10">
+				        <Description>
+					          <TranslatedText>Sequence Number</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="EG.EGTESTCD" Name="EGTESTCD" DataType="text" Length="8"
+                  SASFieldName="EGTESTCD">
+				        <Description>
+					          <TranslatedText>ECG Test or Examination Short Name</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C71153.EGTESTCD"/>
+				        <def:Origin Type="Protocol"/>
+			      </ItemDef>
+			      <ItemDef OID="EG.EGTEST" Name="EGTEST" DataType="text" Length="40" SASFieldName="EGTEST">
+				        <Description>
+					          <TranslatedText>ECG Test or Examination Name</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C71152.EGTEST"/>
+				        <def:Origin Type="Protocol"/>
+			      </ItemDef>
+			      <ItemDef OID="EG.EGORRES" Name="EGORRES" DataType="text" Length="200"
+                  SASFieldName="EGORRES">
+				        <Description>
+					          <TranslatedText>Result or Finding in Original Units</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="EGORRES"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="EG.EGSTRESC" Name="EGSTRESC" DataType="text" Length="200"
+                  SASFieldName="EGSTRESC">
+				        <Description>
+					          <TranslatedText>Character Result/Finding in Std Format</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C71150.EGSTRESC"/>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="EG.EGBLFL" Name="EGBLFL" DataType="text" Length="200"
+                  SASFieldName="EGBLFL">
+				        <Description>
+					          <TranslatedText>Baseline Flag</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66742.NY"/>
+				        <def:Origin Type="eDT"/>
+			      </ItemDef>
+			      <ItemDef OID="EG.VISITNUM" Name="VISITNUM" DataType="float" Length="200"
+                  SASFieldName="VISITNUM"
+                  SignificantDigits="10">
+				        <Description>
+					          <TranslatedText>Visit Number</TranslatedText>
+				        </Description>
+				        <def:Origin Type="eDT"/>
+			      </ItemDef>
+			      <ItemDef OID="EG.EGDTC" Name="EGDTC" DataType="datetime" SASFieldName="EGDTC">
+				        <Description>
+					          <TranslatedText>Date/Time of ECG</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Predecessor">
+					          <Description>
+						            <TranslatedText>EG.EGSTDTC</TranslatedText>
+					          </Description>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="EG.EGSTDTC" Name="EGSTDTC" DataType="datetime" SASFieldName="EGSTDTC">
+				        <Description>
+					          <TranslatedText>Start Date/Time of Observation</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="EGSTDTC"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="QS.STUDYID" Name="STUDYID" DataType="text" Length="200"
+                  SASFieldName="STUDYID">
+				        <Description>
+					          <TranslatedText>Study Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Protocol"/>
+			      </ItemDef>
+			      <ItemDef OID="QS.DOMAIN" Name="DOMAIN" DataType="text" Length="2" SASFieldName="DOMAIN">
+				        <Description>
+					          <TranslatedText>Domain Abbreviation</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.DOMAINS"/>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="QS.USUBJID" Name="USUBJID" DataType="text" Length="200"
+                  SASFieldName="USUBJID">
+				        <Description>
+					          <TranslatedText>Unique Subject Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Predecessor">
+					          <Description>
+						            <TranslatedText>Copy of DM.USUBJID</TranslatedText>
+					          </Description>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="QS.QSSEQ" Name="QSSEQ" DataType="float" Length="200" SASFieldName="QSSEQ"
+                  SignificantDigits="10">
+				        <Description>
+					          <TranslatedText>Sequence Number</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="QS.QSTESTCD" Name="QSTESTCD" DataType="text" Length="8"
+                  SASFieldName="QSTESTCD">
+				        <Description>
+					          <TranslatedText>Question Short Name</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="QSTESTCD"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="QS.QSTEST" Name="QSTEST" DataType="text" Length="40" SASFieldName="QSTEST">
+				        <Description>
+					          <TranslatedText>Question Name</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="QSTEST"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="QS.QSCAT" Name="QSCAT" DataType="text" Length="200" SASFieldName="QSCAT">
+				        <Description>
+					          <TranslatedText>Category of Question</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C100129.QSCAT"/>
+				        <def:Origin Type="Protocol"/>
+			      </ItemDef>
+			      <ItemDef OID="QS.QSORRES" Name="QSORRES" DataType="text" Length="200"
+                  SASFieldName="QSORRES">
+				        <Description>
+					          <TranslatedText>Finding in Original Units</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Protocol"/>
+			      </ItemDef>
+			      <ItemDef OID="QS.QSSTRESC" Name="QSSTRESC" DataType="text" Length="200"
+                  SASFieldName="QSSTRESC">
+				        <Description>
+					          <TranslatedText>Character Result/Finding in Std Format</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="QS.QSLOC" Name="QSLOC" DataType="text" Length="200" SASFieldName="QSLOC">
+				        <Description>
+					          <TranslatedText>Location Used for the Measurement</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C74456.LOC"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="QSLOC"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="QS.QSLAT" Name="QSLAT" DataType="text" Length="200" SASFieldName="QSLAT">
+				        <Description>
+					          <TranslatedText>Laterality</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C99073.LAT"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="QSLAT"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="QS.QSDIR" Name="QSDIR" DataType="text" Length="200" SASFieldName="QSDIR">
+				        <Description>
+					          <TranslatedText>Directionality</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C99074.DIR"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="QSDIR"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="QS.QSBLFL" Name="QSBLFL" DataType="text" Length="200"
+                  SASFieldName="QSBLFL">
+				        <Description>
+					          <TranslatedText>Baseline Flag</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66742.NY"/>
+				        <def:Origin Type="eDT"/>
+			      </ItemDef>
+			      <ItemDef OID="QS.VISITNUM" Name="VISITNUM" DataType="float" Length="200"
+                  SASFieldName="VISITNUM"
+                  SignificantDigits="10">
+				        <Description>
+					          <TranslatedText>Visit Number</TranslatedText>
+				        </Description>
+				        <def:Origin Type="eDT"/>
+			      </ItemDef>
+			      <ItemDef OID="QS.QSDTC" Name="QSDTC" DataType="datetime" SASFieldName="QSDTC">
+				        <Description>
+					          <TranslatedText>Date/Time of Finding</TranslatedText>
+				        </Description>
+				        <def:Origin Type="eDT"/>
+			      </ItemDef>
+			      <ItemDef OID="SUPPCM.STUDYID" Name="STUDYID" DataType="text" Length="200"
+                  SASFieldName="STUDYID">
+				        <Description>
+					          <TranslatedText>Study Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Protocol"/>
+			      </ItemDef>
+			      <ItemDef OID="SUPPCM.RDOMAIN" Name="RDOMAIN" DataType="text" Length="4"
+                  SASFieldName="RDOMAIN">
+				        <Description>
+					          <TranslatedText>Related Domain Abbreviation</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.DOMAINS"/>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="SUPPCM.USUBJID" Name="USUBJID" DataType="text" Length="200"
+                  SASFieldName="USUBJID">
+				        <Description>
+					          <TranslatedText>Unique Subject Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Predecessor">
+					          <Description>
+						            <TranslatedText>Copy of DM.USUBJID</TranslatedText>
+					          </Description>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="SUPPCM.IDVAR" Name="IDVAR" DataType="text" Length="200"
+                  SASFieldName="IDVAR">
+				        <Description>
+					          <TranslatedText>Identifying Variable</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="SUPPCM.IDVARVAL" Name="IDVARVAL" DataType="text" Length="200"
+                  SASFieldName="IDVARVAL">
+				        <Description>
+					          <TranslatedText>Identifying Variable Value</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Predecessor">
+					          <Description>
+						            <TranslatedText>CM.CMSEQ</TranslatedText>
+					          </Description>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="SUPPCM.QNAM" Name="QNAM" DataType="text" Length="8" SASFieldName="QNAM">
+				        <Description>
+					          <TranslatedText>Qualifier Variable Name</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="SUPPCM.QNAM"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="SUPPCM.QLABEL" Name="QLABEL" DataType="text" Length="40"
+                  SASFieldName="QLABEL">
+				        <Description>
+					          <TranslatedText>Qualifier Variable Label</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="SUPPCM.QLABEL"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="SUPPCM.QVAL" Name="QVAL" DataType="text" Length="200" SASFieldName="QVAL">
+				        <Description>
+					          <TranslatedText>Data Value</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="SUPPCM.QVAL"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+				        <def:ValueListRef ValueListOID="VL.SUPPCM.QVAL"/>
+			      </ItemDef>
+			      <ItemDef OID="SUPPCM.QORIG" Name="QORIG" DataType="text" Length="200"
+                  SASFieldName="QORIG">
+				        <Description>
+					          <TranslatedText>Origin</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="SUPPCM.QEVAL" Name="QEVAL" DataType="text" Length="200"
+                  SASFieldName="QEVAL">
+				        <Description>
+					          <TranslatedText>Evaluator</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C78735.EVAL"/>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="SUPPCM.QVAL.CMRRGYN" Name="CMRRGYN" DataType="text" Length="20">
+				        <Description>
+					          <TranslatedText>Was medication given at recom. regimen</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66742.NY"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="CMRRGYN"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="SUPPCM.QVAL.CMRRGREA" Name="CMRRGREA" DataType="text" Length="20">
+				        <Description>
+					          <TranslatedText>Why the medication not given at regimen</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="CMRRGREA"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="SUPPCM.QVAL.CMRSDISC" Name="CMRSDISC" DataType="text" Length="20">
+				        <Description>
+					          <TranslatedText>Reason for treatment discontinuation</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="cl.cm_dscreas3"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="CMRSDISC"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="SUPPEG.STUDYID" Name="STUDYID" DataType="text" Length="200"
+                  SASFieldName="STUDYID">
+				        <Description>
+					          <TranslatedText>Study Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Protocol"/>
+			      </ItemDef>
+			      <ItemDef OID="SUPPEG.RDOMAIN" Name="RDOMAIN" DataType="text" Length="4"
+                  SASFieldName="RDOMAIN">
+				        <Description>
+					          <TranslatedText>Related Domain Abbreviation</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.DOMAINS"/>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="SUPPEG.USUBJID" Name="USUBJID" DataType="text" Length="200"
+                  SASFieldName="USUBJID">
+				        <Description>
+					          <TranslatedText>Unique Subject Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Predecessor">
+					          <Description>
+						            <TranslatedText>Copy of DM.USUBJID</TranslatedText>
+					          </Description>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="SUPPEG.IDVAR" Name="IDVAR" DataType="text" Length="200"
+                  SASFieldName="IDVAR">
+				        <Description>
+					          <TranslatedText>Identifying Variable</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="SUPPEG.IDVARVAL" Name="IDVARVAL" DataType="text" Length="200"
+                  SASFieldName="IDVARVAL">
+				        <Description>
+					          <TranslatedText>Identifying Variable Value</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Predecessor">
+					          <Description>
+						            <TranslatedText>EG.EGSEQ</TranslatedText>
+					          </Description>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="SUPPEG.QNAM" Name="QNAM" DataType="text" Length="8" SASFieldName="QNAM">
+				        <Description>
+					          <TranslatedText>Qualifier Variable Name</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="SUPPEG.QNAM"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="SUPPEG.QLABEL" Name="QLABEL" DataType="text" Length="40"
+                  SASFieldName="QLABEL">
+				        <Description>
+					          <TranslatedText>Qualifier Variable Label</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="SUPPEG.QLABEL"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="SUPPEG.QVAL" Name="QVAL" DataType="text" Length="200" SASFieldName="QVAL">
+				        <Description>
+					          <TranslatedText>Data Value</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="SUPPEG.QVAL"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+				        <def:ValueListRef ValueListOID="VL.SUPPEG.QVAL"/>
+			      </ItemDef>
+			      <ItemDef OID="SUPPEG.QORIG" Name="QORIG" DataType="text" Length="200"
+                  SASFieldName="QORIG">
+				        <Description>
+					          <TranslatedText>Origin</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="SUPPEG.QEVAL" Name="QEVAL" DataType="text" Length="200"
+                  SASFieldName="QEVAL">
+				        <Description>
+					          <TranslatedText>Evaluator</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C78735.EVAL"/>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="SUPPEG.QVAL.EGCLSIG" Name="EGCLSIG" DataType="text" Length="20">
+				        <Description>
+					          <TranslatedText>ECG clinically significant</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66742.NY"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="EGCLSIG"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.STUDYID" Name="STUDYID" DataType="text" Length="200"
+                  SASFieldName="STUDYID">
+				        <Description>
+					          <TranslatedText>Study Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Protocol"/>
+			      </ItemDef>
+			      <ItemDef OID="AE.DOMAIN" Name="DOMAIN" DataType="text" Length="2" SASFieldName="DOMAIN">
+				        <Description>
+					          <TranslatedText>Domain Abbreviation</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.DOMAINS"/>
+				        <def:Origin Type="Assigned"/>
+			      </ItemDef>
+			      <ItemDef OID="AE.USUBJID" Name="USUBJID" DataType="text" Length="200"
+                  SASFieldName="USUBJID">
+				        <Description>
+					          <TranslatedText>Unique Subject Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Predecessor">
+					          <Description>
+						            <TranslatedText>Copy of DM.USUBJID</TranslatedText>
+					          </Description>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AESEQ" Name="AESEQ" DataType="float" Length="200" SASFieldName="AESEQ"
+                  SignificantDigits="10">
+				        <Description>
+					          <TranslatedText>Sequence Number</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="AE.AEGRPID" Name="AEGRPID" DataType="text" Length="200"
+                  SASFieldName="AEGRPID">
+				        <Description>
+					          <TranslatedText>Group ID</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AEGRPID"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AESPID" Name="AESPID" DataType="text" Length="200"
+                  SASFieldName="AESPID">
+				        <Description>
+					          <TranslatedText>Sponsor-Defined Identifier</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AESPID"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AETERM" Name="AETERM" DataType="text" Length="200"
+                  SASFieldName="AETERM">
+				        <Description>
+					          <TranslatedText>Reported Term for the Adverse Event</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AETERM"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AELLT" Name="AELLT" DataType="text" Length="200" SASFieldName="AELLT">
+				        <Description>
+					          <TranslatedText>Lowest Level Term</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.MEDDRA"/>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="AE.AELLTCD" Name="AELLTCD" DataType="integer" Length="8"
+                  SASFieldName="AELLTCD">
+				        <Description>
+					          <TranslatedText>Lowest Level Term Code</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.MEDDRA.CODE"/>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="AE.AEDECOD" Name="AEDECOD" DataType="text" Length="200"
+                  SASFieldName="AEDECOD">
+				        <Description>
+					          <TranslatedText>Dictionary-Derived Term</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.MEDDRA"/>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="AE.AEPTCD" Name="AEPTCD" DataType="integer" Length="8"
+                  SASFieldName="AEPTCD">
+				        <Description>
+					          <TranslatedText>Preferred Term Code</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.MEDDRA.CODE"/>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="AE.AEHLT" Name="AEHLT" DataType="text" Length="200" SASFieldName="AEHLT">
+				        <Description>
+					          <TranslatedText>High Level Term</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.MEDDRA"/>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="AE.AEHLTCD" Name="AEHLTCD" DataType="integer" Length="8"
+                  SASFieldName="AEHLTCD">
+				        <Description>
+					          <TranslatedText>High Level Term Code</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.MEDDRA.CODE"/>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="AE.AEHLGT" Name="AEHLGT" DataType="text" Length="200"
+                  SASFieldName="AEHLGT">
+				        <Description>
+					          <TranslatedText>High Level Group Term</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.MEDDRA"/>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="AE.AEHLGTCD" Name="AEHLGTCD" DataType="integer" Length="8"
+                  SASFieldName="AEHLGTCD">
+				        <Description>
+					          <TranslatedText>High Level Group Term Code</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.MEDDRA.CODE"/>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="AE.AEBODSYS" Name="AEBODSYS" DataType="text" Length="200"
+                  SASFieldName="AEBODSYS">
+				        <Description>
+					          <TranslatedText>Body System or Organ Class</TranslatedText>
+				        </Description>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="AE.AEBDSYCD" Name="AEBDSYCD" DataType="integer" Length="8"
+                  SASFieldName="AEBDSYCD">
+				        <Description>
+					          <TranslatedText>Body System or Organ Class Code</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.MEDDRA.CODE"/>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="AE.AESOC" Name="AESOC" DataType="text" Length="200" SASFieldName="AESOC">
+				        <Description>
+					          <TranslatedText>Primary System Organ Class</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.MEDDRA"/>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="AE.AESOCCD" Name="AESOCCD" DataType="integer" Length="8"
+                  SASFieldName="AESOCCD">
+				        <Description>
+					          <TranslatedText>Primary System Organ Class Code</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.MEDDRA.CODE"/>
+				        <def:Origin Type="Derived"/>
+			      </ItemDef>
+			      <ItemDef OID="AE.AESER" Name="AESER" DataType="text" Length="200" SASFieldName="AESER">
+				        <Description>
+					          <TranslatedText>Serious Event</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66742.NY"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AESER"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AEACN" Name="AEACN" DataType="text" Length="200" SASFieldName="AEACN">
+				        <Description>
+					          <TranslatedText>Action Taken with Study Treatment</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66767.ACN"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AEACN"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AEREL" Name="AEREL" DataType="text" Length="200" SASFieldName="AEREL">
+				        <Description>
+					          <TranslatedText>Causality</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AEREL"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AERELNST" Name="AERELNST" DataType="text" Length="200"
+                  SASFieldName="AERELNST">
+				        <Description>
+					          <TranslatedText>Relationship to Non-Study Treatment</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AERELNST"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AEOUT" Name="AEOUT" DataType="text" Length="200" SASFieldName="AEOUT">
+				        <Description>
+					          <TranslatedText>Outcome of Adverse Event</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66768.OUT"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AEOUT"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AESCONG" Name="AESCONG" DataType="text" Length="200"
+                  SASFieldName="AESCONG">
+				        <Description>
+					          <TranslatedText>Congenital Anomaly or Birth Defect</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66742.NY"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AESCONG"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AESDISAB" Name="AESDISAB" DataType="text" Length="200"
+                  SASFieldName="AESDISAB">
+				        <Description>
+					          <TranslatedText>Persist or Signif Disability/Incapacity</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66742.NY"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AESDISAB"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AESDTH" Name="AESDTH" DataType="text" Length="200"
+                  SASFieldName="AESDTH">
+				        <Description>
+					          <TranslatedText>Results in Death</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66742.NY"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AESDTH"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AESHOSP" Name="AESHOSP" DataType="text" Length="200"
+                  SASFieldName="AESHOSP">
+				        <Description>
+					          <TranslatedText>Requires or Prolongs Hospitalization</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66742.NY"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AESHOSP"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AESLIFE" Name="AESLIFE" DataType="text" Length="200"
+                  SASFieldName="AESLIFE">
+				        <Description>
+					          <TranslatedText>Is Life Threatening</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66742.NY"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AESLIFE"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AESOD" Name="AESOD" DataType="text" Length="200" SASFieldName="AESOD">
+				        <Description>
+					          <TranslatedText>Occurred with Overdose</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66742.NY"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AESOD"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AESMIE" Name="AESMIE" DataType="text" Length="200"
+                  SASFieldName="AESMIE">
+				        <Description>
+					          <TranslatedText>Other Medically Important Serious Event</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66742.NY"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AESMIE"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AECONTRT" Name="AECONTRT" DataType="text" Length="200"
+                  SASFieldName="AECONTRT">
+				        <Description>
+					          <TranslatedText>Concomitant or Additional Trtmnt Given</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66742.NY"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AECONTRT"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AETOXGR" Name="AETOXGR" DataType="text" Length="200"
+                  SASFieldName="AETOXGR">
+				        <Description>
+					          <TranslatedText>Standard Toxicity Grade</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66784.TOXGRV3"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AETOXGR"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AESTDTC" Name="AESTDTC" DataType="datetime" SASFieldName="AESTDTC">
+				        <Description>
+					          <TranslatedText>Start Date/Time of Adverse Event</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AESTDTC"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AEENDTC" Name="AEENDTC" DataType="datetime" SASFieldName="AEENDTC">
+				        <Description>
+					          <TranslatedText>End Date/Time of Adverse Event</TranslatedText>
+				        </Description>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AEENDTC"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <ItemDef OID="AE.AEENTPT" Name="AEENTPT" DataType="text" Length="200"
+                  SASFieldName="AEENTPT">
+				        <Description>
+					          <TranslatedText>End Reference Time Point</TranslatedText>
+				        </Description>
+				        <CodeListRef CodeListOID="CL.C66728.STENRF"/>
+				        <def:Origin Type="CRF">
+					          <def:DocumentRef leafID="LF.0000">
+						            <def:PDFPageRef Type="NamedDestination" PageRefs="AEENTPT"/>
+					          </def:DocumentRef>
+				        </def:Origin>
+			      </ItemDef>
+			      <CodeList OID="CL.DOMAINS" Name="SDTM Domain Abbreviation" DataType="text">
+				        <CodeListItem CodedValue="AE" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>Adverse Events</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C49562"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="CM" OrderNumber="2">
+					          <Decode>
+						            <TranslatedText>Concomitant Medications</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C49568"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="DD" OrderNumber="3">
+					          <Decode>
+						            <TranslatedText>Death Details</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C95087"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="DM" OrderNumber="4">
+					          <Decode>
+						            <TranslatedText>Demographics</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C49572"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="EG" OrderNumber="5">
+					          <Decode>
+						            <TranslatedText>ECG</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C49626"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="QS" OrderNumber="6">
+					          <Decode>
+						            <TranslatedText>Questionnaires</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C49609"/>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C66734"/>
+			      </CodeList>
+			      <CodeList OID="CL.C66742.NY" Name="No Yes Response" DataType="text">
+				        <CodeListItem CodedValue="N" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>N</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C49487"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="Y" OrderNumber="2">
+					          <Decode>
+						            <TranslatedText>Y</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C49488"/>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C66742"/>
+			      </CodeList>
+			      <CodeList OID="CL.C66781.AGEU" Name="Age Unit" DataType="text">
+				        <CodeListItem CodedValue="YEARS" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>YEARS</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C29848"/>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C66781"/>
+			      </CodeList>
+			      <CodeList OID="CL.C66731.SEX" Name="Sex" DataType="text">
+				        <CodeListItem CodedValue="F" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>F</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C16576"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="M" OrderNumber="2">
+					          <Decode>
+						            <TranslatedText>M</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C20197"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="U" OrderNumber="3">
+					          <Decode>
+						            <TranslatedText>U</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C17998"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="UNDIFFERENTIATED" OrderNumber="4">
+					          <Decode>
+						            <TranslatedText>UNDIFFERENTIATED</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C45908"/>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C66731"/>
+			      </CodeList>
+			      <CodeList OID="CL.C74457.RACE" Name="Race" DataType="text">
+				        <CodeListItem CodedValue="AMERICAN INDIAN OR ALASKA NATIVE" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>AMERICAN INDIAN OR ALASKA NATIVE</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C41259"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="ASIAN" OrderNumber="2">
+					          <Decode>
+						            <TranslatedText>ASIAN</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C41260"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="BLACK OR AFRICAN AMERICAN" OrderNumber="3">
+					          <Decode>
+						            <TranslatedText>BLACK OR AFRICAN AMERICAN</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C16352"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" OrderNumber="4">
+					          <Decode>
+						            <TranslatedText>NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C41219"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="WHITE" OrderNumber="5">
+					          <Decode>
+						            <TranslatedText>WHITE</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C41261"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="NOT REPORTED" OrderNumber="6">
+					          <Decode>
+						            <TranslatedText>NOT REPORTED</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C43234"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="UNKNOWN" OrderNumber="7">
+					          <Decode>
+						            <TranslatedText>UNKNOWN</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C17998"/>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C74457"/>
+			      </CodeList>
+			      <CodeList OID="CL.C66790.ETHNIC" Name="Ethnic Group" DataType="text">
+				        <CodeListItem CodedValue="HISPANIC OR LATINO" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>HISPANIC OR LATINO</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C17459"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="NOT HISPANIC OR LATINO" OrderNumber="2">
+					          <Decode>
+						            <TranslatedText>NOT HISPANIC OR LATINO</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C41222"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="NOT REPORTED" OrderNumber="3">
+					          <Decode>
+						            <TranslatedText>NOT REPORTED</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C43234"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="UNKNOWN" OrderNumber="4">
+					          <Decode>
+						            <TranslatedText>UNKNOWN</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C17998"/>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C66790"/>
+			      </CodeList>
+			      <CodeList OID="CL.C66786.COUNTRY" Name="Country" DataType="text">
+				        <CodeListItem CodedValue="DNK" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>DNK</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C16496"/>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C66786"/>
+			      </CodeList>
+			      <CodeList OID="CL.C71620.UNIT" Name="Unit" DataType="text">
+				        <CodeListItem CodedValue="ug" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>ug</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C48152"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="mg" OrderNumber="2">
+					          <Decode>
+						            <TranslatedText>mg</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C28253"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="g" OrderNumber="3">
+					          <Decode>
+						            <TranslatedText>g</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C48155"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="mL" OrderNumber="4">
+					          <Decode>
+						            <TranslatedText>mL</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C28254"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="APPLICATION" OrderNumber="5">
+					          <Decode>
+						            <TranslatedText>APPLICATION</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C25397"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="IU" OrderNumber="6">
+					          <Decode>
+						            <TranslatedText>International Unit</TranslatedText>
+					          </Decode>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="TABLET" OrderNumber="7">
+					          <Decode>
+						            <TranslatedText>TABLET</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C48542"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="CAPSULE" OrderNumber="8">
+					          <Decode>
+						            <TranslatedText>CAPSULE</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C48480"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="OTHER" OrderNumber="9">
+					          <Decode>
+						            <TranslatedText>Other</TranslatedText>
+					          </Decode>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C71620"/>
+			      </CodeList>
+			      <CodeList OID="CL.C71113.FREQ" Name="Frequency" DataType="text">
+				        <CodeListItem CodedValue="BID" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>BID</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C64496"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="PRN" OrderNumber="2">
+					          <Decode>
+						            <TranslatedText>PRN</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C64499"/>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C71113"/>
+			      </CodeList>
+			      <CodeList OID="CL.C66729.ROUTE" Name="Route of Administration" DataType="text">
+				        <CodeListItem CodedValue="ORAL" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>ORAL</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C38288"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="SUBCUTANEOUS" OrderNumber="2">
+					          <Decode>
+						            <TranslatedText>SUBCUTANEOUS</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C38299"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="TOPICAL" OrderNumber="3">
+					          <Decode>
+						            <TranslatedText>TOPICAL</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C38304"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="TRANSDERMAL" OrderNumber="4">
+					          <Decode>
+						            <TranslatedText>TRANSDERMAL</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C38305"/>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C66729"/>
+			      </CodeList>
+			      <CodeList OID="CL.C66728.STENRF" Name="Relation to Reference Period" DataType="text">
+				        <CodeListItem CodedValue="AFTER" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>AFTER</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C38008"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="BEFORE" OrderNumber="2">
+					          <Decode>
+						            <TranslatedText>BEFORE</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C25629"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="COINCIDENT" OrderNumber="3">
+					          <Decode>
+						            <TranslatedText>COINCIDENT</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C25456"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="DURING" OrderNumber="4">
+					          <Decode>
+						            <TranslatedText>DURING</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C25490"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="DURING/AFTER" OrderNumber="5">
+					          <Decode>
+						            <TranslatedText>DURING/AFTER</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C49640"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="ONGOING" OrderNumber="6">
+					          <Decode>
+						            <TranslatedText>ONGOING</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C53279"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="UNKNOWN" OrderNumber="7">
+					          <Decode>
+						            <TranslatedText>UNKNOWN</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C17998"/>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C66728"/>
+			      </CodeList>
+			      <CodeList OID="CL.C74456.LOC" Name="Anatomical Location" DataType="text">
+				        <CodeListItem CodedValue="FACE" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>FACE</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C13071"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="GENITALIA" OrderNumber="2">
+					          <Decode>
+						            <TranslatedText>GENITALIA</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C25177"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="HAND" OrderNumber="3">
+					          <Decode>
+						            <TranslatedText>HAND</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C32712"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="HEAD" OrderNumber="4">
+					          <Decode>
+						            <TranslatedText>HEAD</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C12419"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="LIMB, LOWER" OrderNumber="5">
+					          <Decode>
+						            <TranslatedText>LIMB, LOWER</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C12742"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="LIMB, UPPER" OrderNumber="6">
+					          <Decode>
+						            <TranslatedText>LIMB, UPPER</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C12671"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="SCALP" OrderNumber="7">
+					          <Decode>
+						            <TranslatedText>SCALP</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C89807"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="TRUNK" OrderNumber="8">
+					          <Decode>
+						            <TranslatedText>TRUNK</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C33816"/>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C74456"/>
+			      </CodeList>
+			      <CodeList OID="CL.C99073.LAT" Name="Laterality" DataType="text">
+				        <CodeListItem CodedValue="LEFT" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>LEFT</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C25229"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="RIGHT" OrderNumber="2">
+					          <Decode>
+						            <TranslatedText>RIGHT</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C25228"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="NA" OrderNumber="3">
+					          <Decode>
+						            <TranslatedText>NOT APPLICABLE</TranslatedText>
+					          </Decode>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C99073"/>
+			      </CodeList>
+			      <CodeList OID="CL.C99074.DIR" Name="Directionality" DataType="text">
+				        <CodeListItem CodedValue="ANTERIOR" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>ANTERIOR</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C25231"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="POSTERIOR" OrderNumber="2">
+					          <Decode>
+						            <TranslatedText>POSTERIOR</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C25622"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="NA" OrderNumber="3">
+					          <Decode>
+						            <TranslatedText>NOT APPLICABLE</TranslatedText>
+					          </Decode>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C99074"/>
+			      </CodeList>
+			      <CodeList OID="CL.C78735.EVAL" Name="Evaluator" DataType="text">
+				        <CodeListItem CodedValue="INVESTIGATOR" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>INVESTIGATOR</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C25936"/>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C78735"/>
+			      </CodeList>
+			      <CodeList OID="CL.C71153.EGTESTCD" Name="ECG Test Code" DataType="text">
+				        <CodeListItem CodedValue="INTP" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>INTP</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C41255"/>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C71153"/>
+			      </CodeList>
+			      <CodeList OID="CL.C71152.EGTEST" Name="ECG Test Name" DataType="text">
+				        <CodeListItem CodedValue="Interpretation" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>Interpretation</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C41255"/>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C71152"/>
+			      </CodeList>
+			      <CodeList OID="CL.C71150.EGSTRESC" Name="ECG Result" DataType="text">
+				        <CodeListItem CodedValue="INCOMPLETE ECG" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>INCOMPLETE ECG</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C114167"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="OTHER INCORRECT ELECTRODE PLACEMENT" OrderNumber="2">
+					          <Decode>
+						            <TranslatedText>OTHER INCORRECT ELECTRODE PLACEMENT</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C114176"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="PAUSE" OrderNumber="3">
+					          <Decode>
+						            <TranslatedText>PAUSE</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C119250"/>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C71150"/>
+			      </CodeList>
+			      <CodeList OID="CL.C100129.QSCAT" Name="Questionnaire Category" DataType="text">
+				        <CodeListItem CodedValue="BSPI" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>Body Sites of Psoriasis Involvement</TranslatedText>
+					          </Decode>
+				        </CodeListItem>
+			      </CodeList>
+			      <CodeList OID="cl.cm_dscreas3" Name="Discontinuation treatment" DataType="text">
+				        <CodeListItem CodedValue="INADEQUATE EFFICACY" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>Inadequate efficacy</TranslatedText>
+					          </Decode>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="ADVERSE EVENT" OrderNumber="2">
+					          <Decode>
+						            <TranslatedText>Adverse event</TranslatedText>
+					          </Decode>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="OTHER" OrderNumber="3">
+					          <Decode>
+						            <TranslatedText>Other</TranslatedText>
+					          </Decode>
+				        </CodeListItem>
+				
+			      </CodeList>
+			      <CodeList OID="CL.MEDDRA" Name="Medical Dictionary for Regulatory Activities"
+                   DataType="text">
+				        <ExternalCodeList Dictionary="MedDRA" Version="24.1"/>
+			      </CodeList>
+			      <CodeList OID="CL.MEDDRA.CODE" Name="Medical Dictionary for Regulatory Activities - Code"
+                   DataType="integer">
+				        <ExternalCodeList Dictionary="MedDRA" Version="24.1"/>
+			      </CodeList>
+			      <CodeList OID="CL.C66767.ACN" Name="Action Taken with Study Treatment" DataType="text">
+				        <CodeListItem CodedValue="DOSE NOT CHANGED" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>DOSE NOT CHANGED</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C49504"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="DOSE REDUCED" OrderNumber="2">
+					          <Decode>
+						            <TranslatedText>DOSE REDUCED</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C49505"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="DOSE INCREASED" OrderNumber="3">
+					          <Decode>
+						            <TranslatedText>DOSE INCREASED</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C49503"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="DRUG INTERRUPTED" OrderNumber="4">
+					          <Decode>
+						            <TranslatedText>DRUG INTERRUPTED</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C49501"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="DRUG WITHDRAWN" OrderNumber="5">
+					          <Decode>
+						            <TranslatedText>DRUG WITHDRAWN</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C49502"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="NOT APPLICABLE" OrderNumber="6">
+					          <Decode>
+						            <TranslatedText>NOT APPLICABLE</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C48660"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="UNKNOWN" OrderNumber="7">
+					          <Decode>
+						            <TranslatedText>UNKNOWN</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C17998"/>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C66767"/>
+			      </CodeList>
+			      <CodeList OID="CL.C66768.OUT" Name="Outcome of Event" DataType="text">
+				        <CodeListItem CodedValue="FATAL" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>FATAL</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C48275"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="NOT RECOVERED/NOT RESOLVED" OrderNumber="2">
+					          <Decode>
+						            <TranslatedText>NOT RECOVERED/NOT RESOLVED</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C49494"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="RECOVERED/RESOLVED" OrderNumber="3">
+					          <Decode>
+						            <TranslatedText>RECOVERED/RESOLVED</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C49498"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="RECOVERED/RESOLVED WITH SEQUELAE" OrderNumber="4">
+					          <Decode>
+						            <TranslatedText>RECOVERED/RESOLVED WITH SEQUELAE</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C49495"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="RECOVERING/RESOLVING" OrderNumber="5">
+					          <Decode>
+						            <TranslatedText>RECOVERING/RESOLVING</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C49496"/>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="UNKNOWN" OrderNumber="6">
+					          <Decode>
+						            <TranslatedText>UNKNOWN</TranslatedText>
+					          </Decode>
+					          <Alias Context="nci:ExtCodeID" Name="C17998"/>
+				        </CodeListItem>
+				        <Alias Context="nci:ExtCodeID" Name="C66768"/>
+			      </CodeList>
+			      <CodeList OID="CL.C66784.TOXGRV3"
+                   Name="Common Terminology Criteria for Adverse Events V3.0"
+                   DataType="text">
+				        <CodeListItem CodedValue="0" OrderNumber="1">
+					          <Decode>
+						            <TranslatedText>0</TranslatedText>
+					          </Decode>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="1" OrderNumber="2">
+					          <Decode>
+						            <TranslatedText>1</TranslatedText>
+					          </Decode>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="2" OrderNumber="3">
+					          <Decode>
+						            <TranslatedText>2</TranslatedText>
+					          </Decode>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="3" OrderNumber="4">
+					          <Decode>
+						            <TranslatedText>3</TranslatedText>
+					          </Decode>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="4" OrderNumber="5">
+					          <Decode>
+						            <TranslatedText>4</TranslatedText>
+					          </Decode>
+				        </CodeListItem>
+				        <CodeListItem CodedValue="5" OrderNumber="6">
+					          <Decode>
+						            <TranslatedText>5</TranslatedText>
+					          </Decode>
+				        </CodeListItem>
+			      </CodeList>
+			      <MethodDef OID="M.0000" Name="DTHFL" Type="Computation">
+				        <Description>
+					          <TranslatedText>DTHDTC not NULL</TranslatedText>
+				        </Description>
+				        <FormalExpression Context="SAS">DTHDTC ne ''</FormalExpression>
+			      </MethodDef>
+			      <MethodDef OID="M.0001" Name="RFXSTDTC" Type="Computation">
+				        <Description>
+					          <TranslatedText>First exposure to IMP</TranslatedText>
+				        </Description>
+			      </MethodDef>
+			      <MethodDef OID="M.0002" Name="RFXENDTC" Type="Computation">
+				        <Description>
+					          <TranslatedText>Last exposure to IMP</TranslatedText>
+				        </Description>
+			      </MethodDef>
+			      <MethodDef OID="M.0003" Name="AGE" Type="Computation">
+				        <Description>
+					          <TranslatedText>Date of informed consent minus date of birth plus one in days</TranslatedText>
+				        </Description>
+				        <FormalExpression Context="SAS">RFICDTC - BRTHDTC + 1</FormalExpression>
+			      </MethodDef>
+			      <MethodDef OID="M.0004" Name="SEQ" Type="Computation">
+				        <Description>
+					          <TranslatedText>Strict chronological order</TranslatedText>
+				        </Description>
+			      </MethodDef>
+			      <MethodDef OID="M.0005" Name="STRESC" Type="Computation">
+				        <Description>
+					          <TranslatedText>Coded value of --ORRES</TranslatedText>
+				        </Description>
+			      </MethodDef>
+			      <MethodDef OID="M.0006" Name="MedDRA" Type="Computation">
+				        <Description>
+					          <TranslatedText>Coded from AETERM</TranslatedText>
+				        </Description>
+			      </MethodDef>
+			      <def:leaf ID="LF.0000" xlink:href="./">
+				        <def:title>acrf.pdf</def:title>
+			      </def:leaf>
+		    </MetaDataVersion>
+	  </Study>
+</ODM>
