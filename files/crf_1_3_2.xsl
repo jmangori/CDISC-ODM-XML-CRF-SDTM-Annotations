@@ -306,7 +306,7 @@
     <p>
       <img>
         <xsl:attribute name="src">
-          <xsl:value-of select="$parmlogo"/>
+          <xsl:if test="not(contains($parmlogo, '.'))"></xsl:if>data:image/png;base64,<xsl:value-of select="$parmlogo"/>
         </xsl:attribute>
       </img>
     </p>
@@ -427,7 +427,7 @@
                       </xsl:attribute>
                       <img height="40">
                         <xsl:attribute name="src">
-                          <xsl:value-of select="$parmlogo"/>
+                          <xsl:if test="not(contains($parmlogo, '.'))"></xsl:if>data:image/png;base64,<xsl:value-of select="$parmlogo"/>
                         </xsl:attribute>
                       </img>
                     </a>
