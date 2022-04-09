@@ -1,0 +1,752 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<!--
+     xsl:version = "1.0"
+     xsl:vendor = "libxslt"
+     xsl:vendor-url = "http://xmlsoft.org/XSLT/"
+   -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Script-Type" content="text/javascript">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title>Test Trial, SDTM-IG3.2</title>
+<script type="text/javascript">
+<!--
+/**
+ * With one argument, return the textContent or innerText of the element.
+ * With two arguments, set the textContent or innerText of element to value.
+ */
+function textContent(element, value) {
+  "use strict";
+  var rtn;
+  var content = element.textContent;  // Check if textContent is defined
+  if (value === undefined) { // No value passed, so return current text
+    if (content !== undefined) {
+      rtn = content;
+    } else {
+      rtn = element.innerText;
+    }
+    return rtn;
+  }
+  else { // A value was passed, so set text
+    if (content !== undefined) {
+      element.textContent = value;
+    } else {
+      element.innerText = value;
+    }
+  }
+}
+
+var ITEM  = '\u00A0';
+var CLOSE = '\u25BA';
+var OPEN  = '\u25BC';
+
+function toggle_submenu(e) {
+  "use strict";
+  if (textContent(e)===OPEN) {
+    textContent(e, CLOSE);
+  }
+  else {
+    textContent(e, OPEN);
+  }
+
+  var i;
+  for (i=0; i < e.parentNode.childNodes.length; i++) {
+    var c;
+    c=e.parentNode.childNodes[i];
+    if (c.tagName==='UL') {c.style.display=(c.style.display==='none') ? 'block' : 'none';}
+   }
+}
+
+function reset_menus() {
+"use strict";
+  var li;
+  var c;
+  var i;
+  var j;
+  var li_tags = document.getElementsByTagName('LI');
+  for (i=0; i < li_tags.length; i++) {
+    li=li_tags[i];
+    if ( li.className.match('hmenu-item') ){
+      for (j=0; j < li.childNodes.length; j++) {
+        c=li.childNodes[j];
+        if ( c.tagName === 'SPAN' && c.className.match('hmenu-bullet') ) {textContent(c, ITEM);}
+        }
+      }
+    if ( li.className.match('hmenu-submenu') ) {
+      for (j=0; j < li.childNodes.length; j++) {
+        c=li.childNodes[j];
+        if ( c.tagName === 'SPAN' && c.className.match('hmenu-bullet') ) {textContent(c, CLOSE);}
+        else if ( c.tagName === 'UL' ) { c.style.display = 'none'; }
+        }
+    }
+  }
+}
+
+function toggle_vlm(element) {
+  var child_id = element.childNodes[0].getAttribute("id");
+  var vlm_rows = document.getElementsByClassName(child_id);
+  for (j=0; j < vlm_rows.length; j++) {
+    if (vlm_rows[j].style.display==='none') {
+      vlm_rows[j].style.display=''; }
+    else {
+      vlm_rows[j].style.display='none'; 
+      }
+    }
+}
+
+function expand_all_vlm() {
+  var vlm_rows = document.getElementsByClassName("vlm");
+  for (j=0; j < vlm_rows.length; j++) {
+      vlm_rows[j].style.display='';
+    }
+}
+
+function collapse_all_vlm() {
+  var vlm_rows = document.getElementsByClassName("vlm");
+  for (j=0; j < vlm_rows.length; j++) {
+      vlm_rows[j].style.display='none';
+    }
+}
+
+/**
+ * Open external documents (PDFs, ...) in a new window.
+ */
+document.onclick = function(e)
+{
+  var target = e ? e.target : window.event.srcElement;    
+  while (target && !/^(a|body)$/i.test(target.nodeName))
+  {
+    target = target.parentNode;
+  }
+
+  if (target && target.className.match('external'))
+  {
+    var external = window.open(target.href);
+    return external.closed;
+  }
+}
+//-->
+</script>
+  <style type="text/css">
+      .external-link-gif{
+        background: 
+        url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9gCGhErDWL4mOoAAAB6SURBVBjTbVCxDcAgDHNRP2KDY9gYO5YbWNno1mPY6E3pAJEIYCmCOCQOPogII6wNkug4d49KiXMz1EiUEg8uLBN3Ui7FVduYmxjG3JRru+facubVuIdLEV4Dzwe8V4BYg7t4Ap+d57qUnuWICBzi116v1ggfd3bM+AEZWXFvnym8EwAAAABJRU5ErkJggg==)
+       no-repeat
+       right center;
+        padding: 8px;
+      }      
+      
+      body{
+        background-color: #FFFFFF;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: 62.5%;
+        margin: 0;
+        padding: 30px;
+      }
+      
+      h1{
+        font-size: 1.6em;
+        margin-left: 0;
+        font-weight: bolder;
+        text-align: left;
+        color: #696969;
+      }
+      
+      h1.header{
+        text-align: center;
+      }
+      
+      ul{
+        margin-left: 0px;
+      }
+      
+      a{
+      color: #0000FF;
+        text-decoration: underline;
+      }
+      a.visited{
+      color: #551A8B;
+        text-decoration: underline;
+      }
+      a:hover{
+      color: #FF9900;
+        text-decoration: underline;
+      }
+      a.tocItem{
+      color: #004A95;
+      text-decoration: none;
+      margin-top: 2px;
+      font-size: 1.4em;
+      }
+      .tocItem{
+      text-decoration: none;
+      margin-top: 2px;
+      font-size: 1.4em;
+      }
+      
+      #menu{
+        position: fixed;
+        left: 0px;
+        top: 10px;
+        width: 20%;
+        height: 96%;
+        bottom: 0px;
+        overflow: auto;
+        background-color: #FFFFFF;
+        color: #000000;
+        border: 0px;
+        text-align: left;
+        white-space: nowrap;
+      }
+ 
+      .hmenu li{
+        list-style-type: none;
+        line-height: 200%;
+        padding-left: 0;
+      }
+      .hmenu ul{
+        padding-left: 14px;
+        margin-left: 0;
+      }
+      .hmenu-item{
+      }
+      .hmenu-submenu{
+      }
+      .hmenu-bullet{
+        float: left;
+        width: 16px;
+        color: #AAAAAA;
+        font-size: 1.2em;
+      }
+      
+      div.buttons {
+        padding: 5px 0 5px 40px;
+        display: inline-block;
+      }
+        div.button {
+        padding: 5px 0 5px 0;   
+      }
+      
+      button { 
+        width: 100%;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: 3px 3px 2px #888;
+        -moz-box-shadow: 3px 3px 2px #888;
+        box-shadow: 3px 3px 2px #888;
+        padding: 4px 16px 4px 16px;
+        display:block;
+        cursor: pointer;
+      }
+
+      #main{
+        position: absolute;
+        left: 22%;
+        top: 0px;
+        overflow: auto;
+        background-color: #FFFFFF;
+        color: #000000;
+        float: none !important;
+      }
+      
+      ul.codelist{
+        padding: 1px;
+        margin-left: 1px;
+        margin-right: 1px;
+        margin-top: 1px;
+        margin-bottom: 1px;
+        
+      }
+      .codelist li{
+        list-style-type:none;
+        line-height: 200%;
+        padding-left: 0;
+        text-indent: -4px;
+      }
+      
+      .codelist-caption{
+        font-size: 1.4em;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        margin-left: 0;
+        font-weight: bolder;
+        text-align: left;
+        color: #696969;
+      }
+      
+      .codelist-item{
+        list-style-type: disk;
+        list-style-position: inside;
+        padding-left: 0;
+        padding-right: 0;
+        margin: 0 0 0 0;
+        }
+
+      .codelist-item-decode{
+        white-space: pre; /* CSS 2.0 */
+        white-space: pre-wrap; /* CSS 2.1 */
+         /* CSS 3.0 */
+        white-space: -pre-wrap; /* Opera 4-6 */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        white-space: -moz-pre-wrap; /* Mozilla */
+        white-space: -hp-pre-wrap; /* HP Printers */
+        word-wrap: break-word; /* IE 5+ */
+      }      
+
+      ul.SubClass {
+        list-style-type: '- ';
+        padding-left: 5;
+        margin: 0 0 0 0;
+      }
+      ul.SubClass.li {}
+
+      #main .docinfo{
+        width: 95%;
+        text-align: right;
+        padding: 0px 5px;
+      }
+      
+      div.containerbox{
+        padding: 0px;
+        margin: 10px auto;
+        border: 0px;
+        page-break-after: always;
+      }
+      
+      .study-name{
+        font-size: 1.6em;
+        font-weight: bold;
+        text-align: left;
+        padding: 15px;
+        margin-left: 20px;
+        margin-top: 40px;
+        margin-right: 20px;
+        margin-bottom: 20px;
+        color: #696969;
+        border: 0px;
+      }
+      
+      div.study-metadata{
+        font-size: 1.6em;
+        font-weight: bold;
+        text-align: left;
+        padding: 0px;
+        margin-left: 0px;
+        margin-top: 00px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+        color: #696969;
+        border: 0px;
+      }
+      
+      dl.study-metadata{
+        width: 95%;
+        padding: 5px 0px;
+        font-size: 0.8em;
+        color: black;
+      }
+      
+      dl.study-metadata dt{
+        clear: left;
+        float: left;
+        width: 200px;
+        margin: 0;
+        padding: 5px 5px 5px 0px;
+        font-weight: bold;
+      }
+      
+      dl.study-metadata dd{
+        margin-left: 210px;
+        padding: 5px;
+        font-weight: normal;
+        min-height: 20px;
+      }
+      
+      div.codelist{
+        page-break-after: avoid;
+      }
+      
+      div.qval-indent {
+      margin-left: 20px;
+      }
+      
+      div.qval-indent2 {
+      margin-left: 40px;
+      }
+      
+      table{
+        width: 95%;
+        border-spacing: 4px;
+        border: 1px solid #000000;
+        background-color: #EEEEEE;
+        margin-top: 5px;
+        border-collapse: collapse;
+        padding: 5px;
+        empty-cells: show;
+      }
+      
+      table caption{
+        border: 0px;
+        left: 20px;
+        font-size: 1.4em;
+        font-weight: bolder;
+        color: #696969;
+        margin: 10px auto;
+        text-align: left;
+      }
+      
+      .description{
+        margin-left: 0px;
+        color: black;
+        font-weight: normal;
+        font-size: 0.85em;
+      }
+      
+      table caption .dataset{
+        font-weight: normal;
+        float: right;
+      }
+
+      table caption.header{
+        font-size: 1.6em;
+        margin-left: 0;
+        font-weight: bolder;
+        text-align: center;
+        color: #696969;
+      }
+      
+      table tr{
+        border: 1px solid #000000;
+      }
+      
+      table tr.header{
+        background-color: #6699CC;
+        color: #FFFFFF;
+        font-weight: bold;
+      }
+      
+      table th{
+        font-weight: bold;
+        vertical-align: top;
+        text-align: left;
+        padding: 5px;
+        border: 1px solid #000000;
+        font-size: 1.3em;
+      }
+      
+      table th.codedvalue{
+        width: 20%;
+      }
+      table th.length{
+        width: 7%;
+      }
+ 
+      table th.label{
+        width: 13%;
+      }
+ 
+      table td{
+        vertical-align: top;
+        padding: 5px;
+        border: 1px solid #000000;
+        font-size: 1.2em;
+        line-height: 150%;
+      }
+
+      table td.datatype{
+        text-align: left;
+      }
+      table td.role{
+        text-align: left;
+      }
+      table td.number{
+        text-align: right;
+      }
+      
+      tr.tablerowodd{
+        background-color: #FFFFFF;
+      }
+      tr.tableroweven{
+        background-color: #EEEEEE;
+      }
+      
+      .linebreakcell{
+        vertical-align: top;
+        margin-top: 3px;
+        margin-bottom: 3px;
+      }
+      
+      .nci,
+      .extended{
+        font-style: italic;
+      }
+      .super{
+        vertical-align: super;
+      }
+      .footnote{
+        font-size: 1.2em;
+      }
+      
+      .valuelist-reference{
+      vertical-align: super;
+      font-size: 0.8em;
+      padding-left: 5px;
+      cursor: pointer;
+      }
+      
+      .valuelist-no-reference{
+      vertical-align: super;
+      font-size: 0.8em;
+      padding-left: 5px;
+      }
+      
+      div.formalexpression{
+        margin-top: 6px;
+        margin-bottom: 6px;      
+      }
+
+      span.label{
+        font-weight: bold;      
+      }
+
+      .formalexpression-reference{
+        vertical-align: super;
+        font-size: 0.8em;
+        padding-left: 5px;
+      }
+
+      .formalexpression-code{
+        font-family:"Courier New", monospace, serif;
+        font-size:1.2em;
+        line-height:120%;
+        display:block;
+        vertical-align:top;
+        margin: 0px;
+        padding: 5px 0 0 20px;
+        white-space:pre;  /* CSS 2.0 */
+        white-space: pre-wrap; /* CSS 2.1 */
+        /* CSS 3.0 */
+        white-space: -pre-wrap; /* Opera 4-6 */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        white-space: -moz-pre-wrap; /* Mozilla */
+        white-space: -hp-pre-wrap; /* HP Printers */
+        word-wrap: break-word; /* IE 5+ */
+      }
+      
+      .method-code{
+        vertical-align: top;
+        white-space: pre; /* CSS 2.0 */
+        white-space: pre-wrap; /* CSS 2.1 */
+         /* CSS 3.0 */
+        white-space: -pre-wrap; /* Opera 4-6 */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        white-space: -moz-pre-wrap; /* Mozilla */
+        white-space: -hp-pre-wrap; /* HP Printers */
+        word-wrap: break-word; /* IE 5+ */
+      }
+
+      .linktop{
+        font-size: 1.2em;
+        margin-top: 5px;
+      }
+      .documentinfo,
+      .stylesheetinfo{
+        font-size: 1.1em;
+        line-height: 60%;
+      }
+      
+      .invisible{
+        display: none;
+      }
+      
+      .standard-refeference {
+        width: 95%;
+        font-size: 1.0em;
+        font-weight: bold;
+        padding: 5px;
+        color: #696969;
+        white-space: nowrap;
+      }
+
+      .nodata{
+        width: 95%;
+        font-size: 1.0em;
+        font-weight: bold;
+        padding: 5px;
+        color: #000000;
+        white-space: nowrap;
+      }
+
+      span.unresolved{
+        color: #000000;
+      }
+      td.unresolved{
+      color: #000000;
+      }
+      td.span.unresolved{
+      color: #000000;
+      }
+      
+      span.prefix{
+        font-weight: normal;
+      }      
+
+      .arm-summary{
+        width: 95%;
+        border-spacing: 5px;
+        border-width: 1px;
+        border-color: #000000;
+        border-style: solid solid none solid;
+        background-color: #EEEEEE;
+        font-size: 1.2em;
+        line-height: 150%;
+        vertical-align: top;
+      }
+      .arm-summary-resultdisplay{
+        margin: 0px 0px 0px 0px;
+        padding: 10px 10px 10px 10px;  
+        border-spacing: 5px;
+        border-width: 1px;
+        border-color #000000;
+        border-style: none none solid none;
+      }
+
+      .arm-display-title{
+        margin-left: 5pt;
+      }
+      
+      .table.analysisresults-detail{
+        background-color: #EEEEEE;
+      }
+      
+      .arm-summary-result{
+        margin-left: 20px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+      th span.arm-displaytitle{
+        font-weight: bold;
+      }
+      td span.arm-resulttitle{
+        font-weight: bold;
+      }
+      tr.arm-analysisresult{
+        background-color: #6699CC;
+        color: #FFFFFF;
+        font-weight: bold;
+        border: 1px solid #000000;
+      }
+      td.arm-label{
+        font-weight: bold;
+      }
+
+      p.arm-analysisvariable{
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+      .arm-data-reference{
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+      
+      .arm-code-context{
+        padding: 5px 0px;
+      }
+      .arm-code-ref{
+        font-size: 1.2em;
+        line-height: 150%;
+        padding: 5px;
+      }
+
+      .arm-code{
+        font-family:"Courier New", monospace, serif;
+        font-size:1.2em;
+        line-height:120%;
+        display:block;
+        vertical-align:top;
+        margin: 0px;
+        padding:0px;
+        white-space:pre;  /* CSS 2.0 */
+        white-space: pre-wrap; /* CSS 2.1 */
+        /* CSS 3.0 */
+        white-space: -pre-wrap; /* Opera 4-6 */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        white-space: -moz-pre-wrap; /* Mozilla */
+        white-space: -hp-pre-wrap; /* HP Printers */
+        word-wrap: break-word; /* IE 5+ */
+      }
+      
+
+      
+      @media print{
+      
+        @page {
+          margin: 1.5cm;
+        }
+      
+        body,
+        h1,
+        table caption,
+        table caption.header{
+          color: #000;
+          background: #fff;
+          float: none !important;
+        }
+      
+        div.containerbox{
+          padding: 0px;
+          border: 0px;
+          page-break-after: always;
+        }
+      
+        a:link,
+        a:visited{
+          background: transparent;
+          text-decoration: none;
+          color: black;
+        }
+        a.external:link:after,
+        #main a:visited:after{
+          content: " (" attr(href) ") ";
+          font-size: 100%;
+          text-decoration: underline;
+          font-weight: normal;
+          color: black;
+        }
+        .external-link-gif,
+        .formalexpression-reference
+        .valuelist-reference{
+          display: none !important;
+          width: 0px;
+        }
+        
+        table{
+          border-width: 2px;
+        }
+
+        table tr.vlm{
+        display: table-row !important;
+        }
+      
+        #menu,
+        .linktop{
+          display: none !important;
+          width: 0px;
+        }
+        #main{
+          left: 2cm;
+          float: none !important;
+        }
+        span.prefix{
+          font-weight: normal;
+        }
+        
+        row, ul, img {
+          page-break-inside: avoid;
+        }
+      
+      }
+    </style>
+  </head><body onload="reset_menus();"><div id="menu"><a name="top" class="invisible" href="#main">Skip Navigation Link</a><span class="study-name">Test Trial</span><ul class="hmenu"><li class="hmenu-item"><span class="hmenu-bullet">+</span><a class="external tocItem" href="./">acrf.pdf</a><span class="external-link-gif"></span></li><li class="hmenu-submenu"><span class="hmenu-bullet" onclick="toggle_submenu(this);">+</span><a class="tocItem" href="#datasets">Datasets</a><ul><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#IG.DM">DM (Demographics)</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#IG.CM">CM (Concomitant Medications)</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#IG.AE">AE (Adverse Events)</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#IG.DD">DD (Death Details)</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#IG.EG">EG (ECG)</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#IG.QS">QS (Questionnaires)</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#IG.SUPPCM">SUPPCM (Supplemental Qualifiers CM)</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#IG.SUPPEG">SUPPEG (Supplemental Qualifiers EG)</a></li></ul></li><li class="hmenu-submenu"><span onclick="toggle_submenu(this);" class="hmenu-bullet">+</span><a href="#decodelist" class="tocItem">Controlled Terminology</a><ul><li class="hmenu-submenu"><span class="hmenu-bullet" onclick="toggle_submenu(this);">+</span><a class="tocItem" href="#decodelist">CodeLists</a><ul><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.DOMAINS">SDTM Domain Abbreviation</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C66742.NY">No Yes Response</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C66781.AGEU">Age Unit</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C66731.SEX">Sex</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C74457.RACE">Race</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C66790.ETHNIC">Ethnic Group</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C66786.COUNTRY">Country</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C71620.UNIT">Unit</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C71113.FREQ">Frequency</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C66729.ROUTE">Route of Administration</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C66728.STENRF">Relation to Reference Period</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C74456.LOC">Anatomical Location</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C99073.LAT">Laterality</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C99074.DIR">Directionality</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C78735.EVAL">Evaluator</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C71153.EGTESTCD">ECG Test Code</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C71152.EGTEST">ECG Test Name</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C71150.EGSTRESC">ECG Result</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C100129.QSCAT">Questionnaire Category</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.cl.cm_dscreas3">Discontinuation treatment</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C66767.ACN">Action Taken with Study Treatment</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C66768.OUT">Outcome of Event</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.C66784.TOXGRV3">Common Terminology Criteria for Adverse Events V3.0</a></li></ul></li><li class="hmenu-submenu"><span class="hmenu-bullet" onclick="toggle_submenu(this);">+</span><a class="tocItem" href="#externaldictionary">External Dictionaries</a><ul><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.MEDDRA">Medical Dictionary for Regulatory Activities</a></li><li class="hmenu-item"><span class="hmenu-bullet">-</span><a class="tocItem" href="#CL.CL.MEDDRA.CODE">Medical Dictionary for Regulatory Activities - Code</a></li></ul></li></ul></li></ul><div class="buttons"><div class="button"><button type="button" onclick="expand_all_vlm();">Expand all VLM</button></div><div class="button"><button type="button" onclick="collapse_all_vlm();">Collapse all VLM</button></div></div></div><div id="main"><div class="docinfo"><p class="documentinfo">Date/Time of Define-XML document generation: 2022-04-08T15:54:37+02:00</p><p class="documentinfo">Define-XML version: 2.0.0</p><p class="stylesheetinfo">Stylesheet version: 2018-11-21</p></div><div class="study-metadata"><dl class="study-metadata"><dt>Standard</dt><dd>SDTM-IG 3.2</dd><dt>Study Name</dt><dd>Test Trial</dd><dt>Study Description</dt><dd>Selection of SDTM domains</dd><dt>Protocol Name</dt><dd>Test</dd><dt>Metadata Name</dt><dd>Study Test, Data Definitions</dd><dt>Metadata Description</dt><dd>Study Test, Data Definitions</dd></dl></div><a id="datasets"></a><h1 class="invisible">Datasets</h1><div class="containerbox"><table summary="Data Definition Tables"><caption class="header">Datasets</caption><tr class="header"><th scope="col">Dataset</th><th scope="col">Description</th><th scope="col">Class
+            </th><th scope="col">Structure</th><th scope="col">Purpose</th><th scope="col">Keys</th><th scope="col">Documentation</th><th scope="col">Location</th></tr><tr class="tablerowodd" id="DM"><td><a href="#IG.DM">DM</a></td><td>Demographics</td><td>SPECIAL PURPOSE</td><td>One record per subject</td><td>Tabulation</td><td>STUDYID, DOMAIN, USUBJID</td><td></td><td><a class="external" href="dm.xpt">dm.xpt</a><span class="external-link-gif"></span> </td></tr><tr class="tableroweven" id="CM"><td><a href="#IG.CM">CM</a></td><td>Concomitant Medications</td><td>INTERVENTIONS</td><td>One record per recorded intervention occurrence or constant-dosing interval per subject</td><td>Tabulation</td><td>STUDYID, DOMAIN, USUBJID, CMSEQ</td><td></td><td><a class="external" href="cm.xpt">cm.xpt</a><span class="external-link-gif"></span> </td></tr><tr class="tablerowodd" id="AE"><td><a href="#IG.AE">AE</a></td><td>Adverse Events</td><td>EVENTS</td><td>One record per adverse event per subject</td><td>Tabulation</td><td>STUDYID, DOMAIN, USUBJID, AESEQ, AEGRPID, AESPID</td><td></td><td><a class="external" href="ae.xpt">ae.xpt</a><span class="external-link-gif"></span> </td></tr><tr class="tableroweven" id="DD"><td><a href="#IG.DD">DD</a></td><td>Death Details</td><td>FINDINGS</td><td>One record per finding per subject</td><td>Tabulation</td><td>STUDYID, DOMAIN, USUBJID, DDSEQ</td><td></td><td><a class="external" href="dd.xpt">dd.xpt</a><span class="external-link-gif"></span> </td></tr><tr class="tablerowodd" id="EG"><td><a href="#IG.EG">EG</a></td><td>ECG</td><td>FINDINGS</td><td>One record per ECG observation per time point per visit per subject</td><td>Tabulation</td><td>STUDYID, DOMAIN, USUBJID, EGSEQ</td><td></td><td><a class="external" href="eg.xpt">eg.xpt</a><span class="external-link-gif"></span> </td></tr><tr class="tableroweven" id="QS"><td><a href="#IG.QS">QS</a></td><td>Questionnaires</td><td>FINDINGS</td><td>One record per questionnaire per question per time point per visit per subject</td><td>Tabulation</td><td>STUDYID, DOMAIN, USUBJID, QSSEQ</td><td></td><td><a class="external" href="qs.xpt">qs.xpt</a><span class="external-link-gif"></span> </td></tr><tr class="tablerowodd" id="SUPPCM"><td><a href="#IG.SUPPCM">SUPPCM</a></td><td>Supplemental Qualifiers CM</td><td>RELATIONSHIP</td><td>One record per IDVAR, IDVARVAL, and QNAM value per subject</td><td>Tabulation</td><td>STUDYID, RDOMAIN, USUBJID, IDVAR, IDVARVAL, QNAM</td><td></td><td><a class="external" href="suppcm.xpt">suppcm.xpt</a><span class="external-link-gif"></span> </td></tr><tr class="tableroweven" id="SUPPEG"><td><a href="#IG.SUPPEG">SUPPEG</a></td><td>Supplemental Qualifiers EG</td><td>RELATIONSHIP</td><td>One record per IDVAR, IDVARVAL, and QNAM value per subject</td><td>Tabulation</td><td>STUDYID, RDOMAIN, USUBJID, IDVAR, IDVARVAL, QNAM</td><td></td><td><a class="external" href="suppeg.xpt">suppeg.xpt</a><span class="external-link-gif"></span> </td></tr></table></div><p class="linktop">Go to the <a href="#main">top</a> of the Define-XML document</p><br><a id="IG.DM"></a><div class="containerbox"><h1 class="invisible">Demographics (DM) </h1><table summary="ItemGroup IG.DM"><caption><span>DM (Demographics) - SPECIAL PURPOSE <span class="dataset">Location: <a class="external" href="dm.xpt">dm.xpt</a><span class="external-link-gif"></span> </span></span></caption><tr class="header"><th scope="col">Variable</th><th scope="col">Label / Description</th><th scope="col">Type</th><th scope="col">Role</th><th scope="col" class="length">Length or Display Format</th><th scope="col" abbr="Format">Controlled Terms or ISO Format</th><th scope="col">Origin / Source / Method / Comment</th></tr><tr class="tablerowodd"><td><a id="DM.DM.STUDYID"></a>STUDYID</td><td>Study Identifier</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Protocol</div></td></tr><tr class="tableroweven"><td><a id="DM.DM.DOMAIN"></a>DOMAIN</td><td>Domain Abbreviation</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">2</td><td><a href="#CL.CL.DOMAINS">SDTM Domain Abbreviation</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tablerowodd"><td><a id="DM.DM.USUBJID"></a>USUBJID</td><td>Unique Subject Identifier</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>eDT</div></td></tr><tr class="tableroweven"><td><a id="DM.DM.SUBJID"></a>SUBJID</td><td>Subject Identifier for the Study</td><td class="datatype">text</td><td class="role">Topic</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>eDT</div></td></tr><tr class="tablerowodd"><td><a id="DM.DM.RFSTDTC"></a>RFSTDTC</td><td>Subject Reference Start Date/Time</td><td class="datatype">datetime</td><td class="role">Record Qualifier</td><td class="number"></td><td>ISO 8601</td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tableroweven"><td><a id="DM.DM.RFENDTC"></a>RFENDTC</td><td>Subject Reference End Date/Time</td><td class="datatype">datetime</td><td class="role">Record Qualifier</td><td class="number"></td><td>ISO 8601</td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tablerowodd"><td><a id="DM.DM.RFXSTDTC"></a>RFXSTDTC</td><td>Date/Time of First Study Treatment</td><td class="datatype">datetime</td><td class="role">Record Qualifier</td><td class="number"></td><td>ISO 8601</td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">First exposure to IMP</div></td></tr><tr class="tableroweven"><td><a id="DM.DM.RFXENDTC"></a>RFXENDTC</td><td>Date/Time of Last Study Treatment</td><td class="datatype">datetime</td><td class="role">Record Qualifier</td><td class="number"></td><td>ISO 8601</td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Last exposure to IMP</div></td></tr><tr class="tablerowodd"><td><a id="DM.DM.RFICDTC"></a>RFICDTC</td><td>Date/Time of Informed Consent</td><td class="datatype">datetime</td><td class="role">Record Qualifier</td><td class="number"></td><td>ISO 8601</td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tableroweven"><td><a id="DM.DM.RFPENDTC"></a>RFPENDTC</td><td>Date/Time of End of Participation</td><td class="datatype">datetime</td><td class="role">Record Qualifier</td><td class="number"></td><td>ISO 8601</td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tablerowodd"><td><a id="DM.DM.DTHDTC"></a>DTHDTC</td><td>Date/Time of Death</td><td class="datatype">datetime</td><td class="role">Record Qualifier</td><td class="number"></td><td>ISO 8601</td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#DTHDTC">DTHDTC</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="DM.DM.DTHFL"></a>DTHFL</td><td>Subject Death Flag</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66742.NY">No Yes Response</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">DTHDTC not NULL<span class="formalexpression-reference"><a href="#MT.M.0000" title="Formal Expression">Formal Expression</a></span></div></td></tr><tr class="tablerowodd"><td><a id="DM.DM.SITEID"></a>SITEID</td><td>Study Site Identifier</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>eDT</div></td></tr><tr class="tableroweven"><td><a id="DM.DM.BRTHDTC"></a>BRTHDTC</td><td>Date/Time of Birth</td><td class="datatype">datetime</td><td class="role">Record Qualifier</td><td class="number"></td><td>ISO 8601</td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#BRTHDTC">BRTHDTC</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="DM.DM.AGE"></a>AGE</td><td>Age</td><td class="datatype">float</td><td class="role">Record Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Date of informed consent minus date of birth plus one in days<span class="formalexpression-reference"><a href="#MT.M.0003" title="Formal Expression">Formal Expression</a></span></div></td></tr><tr class="tableroweven"><td><a id="DM.DM.AGEU"></a>AGEU</td><td>Age Units</td><td class="datatype">text</td><td class="role">Variable Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66781.AGEU">Age Unit</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Protocol</div></td></tr><tr class="tablerowodd"><td><a id="DM.DM.SEX"></a>SEX</td><td>Sex</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66731.SEX">Sex</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#SEX">SEX</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="DM.DM.RACE"></a>RACE</td><td>Race</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C74457.RACE">Race</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#RACE">RACE</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="DM.DM.ETHNIC"></a>ETHNIC</td><td>Ethnicity</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66790.ETHNIC">Ethnic Group</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#ETHNIC">ETHNIC</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="DM.DM.ARMCD"></a>ARMCD</td><td>Planned Arm Code</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">20</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tablerowodd"><td><a id="DM.DM.ARM"></a>ARM</td><td>Description of Planned Arm</td><td class="datatype">text</td><td class="role">Synonym Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tableroweven"><td><a id="DM.DM.ACTARMCD"></a>ACTARMCD</td><td>Actual Arm Code</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">20</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tablerowodd"><td><a id="DM.DM.ACTARM"></a>ACTARM</td><td>Description of Actual Arm</td><td class="datatype">text</td><td class="role">Synonym Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tableroweven"><td><a id="DM.DM.COUNTRY"></a>COUNTRY</td><td>Country</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66786.COUNTRY">Country</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Protocol</div></td></tr></table></div><p class="linktop">Go to the <a href="#main">top</a> of the Define-XML document</p><br><a id="IG.CM"></a><div class="containerbox"><h1 class="invisible">Concomitant Medications (CM) </h1><table summary="ItemGroup IG.CM"><caption><span>CM (Concomitant Medications) - INTERVENTIONS <span class="dataset">Location: <a class="external" href="cm.xpt">cm.xpt</a><span class="external-link-gif"></span> </span></span></caption><tr><td colspan="8">Related Supplemental Qualifiers Dataset: <a href="#IG.SUPPCM">SUPPCM</a> (Supplemental Qualifiers CM)</td></tr><tr class="header"><th scope="col">Variable</th><th scope="col">Label / Description</th><th scope="col">Type</th><th scope="col">Role</th><th scope="col" class="length">Length or Display Format</th><th scope="col" abbr="Format">Controlled Terms or ISO Format</th><th scope="col">Origin / Source / Method / Comment</th></tr><tr class="tablerowodd"><td><a id="CM.CM.STUDYID"></a>STUDYID</td><td>Study Identifier</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Protocol</div></td></tr><tr class="tableroweven"><td><a id="CM.CM.DOMAIN"></a>DOMAIN</td><td>Domain Abbreviation</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">2</td><td><a href="#CL.CL.DOMAINS">SDTM Domain Abbreviation</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tablerowodd"><td><a id="CM.CM.USUBJID"></a>USUBJID</td><td>Unique Subject Identifier</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Predecessor: Copy of DM.USUBJID</div></td></tr><tr class="tableroweven"><td><a id="CM.CM.CMSEQ"></a>CMSEQ</td><td>Sequence Number</td><td class="datatype">float</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Strict chronological order</div></td></tr><tr class="tablerowodd"><td><a id="CM.CM.CMTRT"></a>CMTRT</td><td>Reported Name of Drug, Med, or Therapy</td><td class="datatype">text</td><td class="role">Topic</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#CMTRT">CMTRT</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="CM.CM.CMCAT"></a>CMCAT</td><td>Category for Medication</td><td class="datatype">text</td><td class="role">Grouping Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#CMCAT">CMCAT</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="CM.CM.CMSCAT"></a>CMSCAT</td><td>Subcategory for Medication</td><td class="datatype">text</td><td class="role">Grouping Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#CMSCAT">CMSCAT</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="CM.CM.CMOCCUR"></a>CMOCCUR</td><td>CM Occurrence</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66742.NY">No Yes Response</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#CMOCCUR">CMOCCUR</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="CM.CM.CMREASND"></a>CMREASND</td><td>Reason Medication Not Collected</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#CMREASND">CMREASND</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="CM.CM.CMDOSE"></a>CMDOSE</td><td>Dose per Administration</td><td class="datatype">float</td><td class="role">Record Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#CMDOSE">CMDOSE</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="CM.CM.CMDOSTXT"></a>CMDOSTXT</td><td>Dose Description</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#CMDOSTXT">CMDOSTXT</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="CM.CM.CMDOSU"></a>CMDOSU</td><td>Dose Units</td><td class="datatype">text</td><td class="role">Variable Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C71620.UNIT">Unit</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#CMDOSU">CMDOSU</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="CM.CM.CMDOSFRQ"></a>CMDOSFRQ</td><td>Dosing Frequency per Interval</td><td class="datatype">text</td><td class="role">Variable Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C71113.FREQ">Frequency</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#CMDOSFRQ">CMDOSFRQ</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="CM.CM.CMROUTE"></a>CMROUTE</td><td>Route of Administration</td><td class="datatype">text</td><td class="role">Variable Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66729.ROUTE">Route of Administration</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#CMROUTE">CMROUTE</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="CM.CM.CMSTDTC"></a>CMSTDTC</td><td>Start Date/Time of Medication</td><td class="datatype">datetime</td><td class="role">Timing</td><td class="number"></td><td>ISO 8601</td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#CMSTDTC">CMSTDTC</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="CM.CM.CMENDTC"></a>CMENDTC</td><td>End Date/Time of Medication</td><td class="datatype">datetime</td><td class="role">Timing</td><td class="number"></td><td>ISO 8601</td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#CMENDTC">CMENDTC</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="CM.CM.CMENRTPT"></a>CMENRTPT</td><td>End Relative to Reference Time Point</td><td class="datatype">text</td><td class="role">Timing</td><td class="number">200</td><td><a href="#CL.CL.C66728.STENRF">Relation to Reference Period</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#CMENRTPT">CMENRTPT</a><span class="external-link-gif"></span> ]</p></td></tr></table></div><p class="linktop">Go to the <a href="#main">top</a> of the Define-XML document</p><br><a id="IG.AE"></a><div class="containerbox"><h1 class="invisible">Adverse Events (AE) </h1><table summary="ItemGroup IG.AE"><caption><span>AE (Adverse Events) - EVENTS <span class="dataset">Location: <a class="external" href="ae.xpt">ae.xpt</a><span class="external-link-gif"></span> </span></span></caption><tr class="header"><th scope="col">Variable</th><th scope="col">Label / Description</th><th scope="col">Type</th><th scope="col">Role</th><th scope="col" class="length">Length or Display Format</th><th scope="col" abbr="Format">Controlled Terms or ISO Format</th><th scope="col">Origin / Source / Method / Comment</th></tr><tr class="tablerowodd"><td><a id="AE.AE.STUDYID"></a>STUDYID</td><td>Study Identifier</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Protocol</div></td></tr><tr class="tableroweven"><td><a id="AE.AE.DOMAIN"></a>DOMAIN</td><td>Domain Abbreviation</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">2</td><td><a href="#CL.CL.DOMAINS">SDTM Domain Abbreviation</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tablerowodd"><td><a id="AE.AE.USUBJID"></a>USUBJID</td><td>Unique Subject Identifier</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Predecessor: Copy of DM.USUBJID</div></td></tr><tr class="tableroweven"><td><a id="AE.AE.AESEQ"></a>AESEQ</td><td>Sequence Number</td><td class="datatype">float</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Strict chronological order</div></td></tr><tr class="tablerowodd"><td><a id="AE.AE.AEGRPID"></a>AEGRPID</td><td>Group ID</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AEGRPID">AEGRPID</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="AE.AE.AESPID"></a>AESPID</td><td>Sponsor-Defined Identifier</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AESPID">AESPID</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="AE.AE.AETERM"></a>AETERM</td><td>Reported Term for the Adverse Event</td><td class="datatype">text</td><td class="role">Topic</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AETERM">AETERM</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="AE.AE.AELLT"></a>AELLT</td><td>Lowest Level Term</td><td class="datatype">text</td><td class="role">Variable Qualifier</td><td class="number">200</td><td><a href="#CL.CL.MEDDRA">Medical Dictionary for Regulatory Activities</a><p class="linebreakcell">MedDRA 24.1</p></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Coded from AETERM</div></td></tr><tr class="tablerowodd"><td><a id="AE.AE.AELLTCD"></a>AELLTCD</td><td>Lowest Level Term Code</td><td class="datatype">integer</td><td class="role">Variable Qualifier</td><td class="number">8</td><td><a href="#CL.CL.MEDDRA.CODE">Medical Dictionary for Regulatory Activities - Code</a><p class="linebreakcell">MedDRA 24.1</p></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Coded from AETERM</div></td></tr><tr class="tableroweven"><td><a id="AE.AE.AEDECOD"></a>AEDECOD</td><td>Dictionary-Derived Term</td><td class="datatype">text</td><td class="role">Synonym Qualifier</td><td class="number">200</td><td><a href="#CL.CL.MEDDRA">Medical Dictionary for Regulatory Activities</a><p class="linebreakcell">MedDRA 24.1</p></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Coded from AETERM</div></td></tr><tr class="tablerowodd"><td><a id="AE.AE.AEPTCD"></a>AEPTCD</td><td>Preferred Term Code</td><td class="datatype">integer</td><td class="role">Variable Qualifier</td><td class="number">8</td><td><a href="#CL.CL.MEDDRA.CODE">Medical Dictionary for Regulatory Activities - Code</a><p class="linebreakcell">MedDRA 24.1</p></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Coded from AETERM</div></td></tr><tr class="tableroweven"><td><a id="AE.AE.AEHLT"></a>AEHLT</td><td>High Level Term</td><td class="datatype">text</td><td class="role">Variable Qualifier</td><td class="number">200</td><td><a href="#CL.CL.MEDDRA">Medical Dictionary for Regulatory Activities</a><p class="linebreakcell">MedDRA 24.1</p></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Coded from AETERM</div></td></tr><tr class="tablerowodd"><td><a id="AE.AE.AEHLTCD"></a>AEHLTCD</td><td>High Level Term Code</td><td class="datatype">integer</td><td class="role">Variable Qualifier</td><td class="number">8</td><td><a href="#CL.CL.MEDDRA.CODE">Medical Dictionary for Regulatory Activities - Code</a><p class="linebreakcell">MedDRA 24.1</p></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Coded from AETERM</div></td></tr><tr class="tableroweven"><td><a id="AE.AE.AEHLGT"></a>AEHLGT</td><td>High Level Group Term</td><td class="datatype">text</td><td class="role">Variable Qualifier</td><td class="number">200</td><td><a href="#CL.CL.MEDDRA">Medical Dictionary for Regulatory Activities</a><p class="linebreakcell">MedDRA 24.1</p></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Coded from AETERM</div></td></tr><tr class="tablerowodd"><td><a id="AE.AE.AEHLGTCD"></a>AEHLGTCD</td><td>High Level Group Term Code</td><td class="datatype">integer</td><td class="role">Variable Qualifier</td><td class="number">8</td><td><a href="#CL.CL.MEDDRA.CODE">Medical Dictionary for Regulatory Activities - Code</a><p class="linebreakcell">MedDRA 24.1</p></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Coded from AETERM</div></td></tr><tr class="tableroweven"><td><a id="AE.AE.AEBODSYS"></a>AEBODSYS</td><td>Body System or Organ Class</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Coded from AETERM</div></td></tr><tr class="tablerowodd"><td><a id="AE.AE.AEBDSYCD"></a>AEBDSYCD</td><td>Body System or Organ Class Code</td><td class="datatype">integer</td><td class="role">Variable Qualifier</td><td class="number">8</td><td><a href="#CL.CL.MEDDRA.CODE">Medical Dictionary for Regulatory Activities - Code</a><p class="linebreakcell">MedDRA 24.1</p></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Coded from AETERM</div></td></tr><tr class="tableroweven"><td><a id="AE.AE.AESOC"></a>AESOC</td><td>Primary System Organ Class</td><td class="datatype">text</td><td class="role">Variable Qualifier</td><td class="number">200</td><td><a href="#CL.CL.MEDDRA">Medical Dictionary for Regulatory Activities</a><p class="linebreakcell">MedDRA 24.1</p></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Coded from AETERM</div></td></tr><tr class="tablerowodd"><td><a id="AE.AE.AESOCCD"></a>AESOCCD</td><td>Primary System Organ Class Code</td><td class="datatype">integer</td><td class="role">Variable Qualifier</td><td class="number">8</td><td><a href="#CL.CL.MEDDRA.CODE">Medical Dictionary for Regulatory Activities - Code</a><p class="linebreakcell">MedDRA 24.1</p></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Coded from AETERM</div></td></tr><tr class="tableroweven"><td><a id="AE.AE.AESER"></a>AESER</td><td>Serious Event</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66742.NY">No Yes Response</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AESER">AESER</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="AE.AE.AEACN"></a>AEACN</td><td>Action Taken with Study Treatment</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66767.ACN">Action Taken with Study Treatment</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AEACN">AEACN</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="AE.AE.AEREL"></a>AEREL</td><td>Causality</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AEREL">AEREL</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="AE.AE.AERELNST"></a>AERELNST</td><td>Relationship to Non-Study Treatment</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AERELNST">AERELNST</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="AE.AE.AEOUT"></a>AEOUT</td><td>Outcome of Adverse Event</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66768.OUT">Outcome of Event</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AEOUT">AEOUT</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="AE.AE.AESCONG"></a>AESCONG</td><td>Congenital Anomaly or Birth Defect</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66742.NY">No Yes Response</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AESCONG">AESCONG</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="AE.AE.AESDISAB"></a>AESDISAB</td><td>Persist or Signif Disability/Incapacity</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66742.NY">No Yes Response</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AESDISAB">AESDISAB</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="AE.AE.AESDTH"></a>AESDTH</td><td>Results in Death</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66742.NY">No Yes Response</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AESDTH">AESDTH</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="AE.AE.AESHOSP"></a>AESHOSP</td><td>Requires or Prolongs Hospitalization</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66742.NY">No Yes Response</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AESHOSP">AESHOSP</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="AE.AE.AESLIFE"></a>AESLIFE</td><td>Is Life Threatening</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66742.NY">No Yes Response</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AESLIFE">AESLIFE</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="AE.AE.AESOD"></a>AESOD</td><td>Occurred with Overdose</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66742.NY">No Yes Response</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AESOD">AESOD</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="AE.AE.AESMIE"></a>AESMIE</td><td>Other Medically Important Serious Event</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66742.NY">No Yes Response</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AESMIE">AESMIE</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="AE.AE.AECONTRT"></a>AECONTRT</td><td>Concomitant or Additional Trtmnt Given</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66742.NY">No Yes Response</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AECONTRT">AECONTRT</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="AE.AE.AETOXGR"></a>AETOXGR</td><td>Standard Toxicity Grade</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66784.TOXGRV3">Common Terminology Criteria for Adverse Events V3.0</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AETOXGR">AETOXGR</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="AE.AE.AESTDTC"></a>AESTDTC</td><td>Start Date/Time of Adverse Event</td><td class="datatype">datetime</td><td class="role">Timing</td><td class="number"></td><td>ISO 8601</td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AESTDTC">AESTDTC</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="AE.AE.AEENDTC"></a>AEENDTC</td><td>End Date/Time of Adverse Event</td><td class="datatype">datetime</td><td class="role">Timing</td><td class="number"></td><td>ISO 8601</td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AEENDTC">AEENDTC</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="AE.AE.AEENTPT"></a>AEENTPT</td><td>End Reference Time Point</td><td class="datatype">text</td><td class="role">Timing</td><td class="number">200</td><td><a href="#CL.CL.C66728.STENRF">Relation to Reference Period</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#AEENTPT">AEENTPT</a><span class="external-link-gif"></span> ]</p></td></tr></table></div><p class="linktop">Go to the <a href="#main">top</a> of the Define-XML document</p><br><a id="IG.DD"></a><div class="containerbox"><h1 class="invisible">Death Details (DD) </h1><table summary="ItemGroup IG.DD"><caption><span>DD (Death Details) - FINDINGS <span class="dataset">Location: <a class="external" href="dd.xpt">dd.xpt</a><span class="external-link-gif"></span> </span></span></caption><tr class="header"><th scope="col">Variable</th><th scope="col">Label / Description</th><th scope="col">Type</th><th scope="col">Role</th><th scope="col" class="length">Length or Display Format</th><th scope="col" abbr="Format">Controlled Terms or ISO Format</th><th scope="col">Origin / Source / Method / Comment</th></tr><tr class="tablerowodd"><td><a id="DD.DD.STUDYID"></a>STUDYID</td><td>Study Identifier</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Protocol</div></td></tr><tr class="tableroweven"><td><a id="DD.DD.DOMAIN"></a>DOMAIN</td><td>Domain Abbreviation</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">2</td><td><a href="#CL.CL.DOMAINS">SDTM Domain Abbreviation</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tablerowodd"><td><a id="DD.DD.USUBJID"></a>USUBJID</td><td>Unique Subject Identifier</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Predecessor: Copy of DM.USUBJID</div></td></tr><tr class="tableroweven"><td><a id="DD.DD.DDSEQ"></a>DDSEQ</td><td>Sequence Number</td><td class="datatype">float</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Strict chronological order</div></td></tr><tr class="tablerowodd"><td><a id="DD.DD.DDTESTCD"></a>DDTESTCD</td><td>Death Detail Assessment Short Name</td><td class="datatype">text</td><td class="role">Topic</td><td class="number">8</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#DDTESTCD">DDTESTCD</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="DD.DD.DDTEST"></a>DDTEST</td><td>Death Detail Assessment Name</td><td class="datatype">text</td><td class="role">Synonym Qualifier</td><td class="number">40</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#DDTEST">DDTEST</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="DD.DD.DDORRES"></a>DDORRES</td><td>Result or Finding as Collected</td><td class="datatype">text</td><td class="role">Result Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#DDORRES">DDORRES</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="DD.DD.DDSTRESC"></a>DDSTRESC</td><td>Character Result/Finding in Std Format</td><td class="datatype">text</td><td class="role">Result Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Coded value of --ORRES</div></td></tr><tr class="tablerowodd"><td><a id="DD.DD.DDDTC"></a>DDDTC</td><td>Date/Time of Collection</td><td class="datatype">datetime</td><td class="role">Timing</td><td class="number"></td><td>ISO 8601</td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>eDT</div></td></tr></table></div><p class="linktop">Go to the <a href="#main">top</a> of the Define-XML document</p><br><a id="IG.EG"></a><div class="containerbox"><h1 class="invisible">ECG (EG) </h1><table summary="ItemGroup IG.EG"><caption><span>EG (ECG) - FINDINGS <span class="dataset">Location: <a class="external" href="eg.xpt">eg.xpt</a><span class="external-link-gif"></span> </span></span></caption><tr><td colspan="8">Related Supplemental Qualifiers Dataset: <a href="#IG.SUPPEG">SUPPEG</a> (Supplemental Qualifiers EG)</td></tr><tr class="header"><th scope="col">Variable</th><th scope="col">Label / Description</th><th scope="col">Type</th><th scope="col">Role</th><th scope="col" class="length">Length or Display Format</th><th scope="col" abbr="Format">Controlled Terms or ISO Format</th><th scope="col">Origin / Source / Method / Comment</th></tr><tr class="tablerowodd"><td><a id="EG.EG.STUDYID"></a>STUDYID</td><td>Study Identifier</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Protocol</div></td></tr><tr class="tableroweven"><td><a id="EG.EG.DOMAIN"></a>DOMAIN</td><td>Domain Abbreviation</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">2</td><td><a href="#CL.CL.DOMAINS">SDTM Domain Abbreviation</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tablerowodd"><td><a id="EG.EG.USUBJID"></a>USUBJID</td><td>Unique Subject Identifier</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Predecessor: Copy of DM.USUBJID</div></td></tr><tr class="tableroweven"><td><a id="EG.EG.EGSEQ"></a>EGSEQ</td><td>Sequence Number</td><td class="datatype">float</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Strict chronological order</div></td></tr><tr class="tablerowodd"><td><a id="EG.EG.EGTESTCD"></a>EGTESTCD</td><td>ECG Test or Examination Short Name</td><td class="datatype">text</td><td class="role">Topic</td><td class="number">8</td><td><a href="#CL.CL.C71153.EGTESTCD">ECG Test Code</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Protocol</div></td></tr><tr class="tableroweven"><td><a id="EG.EG.EGTEST"></a>EGTEST</td><td>ECG Test or Examination Name</td><td class="datatype">text</td><td class="role">Synonym Qualifier</td><td class="number">40</td><td><a href="#CL.CL.C71152.EGTEST">ECG Test Name</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Protocol</div></td></tr><tr class="tablerowodd"><td><a id="EG.EG.EGORRES"></a>EGORRES</td><td>Result or Finding in Original Units</td><td class="datatype">text</td><td class="role">Result Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#EGORRES">EGORRES</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="EG.EG.EGSTRESC"></a>EGSTRESC</td><td>Character Result/Finding in Std Format</td><td class="datatype">text</td><td class="role">Result Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C71150.EGSTRESC">ECG Result</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Coded value of --ORRES</div></td></tr><tr class="tablerowodd"><td><a id="EG.EG.EGBLFL"></a>EGBLFL</td><td>Baseline Flag</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66742.NY">No Yes Response</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>eDT</div></td></tr><tr class="tableroweven"><td><a id="EG.EG.VISITNUM"></a>VISITNUM</td><td>Visit Number</td><td class="datatype">float</td><td class="role">Timing</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>eDT</div></td></tr><tr class="tablerowodd"><td><a id="EG.EG.EGDTC"></a>EGDTC</td><td>Date/Time of ECG</td><td class="datatype">datetime</td><td class="role">Timing</td><td class="number"></td><td>ISO 8601</td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Predecessor: EG.EGSTDTC</div></td></tr><tr class="tableroweven"><td><a id="EG.EG.EGSTDTC"></a>EGSTDTC</td><td>Start Date/Time of Observation</td><td class="datatype">datetime</td><td class="role">Timing</td><td class="number"></td><td>ISO 8601</td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#EGSTDTC">EGSTDTC</a><span class="external-link-gif"></span> ]</p></td></tr></table></div><p class="linktop">Go to the <a href="#main">top</a> of the Define-XML document</p><br><a id="IG.QS"></a><div class="containerbox"><h1 class="invisible">Questionnaires (QS) </h1><table summary="ItemGroup IG.QS"><caption><span>QS (Questionnaires) - FINDINGS <span class="dataset">Location: <a class="external" href="qs.xpt">qs.xpt</a><span class="external-link-gif"></span> </span></span></caption><tr class="header"><th scope="col">Variable</th><th scope="col">Label / Description</th><th scope="col">Type</th><th scope="col">Role</th><th scope="col" class="length">Length or Display Format</th><th scope="col" abbr="Format">Controlled Terms or ISO Format</th><th scope="col">Origin / Source / Method / Comment</th></tr><tr class="tablerowodd"><td><a id="QS.QS.STUDYID"></a>STUDYID</td><td>Study Identifier</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Protocol</div></td></tr><tr class="tableroweven"><td><a id="QS.QS.DOMAIN"></a>DOMAIN</td><td>Domain Abbreviation</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">2</td><td><a href="#CL.CL.DOMAINS">SDTM Domain Abbreviation</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tablerowodd"><td><a id="QS.QS.USUBJID"></a>USUBJID</td><td>Unique Subject Identifier</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Predecessor: Copy of DM.USUBJID</div></td></tr><tr class="tableroweven"><td><a id="QS.QS.QSSEQ"></a>QSSEQ</td><td>Sequence Number</td><td class="datatype">float</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Strict chronological order</div></td></tr><tr class="tablerowodd"><td><a id="QS.QS.QSTESTCD"></a>QSTESTCD</td><td>Question Short Name</td><td class="datatype">text</td><td class="role">Topic</td><td class="number">8</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#QSTESTCD">QSTESTCD</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="QS.QS.QSTEST"></a>QSTEST</td><td>Question Name</td><td class="datatype">text</td><td class="role">Synonym Qualifier</td><td class="number">40</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#QSTEST">QSTEST</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="QS.QS.QSCAT"></a>QSCAT</td><td>Category of Question</td><td class="datatype">text</td><td class="role">Grouping Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C100129.QSCAT">Questionnaire Category</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Protocol</div></td></tr><tr class="tableroweven"><td><a id="QS.QS.QSORRES"></a>QSORRES</td><td>Finding in Original Units</td><td class="datatype">text</td><td class="role">Result Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Protocol</div></td></tr><tr class="tablerowodd"><td><a id="QS.QS.QSSTRESC"></a>QSSTRESC</td><td>Character Result/Finding in Std Format</td><td class="datatype">text</td><td class="role">Result Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Derived</div><div class="method-code">Coded value of --ORRES</div></td></tr><tr class="tableroweven"><td><a id="QS.QS.QSLOC"></a>QSLOC</td><td>Location Used for the Measurement</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C74456.LOC">Anatomical Location</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#QSLOC">QSLOC</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="QS.QS.QSLAT"></a>QSLAT</td><td>Laterality</td><td class="datatype">text</td><td class="role">Variable Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C99073.LAT">Laterality</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#QSLAT">QSLAT</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td><a id="QS.QS.QSDIR"></a>QSDIR</td><td>Directionality</td><td class="datatype">text</td><td class="role">Variable Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C99074.DIR">Directionality</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#QSDIR">QSDIR</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="QS.QS.QSBLFL"></a>QSBLFL</td><td>Baseline Flag</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C66742.NY">No Yes Response</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>eDT</div></td></tr><tr class="tableroweven"><td><a id="QS.QS.VISITNUM"></a>VISITNUM</td><td>Visit Number</td><td class="datatype">float</td><td class="role">Timing</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>eDT</div></td></tr><tr class="tablerowodd"><td><a id="QS.QS.QSDTC"></a>QSDTC</td><td>Date/Time of Finding</td><td class="datatype">datetime</td><td class="role">Timing</td><td class="number"></td><td>ISO 8601</td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>eDT</div></td></tr></table></div><p class="linktop">Go to the <a href="#main">top</a> of the Define-XML document</p><br><a id="IG.SUPPCM"></a><div class="containerbox"><h1 class="invisible">Supplemental Qualifiers CM (SUPPCM) </h1><table summary="ItemGroup IG.SUPPCM"><caption><span>SUPPCM (Supplemental Qualifiers CM) - RELATIONSHIP <span class="dataset">Location: <a class="external" href="suppcm.xpt">suppcm.xpt</a><span class="external-link-gif"></span> </span></span></caption><tr><td colspan="8">Related Parent Dataset: <a href="#IG.CM">CM</a> (Concomitant Medications)</td></tr><tr class="header"><th scope="col">Variable</th><th scope="col">Label / Description</th><th scope="col">Type</th><th scope="col">Role</th><th scope="col" class="length">Length or Display Format</th><th scope="col" abbr="Format">Controlled Terms or ISO Format</th><th scope="col">Origin / Source / Method / Comment</th></tr><tr class="tablerowodd"><td><a id="SUPPCM.SUPPCM.STUDYID"></a>STUDYID</td><td>Study Identifier</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Protocol</div></td></tr><tr class="tableroweven"><td><a id="SUPPCM.SUPPCM.RDOMAIN"></a>RDOMAIN</td><td>Related Domain Abbreviation</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">4</td><td><a href="#CL.CL.DOMAINS">SDTM Domain Abbreviation</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tablerowodd"><td><a id="SUPPCM.SUPPCM.USUBJID"></a>USUBJID</td><td>Unique Subject Identifier</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Predecessor: Copy of DM.USUBJID</div></td></tr><tr class="tableroweven"><td><a id="SUPPCM.SUPPCM.IDVAR"></a>IDVAR</td><td>Identifying Variable</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tablerowodd"><td><a id="SUPPCM.SUPPCM.IDVARVAL"></a>IDVARVAL</td><td>Identifying Variable Value</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Predecessor: CM.CMSEQ</div></td></tr><tr class="tableroweven"><td><a id="SUPPCM.SUPPCM.QNAM"></a>QNAM</td><td>Qualifier Variable Name</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">8</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#SUPPCM.QNAM">SUPPCM.QNAM</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="SUPPCM.SUPPCM.QLABEL"></a>QLABEL</td><td>Qualifier Variable Label</td><td class="datatype">text</td><td class="role">Synonym Qualifier</td><td class="number">40</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#SUPPCM.QLABEL">SUPPCM.QLABEL</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td>QVAL<span class="valuelist-reference" onclick="toggle_vlm(this);"><a id="SUPPCM.SUPPCM.QVAL">VLM</a></span></td><td>Data Value</td><td class="datatype">text</td><td class="role">Result Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#SUPPCM.QVAL">SUPPCM.QVAL</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="vlm tableroweven SUPPCM.SUPPCM.QVAL"><td><div class="qval-indent">➤  <a href="#SUPPCM.SUPPCM.IDVAR" title="Identifying Variable">IDVAR</a> = "CMSEQ" and <br><a href="#SUPPCM.SUPPCM.IDVARVAL" title="Identifying Variable Value">IDVARVAL</a> = "CM.CMSEQ"</div></td><td>Was medication given at recom. regimen</td><td class="datatype">text</td><td class="role"></td><td class="number">20</td><td><a href="#CL.CL.C66742.NY">No Yes Response</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#CMRRGYN">CMRRGYN</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="vlm tableroweven SUPPCM.SUPPCM.QVAL"><td><div class="qval-indent">➤  <a href="#SUPPCM.SUPPCM.IDVARVAL" title="Identifying Variable Value">IDVARVAL</a> = "CMSEQ" and <br><a href="#SUPPCM.SUPPCM.IDVARVAL" title="Identifying Variable Value">IDVARVAL</a> = "CM.CMSEQ"</div></td><td>Why the medication not given at regimen</td><td class="datatype">text</td><td class="role"></td><td class="number">20</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#CMRRGREA">CMRRGREA</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="vlm tableroweven SUPPCM.SUPPCM.QVAL"><td><div class="qval-indent">➤  <a href="#SUPPCM.SUPPCM.IDVAR" title="Identifying Variable">IDVAR</a> = "CMSEQ" and <br><a href="#SUPPCM.SUPPCM.IDVARVAL" title="Identifying Variable Value">IDVARVAL</a> = "CM.CMSEQ"</div></td><td>Reason for treatment discontinuation</td><td class="datatype">text</td><td class="role"></td><td class="number">20</td><td><a href="#CL.cl.cm_dscreas3">Discontinuation treatment</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#CMRSDISC">CMRSDISC</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="SUPPCM.SUPPCM.QORIG"></a>QORIG</td><td>Origin</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tableroweven"><td><a id="SUPPCM.SUPPCM.QEVAL"></a>QEVAL</td><td>Evaluator</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C78735.EVAL">Evaluator</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr></table></div><p class="linktop">Go to the <a href="#main">top</a> of the Define-XML document</p><br><a id="IG.SUPPEG"></a><div class="containerbox"><h1 class="invisible">Supplemental Qualifiers EG (SUPPEG) </h1><table summary="ItemGroup IG.SUPPEG"><caption><span>SUPPEG (Supplemental Qualifiers EG) - RELATIONSHIP <span class="dataset">Location: <a class="external" href="suppeg.xpt">suppeg.xpt</a><span class="external-link-gif"></span> </span></span></caption><tr><td colspan="8">Related Parent Dataset: <a href="#IG.EG">EG</a> (ECG)</td></tr><tr class="header"><th scope="col">Variable</th><th scope="col">Label / Description</th><th scope="col">Type</th><th scope="col">Role</th><th scope="col" class="length">Length or Display Format</th><th scope="col" abbr="Format">Controlled Terms or ISO Format</th><th scope="col">Origin / Source / Method / Comment</th></tr><tr class="tablerowodd"><td><a id="SUPPEG.SUPPEG.STUDYID"></a>STUDYID</td><td>Study Identifier</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Protocol</div></td></tr><tr class="tableroweven"><td><a id="SUPPEG.SUPPEG.RDOMAIN"></a>RDOMAIN</td><td>Related Domain Abbreviation</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">4</td><td><a href="#CL.CL.DOMAINS">SDTM Domain Abbreviation</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tablerowodd"><td><a id="SUPPEG.SUPPEG.USUBJID"></a>USUBJID</td><td>Unique Subject Identifier</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Predecessor: Copy of DM.USUBJID</div></td></tr><tr class="tableroweven"><td><a id="SUPPEG.SUPPEG.IDVAR"></a>IDVAR</td><td>Identifying Variable</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tablerowodd"><td><a id="SUPPEG.SUPPEG.IDVARVAL"></a>IDVARVAL</td><td>Identifying Variable Value</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Predecessor: EG.EGSEQ</div></td></tr><tr class="tableroweven"><td><a id="SUPPEG.SUPPEG.QNAM"></a>QNAM</td><td>Qualifier Variable Name</td><td class="datatype">text</td><td class="role">Identifier</td><td class="number">8</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#SUPPEG.QNAM">SUPPEG.QNAM</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="SUPPEG.SUPPEG.QLABEL"></a>QLABEL</td><td>Qualifier Variable Label</td><td class="datatype">text</td><td class="role">Synonym Qualifier</td><td class="number">40</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#SUPPEG.QLABEL">SUPPEG.QLABEL</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tableroweven"><td>QVAL<span class="valuelist-reference" onclick="toggle_vlm(this);"><a id="SUPPEG.SUPPEG.QVAL">VLM</a></span></td><td>Data Value</td><td class="datatype">text</td><td class="role">Result Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#SUPPEG.QVAL">SUPPEG.QVAL</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="vlm tableroweven SUPPEG.SUPPEG.QVAL"><td><div class="qval-indent">➤  <a href="#SUPPEG.SUPPEG.USUBJID" title="Unique Subject Identifier">USUBJID</a> ≠ ""</div></td><td>ECG clinically significant</td><td class="datatype">text</td><td class="role"></td><td class="number">20</td><td><a href="#CL.CL.C66742.NY">No Yes Response</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>CRF</div><p class="linebreakcell">acrf.pdf [<a class="external" href="./#EGCLSIG">EGCLSIG</a><span class="external-link-gif"></span> ]</p></td></tr><tr class="tablerowodd"><td><a id="SUPPEG.SUPPEG.QORIG"></a>QORIG</td><td>Origin</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr><tr class="tableroweven"><td><a id="SUPPEG.SUPPEG.QEVAL"></a>QEVAL</td><td>Evaluator</td><td class="datatype">text</td><td class="role">Record Qualifier</td><td class="number">200</td><td><a href="#CL.CL.C78735.EVAL">Evaluator</a></td><td><div class="linebreakcell"><span class="prefix">[Origin] </span>Assigned</div></td></tr></table></div><p class="linktop">Go to the <a href="#main">top</a> of the Define-XML document</p><br><a id="decodelist"></a><div class="containerbox"><h1 class="header">CodeLists</h1><div class="codelist" id="CL.CL.DOMAINS"><div class="codelist-caption">SDTM Domain Abbreviation [<span class="nci">CL.DOMAINS,C66734</span>]</div><table summary="Controlled Term - SDTM Domain Abbreviation"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>AE [<span class="nci">C49562</span>]</td><td class="codelist-item-decode">Adverse Events</td></tr><tr class="tableroweven"><td>CM [<span class="nci">C49568</span>]</td><td class="codelist-item-decode">Concomitant Medications</td></tr><tr class="tablerowodd"><td>DD [<span class="nci">C95087</span>]</td><td class="codelist-item-decode">Death Details</td></tr><tr class="tableroweven"><td>DM [<span class="nci">C49572</span>]</td><td class="codelist-item-decode">Demographics</td></tr><tr class="tablerowodd"><td>EG [<span class="nci">C49626</span>]</td><td class="codelist-item-decode">ECG</td></tr><tr class="tableroweven"><td>QS [<span class="nci">C49609</span>]</td><td class="codelist-item-decode">Questionnaires</td></tr></table></div><div class="codelist" id="CL.CL.C66742.NY"><div class="codelist-caption">No Yes Response [<span class="nci">CL.C66742.NY,C66742</span>]</div><table summary="Controlled Term - No Yes Response"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>N [<span class="nci">C49487</span>]</td><td class="codelist-item-decode">N</td></tr><tr class="tableroweven"><td>Y [<span class="nci">C49488</span>]</td><td class="codelist-item-decode">Y</td></tr></table></div><div class="codelist" id="CL.CL.C66781.AGEU"><div class="codelist-caption">Age Unit [<span class="nci">CL.C66781.AGEU,C66781</span>]</div><table summary="Controlled Term - Age Unit"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>YEARS [<span class="nci">C29848</span>]</td><td class="codelist-item-decode">YEARS</td></tr></table></div><div class="codelist" id="CL.CL.C66731.SEX"><div class="codelist-caption">Sex [<span class="nci">CL.C66731.SEX,C66731</span>]</div><table summary="Controlled Term - Sex"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>F [<span class="nci">C16576</span>]</td><td class="codelist-item-decode">F</td></tr><tr class="tableroweven"><td>M [<span class="nci">C20197</span>]</td><td class="codelist-item-decode">M</td></tr><tr class="tablerowodd"><td>U [<span class="nci">C17998</span>]</td><td class="codelist-item-decode">U</td></tr><tr class="tableroweven"><td>UNDIFFERENTIATED [<span class="nci">C45908</span>]</td><td class="codelist-item-decode">UNDIFFERENTIATED</td></tr></table></div><div class="codelist" id="CL.CL.C74457.RACE"><div class="codelist-caption">Race [<span class="nci">CL.C74457.RACE,C74457</span>]</div><table summary="Controlled Term - Race"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>AMERICAN INDIAN OR ALASKA NATIVE [<span class="nci">C41259</span>]</td><td class="codelist-item-decode">AMERICAN INDIAN OR ALASKA NATIVE</td></tr><tr class="tableroweven"><td>ASIAN [<span class="nci">C41260</span>]</td><td class="codelist-item-decode">ASIAN</td></tr><tr class="tablerowodd"><td>BLACK OR AFRICAN AMERICAN [<span class="nci">C16352</span>]</td><td class="codelist-item-decode">BLACK OR AFRICAN AMERICAN</td></tr><tr class="tableroweven"><td>NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER [<span class="nci">C41219</span>]</td><td class="codelist-item-decode">NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER</td></tr><tr class="tablerowodd"><td>WHITE [<span class="nci">C41261</span>]</td><td class="codelist-item-decode">WHITE</td></tr><tr class="tableroweven"><td>NOT REPORTED [<span class="nci">C43234</span>]</td><td class="codelist-item-decode">NOT REPORTED</td></tr><tr class="tablerowodd"><td>UNKNOWN [<span class="nci">C17998</span>]</td><td class="codelist-item-decode">UNKNOWN</td></tr></table></div><div class="codelist" id="CL.CL.C66790.ETHNIC"><div class="codelist-caption">Ethnic Group [<span class="nci">CL.C66790.ETHNIC,C66790</span>]</div><table summary="Controlled Term - Ethnic Group"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>HISPANIC OR LATINO [<span class="nci">C17459</span>]</td><td class="codelist-item-decode">HISPANIC OR LATINO</td></tr><tr class="tableroweven"><td>NOT HISPANIC OR LATINO [<span class="nci">C41222</span>]</td><td class="codelist-item-decode">NOT HISPANIC OR LATINO</td></tr><tr class="tablerowodd"><td>NOT REPORTED [<span class="nci">C43234</span>]</td><td class="codelist-item-decode">NOT REPORTED</td></tr><tr class="tableroweven"><td>UNKNOWN [<span class="nci">C17998</span>]</td><td class="codelist-item-decode">UNKNOWN</td></tr></table></div><div class="codelist" id="CL.CL.C66786.COUNTRY"><div class="codelist-caption">Country [<span class="nci">CL.C66786.COUNTRY,C66786</span>]</div><table summary="Controlled Term - Country"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>DNK [<span class="nci">C16496</span>]</td><td class="codelist-item-decode">DNK</td></tr></table></div><div class="codelist" id="CL.CL.C71620.UNIT"><div class="codelist-caption">Unit [<span class="nci">CL.C71620.UNIT,C71620</span>]</div><table summary="Controlled Term - Unit"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>ug [<span class="nci">C48152</span>]</td><td class="codelist-item-decode">ug</td></tr><tr class="tableroweven"><td>mg [<span class="nci">C28253</span>]</td><td class="codelist-item-decode">mg</td></tr><tr class="tablerowodd"><td>g [<span class="nci">C48155</span>]</td><td class="codelist-item-decode">g</td></tr><tr class="tableroweven"><td>mL [<span class="nci">C28254</span>]</td><td class="codelist-item-decode">mL</td></tr><tr class="tablerowodd"><td>APPLICATION [<span class="nci">C25397</span>]</td><td class="codelist-item-decode">APPLICATION</td></tr><tr class="tableroweven"><td>IU</td><td class="codelist-item-decode">International Unit</td></tr><tr class="tablerowodd"><td>TABLET [<span class="nci">C48542</span>]</td><td class="codelist-item-decode">TABLET</td></tr><tr class="tableroweven"><td>CAPSULE [<span class="nci">C48480</span>]</td><td class="codelist-item-decode">CAPSULE</td></tr><tr class="tablerowodd"><td>OTHER</td><td class="codelist-item-decode">Other</td></tr></table></div><div class="codelist" id="CL.CL.C71113.FREQ"><div class="codelist-caption">Frequency [<span class="nci">CL.C71113.FREQ,C71113</span>]</div><table summary="Controlled Term - Frequency"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>BID [<span class="nci">C64496</span>]</td><td class="codelist-item-decode">BID</td></tr><tr class="tableroweven"><td>PRN [<span class="nci">C64499</span>]</td><td class="codelist-item-decode">PRN</td></tr></table></div><div class="codelist" id="CL.CL.C66729.ROUTE"><div class="codelist-caption">Route of Administration [<span class="nci">CL.C66729.ROUTE,C66729</span>]</div><table summary="Controlled Term - Route of Administration"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>ORAL [<span class="nci">C38288</span>]</td><td class="codelist-item-decode">ORAL</td></tr><tr class="tableroweven"><td>SUBCUTANEOUS [<span class="nci">C38299</span>]</td><td class="codelist-item-decode">SUBCUTANEOUS</td></tr><tr class="tablerowodd"><td>TOPICAL [<span class="nci">C38304</span>]</td><td class="codelist-item-decode">TOPICAL</td></tr><tr class="tableroweven"><td>TRANSDERMAL [<span class="nci">C38305</span>]</td><td class="codelist-item-decode">TRANSDERMAL</td></tr></table></div><div class="codelist" id="CL.CL.C66728.STENRF"><div class="codelist-caption">Relation to Reference Period [<span class="nci">CL.C66728.STENRF,C66728</span>]</div><table summary="Controlled Term - Relation to Reference Period"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>AFTER [<span class="nci">C38008</span>]</td><td class="codelist-item-decode">AFTER</td></tr><tr class="tableroweven"><td>BEFORE [<span class="nci">C25629</span>]</td><td class="codelist-item-decode">BEFORE</td></tr><tr class="tablerowodd"><td>COINCIDENT [<span class="nci">C25456</span>]</td><td class="codelist-item-decode">COINCIDENT</td></tr><tr class="tableroweven"><td>DURING [<span class="nci">C25490</span>]</td><td class="codelist-item-decode">DURING</td></tr><tr class="tablerowodd"><td>DURING/AFTER [<span class="nci">C49640</span>]</td><td class="codelist-item-decode">DURING/AFTER</td></tr><tr class="tableroweven"><td>ONGOING [<span class="nci">C53279</span>]</td><td class="codelist-item-decode">ONGOING</td></tr><tr class="tablerowodd"><td>UNKNOWN [<span class="nci">C17998</span>]</td><td class="codelist-item-decode">UNKNOWN</td></tr></table></div><div class="codelist" id="CL.CL.C74456.LOC"><div class="codelist-caption">Anatomical Location [<span class="nci">CL.C74456.LOC,C74456</span>]</div><table summary="Controlled Term - Anatomical Location"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>FACE [<span class="nci">C13071</span>]</td><td class="codelist-item-decode">FACE</td></tr><tr class="tableroweven"><td>GENITALIA [<span class="nci">C25177</span>]</td><td class="codelist-item-decode">GENITALIA</td></tr><tr class="tablerowodd"><td>HAND [<span class="nci">C32712</span>]</td><td class="codelist-item-decode">HAND</td></tr><tr class="tableroweven"><td>HEAD [<span class="nci">C12419</span>]</td><td class="codelist-item-decode">HEAD</td></tr><tr class="tablerowodd"><td>LIMB, LOWER [<span class="nci">C12742</span>]</td><td class="codelist-item-decode">LIMB, LOWER</td></tr><tr class="tableroweven"><td>LIMB, UPPER [<span class="nci">C12671</span>]</td><td class="codelist-item-decode">LIMB, UPPER</td></tr><tr class="tablerowodd"><td>SCALP [<span class="nci">C89807</span>]</td><td class="codelist-item-decode">SCALP</td></tr><tr class="tableroweven"><td>TRUNK [<span class="nci">C33816</span>]</td><td class="codelist-item-decode">TRUNK</td></tr></table></div><div class="codelist" id="CL.CL.C99073.LAT"><div class="codelist-caption">Laterality [<span class="nci">CL.C99073.LAT,C99073</span>]</div><table summary="Controlled Term - Laterality"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>LEFT [<span class="nci">C25229</span>]</td><td class="codelist-item-decode">LEFT</td></tr><tr class="tableroweven"><td>RIGHT [<span class="nci">C25228</span>]</td><td class="codelist-item-decode">RIGHT</td></tr><tr class="tablerowodd"><td>NA</td><td class="codelist-item-decode">NOT APPLICABLE</td></tr></table></div><div class="codelist" id="CL.CL.C99074.DIR"><div class="codelist-caption">Directionality [<span class="nci">CL.C99074.DIR,C99074</span>]</div><table summary="Controlled Term - Directionality"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>ANTERIOR [<span class="nci">C25231</span>]</td><td class="codelist-item-decode">ANTERIOR</td></tr><tr class="tableroweven"><td>POSTERIOR [<span class="nci">C25622</span>]</td><td class="codelist-item-decode">POSTERIOR</td></tr><tr class="tablerowodd"><td>NA</td><td class="codelist-item-decode">NOT APPLICABLE</td></tr></table></div><div class="codelist" id="CL.CL.C78735.EVAL"><div class="codelist-caption">Evaluator [<span class="nci">CL.C78735.EVAL,C78735</span>]</div><table summary="Controlled Term - Evaluator"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>INVESTIGATOR [<span class="nci">C25936</span>]</td><td class="codelist-item-decode">INVESTIGATOR</td></tr></table></div><div class="codelist" id="CL.CL.C71153.EGTESTCD"><div class="codelist-caption">ECG Test Code [<span class="nci">CL.C71153.EGTESTCD,C71153</span>]</div><table summary="Controlled Term - ECG Test Code"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>INTP [<span class="nci">C41255</span>]</td><td class="codelist-item-decode">INTP</td></tr></table></div><div class="codelist" id="CL.CL.C71152.EGTEST"><div class="codelist-caption">ECG Test Name [<span class="nci">CL.C71152.EGTEST,C71152</span>]</div><table summary="Controlled Term - ECG Test Name"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>Interpretation [<span class="nci">C41255</span>]</td><td class="codelist-item-decode">Interpretation</td></tr></table></div><div class="codelist" id="CL.CL.C71150.EGSTRESC"><div class="codelist-caption">ECG Result [<span class="nci">CL.C71150.EGSTRESC,C71150</span>]</div><table summary="Controlled Term - ECG Result"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>INCOMPLETE ECG [<span class="nci">C114167</span>]</td><td class="codelist-item-decode">INCOMPLETE ECG</td></tr><tr class="tableroweven"><td>OTHER INCORRECT ELECTRODE PLACEMENT [<span class="nci">C114176</span>]</td><td class="codelist-item-decode">OTHER INCORRECT ELECTRODE PLACEMENT</td></tr><tr class="tablerowodd"><td>PAUSE [<span class="nci">C119250</span>]</td><td class="codelist-item-decode">PAUSE</td></tr></table></div><div class="codelist" id="CL.CL.C100129.QSCAT"><div class="codelist-caption">Questionnaire Category</div><table summary="Controlled Term - Questionnaire Category"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>BSPI</td><td class="codelist-item-decode">Body Sites of Psoriasis Involvement</td></tr></table></div><div class="codelist" id="CL.cl.cm_dscreas3"><div class="codelist-caption">Discontinuation treatment</div><table summary="Controlled Term - Discontinuation treatment"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>INADEQUATE EFFICACY</td><td class="codelist-item-decode">Inadequate efficacy</td></tr><tr class="tableroweven"><td>ADVERSE EVENT</td><td class="codelist-item-decode">Adverse event</td></tr><tr class="tablerowodd"><td>OTHER</td><td class="codelist-item-decode">Other</td></tr></table></div><div class="codelist" id="CL.CL.C66767.ACN"><div class="codelist-caption">Action Taken with Study Treatment [<span class="nci">CL.C66767.ACN,C66767</span>]</div><table summary="Controlled Term - Action Taken with Study Treatment"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>DOSE NOT CHANGED [<span class="nci">C49504</span>]</td><td class="codelist-item-decode">DOSE NOT CHANGED</td></tr><tr class="tableroweven"><td>DOSE REDUCED [<span class="nci">C49505</span>]</td><td class="codelist-item-decode">DOSE REDUCED</td></tr><tr class="tablerowodd"><td>DOSE INCREASED [<span class="nci">C49503</span>]</td><td class="codelist-item-decode">DOSE INCREASED</td></tr><tr class="tableroweven"><td>DRUG INTERRUPTED [<span class="nci">C49501</span>]</td><td class="codelist-item-decode">DRUG INTERRUPTED</td></tr><tr class="tablerowodd"><td>DRUG WITHDRAWN [<span class="nci">C49502</span>]</td><td class="codelist-item-decode">DRUG WITHDRAWN</td></tr><tr class="tableroweven"><td>NOT APPLICABLE [<span class="nci">C48660</span>]</td><td class="codelist-item-decode">NOT APPLICABLE</td></tr><tr class="tablerowodd"><td>UNKNOWN [<span class="nci">C17998</span>]</td><td class="codelist-item-decode">UNKNOWN</td></tr></table></div><div class="codelist" id="CL.CL.C66768.OUT"><div class="codelist-caption">Outcome of Event [<span class="nci">CL.C66768.OUT,C66768</span>]</div><table summary="Controlled Term - Outcome of Event"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>FATAL [<span class="nci">C48275</span>]</td><td class="codelist-item-decode">FATAL</td></tr><tr class="tableroweven"><td>NOT RECOVERED/NOT RESOLVED [<span class="nci">C49494</span>]</td><td class="codelist-item-decode">NOT RECOVERED/NOT RESOLVED</td></tr><tr class="tablerowodd"><td>RECOVERED/RESOLVED [<span class="nci">C49498</span>]</td><td class="codelist-item-decode">RECOVERED/RESOLVED</td></tr><tr class="tableroweven"><td>RECOVERED/RESOLVED WITH SEQUELAE [<span class="nci">C49495</span>]</td><td class="codelist-item-decode">RECOVERED/RESOLVED WITH SEQUELAE</td></tr><tr class="tablerowodd"><td>RECOVERING/RESOLVING [<span class="nci">C49496</span>]</td><td class="codelist-item-decode">RECOVERING/RESOLVING</td></tr><tr class="tableroweven"><td>UNKNOWN [<span class="nci">C17998</span>]</td><td class="codelist-item-decode">UNKNOWN</td></tr></table></div><div class="codelist" id="CL.CL.C66784.TOXGRV3"><div class="codelist-caption">Common Terminology Criteria for Adverse Events V3.0</div><table summary="Controlled Term - Common Terminology Criteria for Adverse Events V3.0"><tr class="header"><th scope="col" class="codedvalue">Permitted Value (Code)</th><th scope="col">Display Value (Decode)</th></tr><tr class="tablerowodd"><td>0</td><td class="codelist-item-decode">0</td></tr><tr class="tableroweven"><td>1</td><td class="codelist-item-decode">1</td></tr><tr class="tablerowodd"><td>2</td><td class="codelist-item-decode">2</td></tr><tr class="tableroweven"><td>3</td><td class="codelist-item-decode">3</td></tr><tr class="tablerowodd"><td>4</td><td class="codelist-item-decode">4</td></tr><tr class="tableroweven"><td>5</td><td class="codelist-item-decode">5</td></tr></table></div><p class="linktop">Go to the <a href="#main">top</a> of the Define-XML document</p><br></div><a id="externaldictionary"></a><h1 class="invisible">External Dictionaries</h1><div class="containerbox"><table summary="External Dictionaries (MedDra, WHODRUG, ...)"><caption class="header">External Dictionaries</caption><tr class="header"><th scope="col">Reference Name</th><th scope="col">External Dictionary</th><th scope="col">Dictionary Version</th></tr><tr id="CL.CL.MEDDRA" class="tablerowodd"><td>Medical Dictionary for Regulatory Activities</td><td>MedDRA</td><td>24.1</td></tr><tr id="CL.CL.MEDDRA.CODE" class="tableroweven"><td>Medical Dictionary for Regulatory Activities - Code</td><td>MedDRA</td><td>24.1</td></tr></table></div><p class="linktop">Go to the <a href="#main">top</a> of the Define-XML document</p><br></div></body></html>

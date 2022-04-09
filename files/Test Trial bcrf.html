@@ -1,0 +1,858 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Test Trial  </title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=9">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta name="Author" content="Jørgen Mangor Iversen">
+<style>
+          html          { margin: 1em 1em 1em 1em; }
+          *             { font-family: Helvetica, Arial, sans-serif !important; }
+          h1, h2, h3, p { text-align: center; }
+          table         { solid DarkGrey; border-spacing: 0; border-collapse: collapse; page-break-inside: auto; }
+          tr            { page-break-inside:avoid; page-break-after:auto; }
+          th, td        { border: 1px solid DarkGrey; }
+          a:link        { color: black; background-color: transparent; text-decoration: none; }
+          a:visited     { color: black; background-color: transparent; text-decoration: none; }
+          a:hover       { color: blue;  background-color: transparent; text-decoration: underline; }
+          .nohover      { pointer-events: none; }
+          @media print  { .noprint { display: none; } thead {display: table-header-group; } }
+          .noprint      { position: fixed; bottom: 0.5em; right: 0.5em; z-index: 99; }
+          .rotate span  { writing-mode: vertical-rl; transform: rotate(180deg); }
+          .noborder     { border: none; }
+          .center       { margin-left: auto; margin-right: auto; }
+          .matrix       { text-align: center; }
+          .check        { color: DarkGreen; }
+          .hidden       { visibility: hidden; display: none; }
+          .maintable    { border: 1px; width: 100%; }
+          .crfhead      { background-color: Gainsboro; }
+          .left         { text-align: left; }
+          .formtitle    { font-style: bold;   font-weight: bold;   font-size: 1.2em; }
+          .note         { font-style: italic; font-weight: normal; font-size: 0.8em; }
+          .plain        { font-weight: normal; }
+          .small        { font-size: 0.7em; vertical-align: midddle;}
+          .inpw         { width: 40%; }
+          .maxw         { width: 100%; }
+          .seqw         { width: 5em !important; }
+          .cdash        { background-color: lightblue; padding: 2px; color: Blue; border: 2px double Blue !important; }
+          
+              .anno     { visibility: hidden; display: none; }
+              .quew     { width:  50%; }
+              .answ     { width:  45%; }
+              .desw     { width: 100%; }
+            
+              #internal { visibility: hidden; display: none; }
+          </style>
+</head>
+<body>
+<table class="noprint"><tr><td class="noborder"><button onClick="document.documentElement.scrollTop = 0">
+            Scroll to the top
+          </button></td></tr></table>
+<h1>Study</h1>
+<h1>CRF Specification for Test Trial</h1>
+<p>Selection of CRF forms available at CDISC</p>
+<h2>Protocol Name: </h2>
+<p>Creation date: 2022-04-08T15:54:16+02:00</p>
+<h3>Your Company</h3>
+<p><img src="data:image/png;base64,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"></p>
+<p style="page-break-after: always"></p>
+<table class="center landscape">
+<thead>
+<tr><td class="noborder" colspan="99"><h2 class="center">Visit Matrix</h2></td></tr>
+<tr>
+<th class="left crfhead">Event/<br>Form</th>
+<th class="crfhead rotate"><span><a href="#SE.0000">Screening</a></span></th>
+<th class="crfhead rotate"><span><a href="#SE.0001">Visit 1</a></span></th>
+<th class="crfhead rotate"><span><a href="#SE.0002">Death</a></span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#F.0005"><span>Demographics</span></a></td>
+<td class="matrix check">✔</td>
+<td class="matrix check"></td>
+<td class="matrix check"></td>
+</tr>
+<tr>
+<td><a href="#F.0001"><span>Background Heart Failure Maintenance Medications Part 1</span></a></td>
+<td class="matrix check">✔</td>
+<td class="matrix check"></td>
+<td class="matrix check"></td>
+</tr>
+<tr>
+<td><a href="#F.0002"><span>Background Heart Failure Maintenance Medications Part 2</span></a></td>
+<td class="matrix check">✔</td>
+<td class="matrix check"></td>
+<td class="matrix check"></td>
+</tr>
+<tr>
+<td><a href="#F.0004"><span>Prior Psoriasis Treatments</span></a></td>
+<td class="matrix check">✔</td>
+<td class="matrix check"></td>
+<td class="matrix check"></td>
+</tr>
+<tr>
+<td><a href="#F.0003"><span>Body Sites of Psoriasis Involvement at Baseline</span></a></td>
+<td class="matrix check">✔</td>
+<td class="matrix check"></td>
+<td class="matrix check"></td>
+</tr>
+<tr>
+<td><a href="#F.0007"><span>Adverse Events</span></a></td>
+<td class="matrix check"></td>
+<td class="matrix check">✔</td>
+<td class="matrix check">✔</td>
+</tr>
+<tr>
+<td><a href="#F.0006"><span>ECG Test Results</span></a></td>
+<td class="matrix check"></td>
+<td class="matrix check">✔</td>
+<td class="matrix check"></td>
+</tr>
+<tr>
+<td><a href="#F.0000"><span>Death</span></a></td>
+<td class="matrix check"></td>
+<td class="matrix check"></td>
+<td class="matrix check">✔</td>
+</tr>
+</tbody>
+</table>
+<p style="page-break-after: always"></p>
+<table class="maintable">
+<thead>
+<tr><th colspan="4" class="noborder"><div class="left formtitle"><a class="nohover" id="F.0005"><span>Demographics</span></a></div></th></tr>
+<tr><th colspan="4" class="noborder"><br></th></tr>
+<tr>
+<th class="crfhead seqw left">Ref</th>
+<th class="crfhead quew">CRF Question</th>
+<th class="crfhead answ">Data Collected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="seqw">1.1</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text" placeholder="DD-MMM-YYYY"><span class="note"> Date</span><p class="note left">
+            Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM.
+          </p>
+</td>
+<td id="anno" class="annw anno">DM.<a href="#"></a><a class="nohover" id=""></a>BRTHDTC,<br><a href="#Partial"></a><a class="nohover" id="Partial"></a><a href="#dates"></a><a class="nohover" id="dates"></a><a href="#are"></a><a class="nohover" id="are"></a><a href="#to"></a><a class="nohover" id="to"></a><a href="#be"></a><a class="nohover" id="be"></a><a href="#recorded"></a><a class="nohover" id="recorded"></a><a href="#according"></a><a class="nohover" id="according"></a><a href="#to"></a><a class="nohover" id="to"></a><a href="#ISO"></a><a class="nohover" id="ISO"></a><a href="#8601"></a><a class="nohover" id="8601"></a>
+</td>
+</tr>
+<tr>
+<td class="seqw">1.2</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">Female<span class="note"> (F)</span></label><br><input type="radio" name="$radio"><label for="$radio">Male<span class="note"> (M)</span></label><br><input type="radio" name="$radio"><label for="$radio">U; UNK; Unknown<span class="note"> (U)</span></label><br><input type="radio" name="$radio"><label for="$radio">UNDIFFERENTIATED<span class="note"> (UNDIFFERENTIATED)</span></label><br>
+</td>
+<td id="anno" class="annw anno">DM.<a href="#"></a><a class="nohover" id=""></a>SEX</td>
+</tr>
+<tr>
+<td class="seqw">1.3</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">HISPANIC OR LATINO<span class="note"> (HISPANIC OR LATINO)</span></label><br><input type="radio" name="$radio"><label for="$radio">NOT HISPANIC OR LATINO<span class="note"> (NOT HISPANIC OR LATINO)</span></label><br><input type="radio" name="$radio"><label for="$radio">Not reported<span class="note"> (NOT REPORTED)</span></label><br><input type="radio" name="$radio"><label for="$radio">U; UNK; Unknown<span class="note"> (UNKNOWN)</span></label><br>
+</td>
+<td id="anno" class="annw anno">DM.<a href="#"></a><a class="nohover" id=""></a>ETHNIC</td>
+</tr>
+<tr>
+<td class="seqw">1.4</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">AMERICAN INDIAN OR ALASKA NATIVE</label><br><input type="radio" name="$radio"><label for="$radio">ASIAN</label><br><input type="radio" name="$radio"><label for="$radio">BLACK OR AFRICAN AMERICAN</label><br><input type="radio" name="$radio"><label for="$radio">NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER</label><br><input type="radio" name="$radio"><label for="$radio">NOT REPORTED</label><br><input type="radio" name="$radio"><label for="$radio">UNKNOWN</label><br><input type="radio" name="$radio"><label for="$radio">WHITE</label><br>
+</td>
+<td id="anno" class="annw anno">DM.<a href="#"></a><a class="nohover" id=""></a>RACE</td>
+</tr>
+</tbody>
+</table>
+<p style="page-break-after: always"></p>
+<table class="maintable">
+<thead>
+<tr><th colspan="4" class="noborder"><div class="left formtitle"><a class="nohover" id="F.0001"><span>Background Heart Failure Maintenance Medications Part 1</span></a></div></th></tr>
+<tr><th colspan="4" class="noborder"><div class="left note">Indicate whether the listed class/type of background heart failure medication was prescribed to the subject (see the study protocol for details).</div></th></tr>
+<tr><th colspan="4" class="noborder"><br></th></tr>
+<tr>
+<th class="crfhead seqw left">Ref</th>
+<th class="crfhead quew">CRF Question</th>
+<th class="crfhead answ">Data Collected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="seqw">1.1</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">No<span class="note"> (N)</span></label><br><input type="radio" name="$radio"><label for="$radio">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMOCCUR,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'Heart"></a><a class="nohover" id="'Heart"></a><a href="#Failure"></a><a class="nohover" id="Failure"></a><a href="#Maintenance"></a><a class="nohover" id="Maintenance"></a><a href="#Medication'"></a><a class="nohover" id="Medication'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMPRESP"></a><a class="nohover" id="CMPRESP"></a><a href="#'Y'"></a><a class="nohover" id="'Y'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMTRT"></a><a class="nohover" id="CMTRT"></a><a href="#'ARBs'"></a><a class="nohover" id="'ARBs'"></a> CMPRESP='Y', CMTRT='ARBs'</td>
+</tr>
+<tr>
+<td class="seqw">1.2</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">Contraindication<span class="note"> (CONTRAINDICATION)</span></label><br><input type="radio" name="$radio"><label for="$radio">Treatment not indicated<span class="note"> (TREATMENT NOT INDICATED)</span></label><br><input type="radio" name="$radio"><label for="$radio">Cost<span class="note"> (COST)</span></label><br><input type="radio" name="$radio"><label for="$radio">Unknown<span class="note"> (UNKNOWN)</span></label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMREASND,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'Heart"></a><a class="nohover" id="'Heart"></a><a href="#Failure"></a><a class="nohover" id="Failure"></a><a href="#Maintenance"></a><a class="nohover" id="Maintenance"></a><a href="#Medication'"></a><a class="nohover" id="Medication'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMPRESP"></a><a class="nohover" id="CMPRESP"></a><a href="#'Y'"></a><a class="nohover" id="'Y'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMTRT"></a><a class="nohover" id="CMTRT"></a><a href="#'ARBs'"></a><a class="nohover" id="'ARBs'"></a> CMPRESP='Y', CMTRT='ARBs'</td>
+</tr>
+<tr>
+<td class="seqw">1.3</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">No<span class="note"> (N)</span></label><br><input type="radio" name="$radio"><label for="$radio">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMOCCUR,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'Heart"></a><a class="nohover" id="'Heart"></a><a href="#Failure"></a><a class="nohover" id="Failure"></a><a href="#Maintenance"></a><a class="nohover" id="Maintenance"></a><a href="#Medication'"></a><a class="nohover" id="Medication'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMPRESP"></a><a class="nohover" id="CMPRESP"></a><a href="#'Y'"></a><a class="nohover" id="'Y'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMTRT"></a><a class="nohover" id="CMTRT"></a><a href="#'ARNIs'"></a><a class="nohover" id="'ARNIs'"></a> CMPRESP='Y', CMTRT='ARNIs'</td>
+</tr>
+<tr>
+<td class="seqw">1.4</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">Contraindication<span class="note"> (CONTRAINDICATION)</span></label><br><input type="radio" name="$radio"><label for="$radio">Treatment not indicated<span class="note"> (TREATMENT NOT INDICATED)</span></label><br><input type="radio" name="$radio"><label for="$radio">Cost<span class="note"> (COST)</span></label><br><input type="radio" name="$radio"><label for="$radio">Unknown<span class="note"> (UNKNOWN)</span></label><br><input type="radio" name="$radio"><label for="$radio">Cost 2<span class="note"> (COST2)</span></label><br><input type="radio" name="$radio"><label for="$radio">Unknown 2<span class="note"> (UNKNOWN2)</span></label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMREASND,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'Heart"></a><a class="nohover" id="'Heart"></a><a href="#Failure"></a><a class="nohover" id="Failure"></a><a href="#Maintenance"></a><a class="nohover" id="Maintenance"></a><a href="#Medication'"></a><a class="nohover" id="Medication'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMPRESP"></a><a class="nohover" id="CMPRESP"></a><a href="#'Y'"></a><a class="nohover" id="'Y'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMTRT"></a><a class="nohover" id="CMTRT"></a><a href="#'ARNIs'"></a><a class="nohover" id="'ARNIs'"></a> CMPRESP='Y', CMTRT='ARNIs'</td>
+</tr>
+<tr>
+<td class="seqw">1.5</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">No<span class="note"> (N)</span></label><br><input type="radio" name="$radio"><label for="$radio">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMOCCUR,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'Heart"></a><a class="nohover" id="'Heart"></a><a href="#Failure"></a><a class="nohover" id="Failure"></a><a href="#Maintenance"></a><a class="nohover" id="Maintenance"></a><a href="#Medication'"></a><a class="nohover" id="Medication'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMPRESP"></a><a class="nohover" id="CMPRESP"></a><a href="#'Y'"></a><a class="nohover" id="'Y'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMTRT"></a><a class="nohover" id="CMTRT"></a><a href="#'Aldosterone"></a><a class="nohover" id="'Aldosterone"></a><a href="#Antagonists'"></a><a class="nohover" id="Antagonists'"></a> CMPRESP='Y', CMTRT='Aldosterone Antagonists'</td>
+</tr>
+<tr>
+<td class="seqw">1.6</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">Contraindication<span class="note"> (CONTRAINDICATION)</span></label><br><input type="radio" name="$radio"><label for="$radio">Treatment not indicated<span class="note"> (TREATMENT NOT INDICATED)</span></label><br><input type="radio" name="$radio"><label for="$radio">Cost<span class="note"> (COST)</span></label><br><input type="radio" name="$radio"><label for="$radio">Unknown<span class="note"> (UNKNOWN)</span></label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMREASND,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'Heart"></a><a class="nohover" id="'Heart"></a><a href="#Failure"></a><a class="nohover" id="Failure"></a><a href="#Maintenance"></a><a class="nohover" id="Maintenance"></a><a href="#Medication'"></a><a class="nohover" id="Medication'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMPRESP"></a><a class="nohover" id="CMPRESP"></a><a href="#'Y'"></a><a class="nohover" id="'Y'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMTRT"></a><a class="nohover" id="CMTRT"></a><a href="#'Aldosterone"></a><a class="nohover" id="'Aldosterone"></a><a href="#Antagonists'"></a><a class="nohover" id="Antagonists'"></a> CMPRESP='Y', CMTRT='Aldosterone Antagonists'</td>
+</tr>
+<tr>
+<td class="seqw">1.7</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">No<span class="note"> (N)</span></label><br><input type="radio" name="$radio"><label for="$radio">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMOCCUR,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'Heart"></a><a class="nohover" id="'Heart"></a><a href="#Failure"></a><a class="nohover" id="Failure"></a><a href="#Maintenance"></a><a class="nohover" id="Maintenance"></a><a href="#Medication'"></a><a class="nohover" id="Medication'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMPRESP"></a><a class="nohover" id="CMPRESP"></a><a href="#'Y'"></a><a class="nohover" id="'Y'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMTRT"></a><a class="nohover" id="CMTRT"></a><a href="#'Hydralazine'"></a><a class="nohover" id="'Hydralazine'"></a> CMPRESP='Y', CMTRT='Hydralazine'</td>
+</tr>
+<tr>
+<td class="seqw">1.8</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">Contraindication<span class="note"> (CONTRAINDICATION)</span></label><br><input type="radio" name="$radio"><label for="$radio">Treatment not indicated<span class="note"> (TREATMENT NOT INDICATED)</span></label><br><input type="radio" name="$radio"><label for="$radio">Cost<span class="note"> (COST)</span></label><br><input type="radio" name="$radio"><label for="$radio">Unknown<span class="note"> (UNKNOWN)</span></label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMREASND,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'Heart"></a><a class="nohover" id="'Heart"></a><a href="#Failure"></a><a class="nohover" id="Failure"></a><a href="#Maintenance"></a><a class="nohover" id="Maintenance"></a><a href="#Medication'"></a><a class="nohover" id="Medication'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMPRESP"></a><a class="nohover" id="CMPRESP"></a><a href="#'Y'"></a><a class="nohover" id="'Y'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMTRT"></a><a class="nohover" id="CMTRT"></a><a href="#'Hydralazine'"></a><a class="nohover" id="'Hydralazine'"></a> CMPRESP='Y', CMTRT='Hydralazine'</td>
+</tr>
+<tr>
+<td class="seqw">1.9</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">No<span class="note"> (N)</span></label><br><input type="radio" name="$radio"><label for="$radio">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMOCCUR,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'Heart"></a><a class="nohover" id="'Heart"></a><a href="#Failure"></a><a class="nohover" id="Failure"></a><a href="#Maintenance"></a><a class="nohover" id="Maintenance"></a><a href="#Medication'"></a><a class="nohover" id="Medication'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMPRESP"></a><a class="nohover" id="CMPRESP"></a><a href="#'Y'"></a><a class="nohover" id="'Y'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMTRT"></a><a class="nohover" id="CMTRT"></a><a href="#'Diuretics'"></a><a class="nohover" id="'Diuretics'"></a> CMPRESP='Y', CMTRT='Diuretics'</td>
+</tr>
+<tr>
+<td class="seqw">1.10</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">Contraindication<span class="note"> (CONTRAINDICATION)</span></label><br><input type="radio" name="$radio"><label for="$radio">Treatment not indicated<span class="note"> (TREATMENT NOT INDICATED)</span></label><br><input type="radio" name="$radio"><label for="$radio">Cost<span class="note"> (COST)</span></label><br><input type="radio" name="$radio"><label for="$radio">Unknown<span class="note"> (UNKNOWN)</span></label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMREASND,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'Heart"></a><a class="nohover" id="'Heart"></a><a href="#Failure"></a><a class="nohover" id="Failure"></a><a href="#Maintenance"></a><a class="nohover" id="Maintenance"></a><a href="#Medication'"></a><a class="nohover" id="Medication'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMPRESP"></a><a class="nohover" id="CMPRESP"></a><a href="#'Y'"></a><a class="nohover" id="'Y'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMTRT"></a><a class="nohover" id="CMTRT"></a><a href="#'Diuretics'"></a><a class="nohover" id="'Diuretics'"></a> CMPRESP='Y', CMTRT='Diuretics'</td>
+</tr>
+</tbody>
+</table>
+<p style="page-break-after: always"></p>
+<table class="maintable">
+<thead>
+<tr><th colspan="4" class="noborder"><div class="left formtitle"><a class="nohover" id="F.0002"><span>Background Heart Failure Maintenance Medications Part 2</span></a></div></th></tr>
+<tr><th colspan="4" class="noborder"><div class="left note">List the specific background heart failure medications used. Include all heart failure medications that are to be continued. When a subject has frequent changes in the dose and schedule for oral diuretics, the dosing information can be recorded as PRN.</div></th></tr>
+<tr><th colspan="4" class="noborder"><br></th></tr>
+<tr>
+<th class="crfhead seqw left">Ref</th>
+<th class="crfhead quew">CRF Question</th>
+<th class="crfhead answ">Data Collected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="seqw">1.1</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text"><span class="note"> Text</span>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMTRT</td>
+</tr>
+<tr>
+<td class="seqw">1.2</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="number"><span class="note"> Integer</span>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMDOSE</td>
+</tr>
+<tr>
+<td class="seqw">1.3</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">mcg<span class="note"> (ug)</span></label><br><input type="radio" name="$radio"><label for="$radio">mg<span class="note"> (mg)</span></label><br><input type="radio" name="$radio"><label for="$radio">g<span class="note"> (g)</span></label><br><input type="radio" name="$radio"><label for="$radio">Ml<span class="note"> (mL)</span></label><br><input type="radio" name="$radio"><label for="$radio">Application<span class="note"> (APPLICATION)</span></label><br><input type="radio" name="$radio"><label for="$radio">International Unit (IU)<span class="note"> (IU)</span></label><br><input type="radio" name="$radio"><label for="$radio">Tablet<span class="note"> (TABLET)</span></label><br><input type="radio" name="$radio"><label for="$radio">Capsule<span class="note"> (CAPSULE)</span></label><br><input type="radio" name="$radio"><label for="$radio">Other<span class="note"> (OTHER)</span></label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMDOSU,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'ANTIPSORIATIC'"></a><a class="nohover" id="'ANTIPSORIATIC'"></a>
+</td>
+</tr>
+<tr>
+<td class="seqw">1.4</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">BD; Twice per day<span class="note"> (BID)</span></label><br><input type="radio" name="$radio"><label for="$radio">As needed<span class="note"> (PRN)</span></label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMDOSFRQ</td>
+</tr>
+<tr>
+<td class="seqw">1.5</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">ORAL</label><br><input type="radio" name="$radio"><label for="$radio">SUBCUTANEOUS</label><br><input type="radio" name="$radio"><label for="$radio">TOPICAL</label><br><input type="radio" name="$radio"><label for="$radio">TRANSDERMAL</label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMROUTE,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'ANTIPSORIATIC'"></a><a class="nohover" id="'ANTIPSORIATIC'"></a>
+</td>
+</tr>
+<tr>
+<td class="seqw">1.6</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text" placeholder="DD-MMM-YYYY"><span class="note"> Date</span><p class="note left">
+            Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM.
+          </p>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMSTDTC</td>
+</tr>
+<tr>
+<td class="seqw">1.7</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">AFTER</label><br><input type="radio" name="$radio"><label for="$radio">BEFORE</label><br><input type="radio" name="$radio"><label for="$radio">COINCIDENT</label><br><input type="radio" name="$radio"><label for="$radio">DURING</label><br><input type="radio" name="$radio"><label for="$radio">DURING/AFTER</label><br><input type="radio" name="$radio"><label for="$radio">ONGOING</label><br><input type="radio" name="$radio"><label for="$radio">UNKNOWN</label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMENRTPT</td>
+</tr>
+<tr>
+<td class="seqw">1.8</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text" placeholder="DD-MMM-YYYY"><span class="note"> Date</span><p class="note left">
+            Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM.
+          </p>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMENDTC,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'ANTIPSORIATIC'"></a><a class="nohover" id="'ANTIPSORIATIC'"></a>
+</td>
+</tr>
+<tr>
+<td class="seqw">2.1</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">No<span class="note"> (N)</span></label><br><input type="radio" name="$radio"><label for="$radio">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">SUPPCM.<a href="#"></a><a class="nohover" id=""></a>QVAL,<br><a href="#SUPPCM"></a><a class="nohover" id="SUPPCM"></a><a href="#QNAM"></a><a class="nohover" id="QNAM"></a><a href="#'CMRRGYN'"></a><a class="nohover" id="'CMRRGYN'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#SUPPCM"></a><a class="nohover" id="SUPPCM"></a><a href="#QLABEL"></a><a class="nohover" id="QLABEL"></a><a href="#'Was"></a><a class="nohover" id="'Was"></a><a href="#medication"></a><a class="nohover" id="medication"></a><a href="#given"></a><a class="nohover" id="given"></a><a href="#at"></a><a class="nohover" id="at"></a><a href="#recom"></a><a class="nohover" id="recom"></a><a href="#"></a><a class="nohover" id=""></a><a href="#regimen'"></a><a class="nohover" id="regimen'"></a> SUPPCM.QLABEL='Was medication given at recom.
+        <br>regimen'</td>
+</tr>
+<tr>
+<td class="seqw">2.2</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text"><span class="note"> Text</span>
+</td>
+<td id="anno" class="annw anno">SUPPCM.<a href="#"></a><a class="nohover" id=""></a>QVAL,<br><a href="#SUPPCM"></a><a class="nohover" id="SUPPCM"></a><a href="#QVAL"></a><a class="nohover" id="QVAL"></a><a href="#'CMRRGREA'"></a><a class="nohover" id="'CMRRGREA'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#SUPPCM"></a><a class="nohover" id="SUPPCM"></a><a href="#QLABEL"></a><a class="nohover" id="QLABEL"></a><a href="#'Why"></a><a class="nohover" id="'Why"></a><a href="#the"></a><a class="nohover" id="the"></a><a href="#medication"></a><a class="nohover" id="medication"></a><a href="#not"></a><a class="nohover" id="not"></a><a href="#given"></a><a class="nohover" id="given"></a><a href="#at"></a><a class="nohover" id="at"></a><a href="#regimen'"></a><a class="nohover" id="regimen'"></a> SUPPCM.QLABEL='Why the medication not given at regimen'</td>
+</tr>
+</tbody>
+</table>
+<p style="page-break-after: always"></p>
+<table class="maintable">
+<thead>
+<tr><th colspan="4" class="noborder"><div class="left formtitle"><a class="nohover" id="F.0004"><span>Prior Psoriasis Treatments</span></a></div></th></tr>
+<tr><th colspan="4" class="noborder"><br></th></tr>
+<tr>
+<th class="crfhead seqw left">Ref</th>
+<th class="crfhead quew">CRF Question</th>
+<th class="crfhead answ">Data Collected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="seqw">1.1</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">No<span class="note"> (N)</span></label><br><input type="radio" name="$radio"><label for="$radio">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMOCCUR,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'ANTIPSORIATIC'"></a><a class="nohover" id="'ANTIPSORIATIC'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMTRT"></a><a class="nohover" id="CMTRT"></a><a href="#'ANTIPSORIATIC'"></a><a class="nohover" id="'ANTIPSORIATIC'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMPRESP"></a><a class="nohover" id="CMPRESP"></a><a href="#'Y'"></a><a class="nohover" id="'Y'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMSTRF"></a><a class="nohover" id="CMSTRF"></a><a href="#'BEFORE'"></a><a class="nohover" id="'BEFORE'"></a> CMTRT='ANTIPSORIATIC', CMPRESP='Y', CMSTRF='BEFORE'</td>
+</tr>
+<tr>
+<td class="seqw">1.2</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">Biologic<span class="note"> (BIOLOGIC)</span></label><br><input type="radio" name="$radio"><label for="$radio">Non-Biologic<span class="note"> (NON-BIOLOGIC)</span></label><br><input type="radio" name="$radio"><label for="$radio">Phototherapy<span class="note"> (PHOTOTHERAPY)</span></label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMSCAT,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'ANTIPSORIATIC'"></a><a class="nohover" id="'ANTIPSORIATIC'"></a>
+</td>
+</tr>
+<tr>
+<td class="seqw">1.3</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text"><span class="note"> Text</span>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMTRT,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'ANTIPSORIATIC'"></a><a class="nohover" id="'ANTIPSORIATIC'"></a>
+</td>
+</tr>
+<tr>
+<td class="seqw">1.4</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">ORAL</label><br><input type="radio" name="$radio"><label for="$radio">SUBCUTANEOUS</label><br><input type="radio" name="$radio"><label for="$radio">TOPICAL</label><br><input type="radio" name="$radio"><label for="$radio">TRANSDERMAL</label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMROUTE,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'ANTIPSORIATIC'"></a><a class="nohover" id="'ANTIPSORIATIC'"></a>
+</td>
+</tr>
+<tr>
+<td class="seqw">1.5</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text"><span class="note"> Text</span>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMDOSTXT,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'ANTIPSORIATIC'"></a><a class="nohover" id="'ANTIPSORIATIC'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMDOSE"></a><a class="nohover" id="CMDOSE"></a><a href="#if"></a><a class="nohover" id="if"></a><a href="#all"></a><a class="nohover" id="all"></a><a href="#values"></a><a class="nohover" id="values"></a><a href="#of"></a><a class="nohover" id="of"></a><a href="#CMDOSTXT"></a><a class="nohover" id="CMDOSTXT"></a><a href="#are"></a><a class="nohover" id="are"></a><a href="#numeric"></a><a class="nohover" id="numeric"></a> CMDOSE if all values of CMDOSTXT are numeric</td>
+</tr>
+<tr>
+<td class="seqw">1.6</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">mcg<span class="note"> (ug)</span></label><br><input type="radio" name="$radio"><label for="$radio">mg<span class="note"> (mg)</span></label><br><input type="radio" name="$radio"><label for="$radio">g<span class="note"> (g)</span></label><br><input type="radio" name="$radio"><label for="$radio">Ml<span class="note"> (mL)</span></label><br><input type="radio" name="$radio"><label for="$radio">Application<span class="note"> (APPLICATION)</span></label><br><input type="radio" name="$radio"><label for="$radio">International Unit (IU)<span class="note"> (IU)</span></label><br><input type="radio" name="$radio"><label for="$radio">Tablet<span class="note"> (TABLET)</span></label><br><input type="radio" name="$radio"><label for="$radio">Capsule<span class="note"> (CAPSULE)</span></label><br><input type="radio" name="$radio"><label for="$radio">Other<span class="note"> (OTHER)</span></label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMDOSU,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'ANTIPSORIATIC'"></a><a class="nohover" id="'ANTIPSORIATIC'"></a>
+</td>
+</tr>
+<tr>
+<td class="seqw">2.1</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">Single-dose pen<span class="note"> (SINGLE-DOSE PEN)</span></label><br><input type="radio" name="$radio"><label for="$radio">Multiple-dose pen<span class="note"> (MULTIPLE-DOSE PEN)</span></label><br><input type="radio" name="$radio"><label for="$radio">Pre-filled syringe<span class="note"> (PRE-FILLED SYRINGE)</span></label><br><input type="radio" name="$radio"><label for="$radio">Syringe<span class="note"> (SYRINGE)</span></label><br><input type="radio" name="$radio"><label for="$radio">Not Applicable<span class="note"> (NOT APPLICABLE)</span></label><br>
+</td>
+<td id="anno" class="annw anno">SUPPCM.<a href="#"></a><a class="nohover" id=""></a>QVAL,<br><a href="#SUPPCM"></a><a class="nohover" id="SUPPCM"></a><a href="#QNAM"></a><a class="nohover" id="QNAM"></a><a href="#'SPDEVID'"></a><a class="nohover" id="'SPDEVID'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#SUPPCM"></a><a class="nohover" id="SUPPCM"></a><a href="#QLABEL"></a><a class="nohover" id="QLABEL"></a><a href="#'Device"></a><a class="nohover" id="'Device"></a><a href="#Identifier'"></a><a class="nohover" id="Identifier'"></a> SUPPCM.QLABEL='Device Identifier'</td>
+</tr>
+<tr>
+<td class="seqw">3.1</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text" placeholder="DD-MMM-YYYY"><span class="note"> Date</span><p class="note left">
+            Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM.
+          </p>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMSTDTC,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'ANTIPSORIATIC'"></a><a class="nohover" id="'ANTIPSORIATIC'"></a>
+</td>
+</tr>
+<tr>
+<td class="seqw">3.2</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">No<span class="note"> (N)</span></label><br><input type="radio" name="$radio"><label for="$radio">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMENRTPT,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'ANTIPSORIATIC'"></a><a class="nohover" id="'ANTIPSORIATIC'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#If"></a><a class="nohover" id="If"></a><a href="#Yes"></a><a class="nohover" id="Yes"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMENRTPT"></a><a class="nohover" id="CMENRTPT"></a><a href="#'ONGOING'"></a><a class="nohover" id="'ONGOING'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#If"></a><a class="nohover" id="If"></a><a href="#No"></a><a class="nohover" id="No"></a><a href="#"></a><a class="nohover" id=""></a><a href="#CMENRF"></a><a class="nohover" id="CMENRF"></a><a href="#blank"></a><a class="nohover" id="blank"></a> If Yes, CMENRTPT='ONGOING'.
+        <br>If No, CMENRF=blank</td>
+</tr>
+<tr>
+<td class="seqw">3.3</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text" placeholder="DD-MMM-YYYY"><span class="note"> Date</span><p class="note left">
+            Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM.
+          </p>
+</td>
+<td id="anno" class="annw anno">CM.<a href="#"></a><a class="nohover" id=""></a>CMENDTC,<br><a href="#CMCAT"></a><a class="nohover" id="CMCAT"></a><a href="#'ANTIPSORIATIC'"></a><a class="nohover" id="'ANTIPSORIATIC'"></a>
+</td>
+</tr>
+<tr>
+<td class="seqw">4.1</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">Inadequate efficiacy<span class="note"> (INADEQUATE EFFICACY)</span></label><br><input type="radio" name="$radio"><label for="$radio">Adverse event<span class="note"> (ADVERSE EVENT)</span></label><br><input type="radio" name="$radio"><label for="$radio">Other-not related to efficacy/adverse event<span class="note"> (OTHER-NOT RELATED TO EFFICACY/ADVERSE EVENTS)</span></label><br>
+</td>
+<td id="anno" class="annw anno">SUPPCM.<a href="#"></a><a class="nohover" id=""></a>QVAL,<br><a href="#SUPPCM"></a><a class="nohover" id="SUPPCM"></a><a href="#QNAM"></a><a class="nohover" id="QNAM"></a><a href="#'CMRSDISC'"></a><a class="nohover" id="'CMRSDISC'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#SUPPCM"></a><a class="nohover" id="SUPPCM"></a><a href="#QLABEL"></a><a class="nohover" id="QLABEL"></a><a href="#'Reason"></a><a class="nohover" id="'Reason"></a><a href="#for"></a><a class="nohover" id="for"></a><a href="#treatment"></a><a class="nohover" id="treatment"></a><a href="#discontinuation'"></a><a class="nohover" id="discontinuation'"></a> SUPPCM.QLABEL='Reason for treatment discontinuation'</td>
+</tr>
+</tbody>
+</table>
+<p style="page-break-after: always"></p>
+<table class="maintable">
+<thead>
+<tr><th colspan="4" class="noborder"><div class="left formtitle"><a class="nohover" id="F.0003"><span>Body Sites of Psoriasis Involvement at Baseline</span></a></div></th></tr>
+<tr><th colspan="4" class="noborder"><div class="left note">CRF Instructions: Use one page per affected area.</div></th></tr>
+<tr><th colspan="4" class="noborder"><br></th></tr>
+<tr>
+<th class="crfhead seqw left">Ref</th>
+<th class="crfhead quew">CRF Question</th>
+<th class="crfhead answ">Data Collected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="seqw">1.1</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">FACE<span class="note"> (FACE)</span></label><br><input type="radio" name="$radio"><label for="$radio">GENITALIA<span class="note"> (GENITALIA)</span></label><br><input type="radio" name="$radio"><label for="$radio">Hand<span class="note"> (HAND)</span></label><br><input type="radio" name="$radio"><label for="$radio">HEAD<span class="note"> (HEAD)</span></label><br><input type="radio" name="$radio"><label for="$radio">Lower Extremity<span class="note"> (LIMB, LOWER)</span></label><br><input type="radio" name="$radio"><label for="$radio">Upper Extremity<span class="note"> (LIMB, UPPER)</span></label><br><input type="radio" name="$radio"><label for="$radio">SCALP<span class="note"> (SCALP)</span></label><br><input type="radio" name="$radio"><label for="$radio">Torso<span class="note"> (TRUNK)</span></label><br>
+</td>
+<td id="anno" class="annw anno">QS.<a href="#"></a><a class="nohover" id=""></a>QSLOC,<br><a href="#QSTESTCD"></a><a class="nohover" id="QSTESTCD"></a><a href="#'LESIDENT'"></a><a class="nohover" id="'LESIDENT'"></a><a href="#QSTEST"></a><a class="nohover" id="QSTEST"></a><a href="#'Lesion"></a><a class="nohover" id="'Lesion"></a><a href="#Identification'"></a><a class="nohover" id="Identification'"></a>QSTEST='Lesion Identification'</td>
+</tr>
+<tr>
+<td class="seqw">1.2</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">LEFT</label><br><input type="radio" name="$radio"><label for="$radio">RIGHT</label><br><input type="radio" name="$radio"><label for="$radio">NOT APPLICABLE</label><br>
+</td>
+<td id="anno" class="annw anno">QS.<a href="#"></a><a class="nohover" id=""></a>QSLAT,<br><a href="#QSTESTCD"></a><a class="nohover" id="QSTESTCD"></a><a href="#'LESIDENT'"></a><a class="nohover" id="'LESIDENT'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#QSTEST"></a><a class="nohover" id="QSTEST"></a><a href="#'Lesion"></a><a class="nohover" id="'Lesion"></a><a href="#Identification'"></a><a class="nohover" id="Identification'"></a> QSTEST='Lesion Identification'</td>
+</tr>
+<tr>
+<td class="seqw">1.3</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">ANTERIOR</label><br><input type="radio" name="$radio"><label for="$radio">POSTERIOR</label><br><input type="radio" name="$radio"><label for="$radio">NOT APPLICABLE</label><br>
+</td>
+<td id="anno" class="annw anno">QS.<a href="#"></a><a class="nohover" id=""></a>QSDIR,<br><a href="#QSTESTCD"></a><a class="nohover" id="QSTESTCD"></a><a href="#'LESIDENT'"></a><a class="nohover" id="'LESIDENT'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#QSTEST"></a><a class="nohover" id="QSTEST"></a><a href="#'Lesion"></a><a class="nohover" id="'Lesion"></a><a href="#Identification'"></a><a class="nohover" id="Identification'"></a> QSTEST='Lesion Identification'</td>
+</tr>
+</tbody>
+</table>
+<p style="page-break-after: always"></p>
+<table class="maintable">
+<thead>
+<tr><th colspan="4" class="noborder"><div class="left formtitle"><a class="nohover" id="F.0007"><span>Adverse Events</span></a></div></th></tr>
+<tr><th colspan="4" class="noborder"><br></th></tr>
+<tr>
+<th class="crfhead seqw left">Ref</th>
+<th class="crfhead quew">CRF Question</th>
+<th class="crfhead answ">Data Collected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="seqw">1.1</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">No<span class="note"> (N)</span></label><br><input type="radio" name="$radio"><label for="$radio">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#NOT"></a><a class="nohover" id="NOT"></a>NOT,<br><a href="#NOT"></a><a class="nohover" id="NOT"></a><a href="#SUBMITTED"></a><a class="nohover" id="SUBMITTED"></a>
+</td>
+</tr>
+<tr>
+<td class="seqw">1.2</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text"><span class="note"> Text</span>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AEGRPID</td>
+</tr>
+<tr>
+<td class="seqw">1.3</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text"><span class="note"> Text</span>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AETERM</td>
+</tr>
+<tr>
+<td class="seqw">2.1</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="number"><span class="note"> Integer</span>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AESPID</td>
+</tr>
+<tr>
+<td class="seqw">2.2</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text" placeholder="DD-MMM-YYYY"><span class="note"> Date</span><p class="note left">
+            Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM.
+          </p>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AESTDTC,<br><a href="#Partial"></a><a class="nohover" id="Partial"></a><a href="#dates"></a><a class="nohover" id="dates"></a><a href="#are"></a><a class="nohover" id="are"></a><a href="#stored"></a><a class="nohover" id="stored"></a><a href="#according"></a><a class="nohover" id="according"></a><a href="#to"></a><a class="nohover" id="to"></a><a href="#ISO8601"></a><a class="nohover" id="ISO8601"></a>
+</td>
+</tr>
+<tr>
+<td class="seqw">2.3</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text"><span class="note"> Text</span>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AEENTPT,<br><a href="#If"></a><a class="nohover" id="If"></a><a href="#Yes"></a><a class="nohover" id="Yes"></a><a href="#"></a><a class="nohover" id=""></a><a href="#AEENTPT"></a><a class="nohover" id="AEENTPT"></a><a href="#ONGOING"></a><a class="nohover" id="ONGOING"></a><a href="#"></a><a class="nohover" id=""></a><a href="#If"></a><a class="nohover" id="If"></a><a href="#No"></a><a class="nohover" id="No"></a><a href="#"></a><a class="nohover" id=""></a><a href="#AEENTPT"></a><a class="nohover" id="AEENTPT"></a><a href="#BEFORE"></a><a class="nohover" id="BEFORE"></a> AEENTPT=ONGOING.
+        <br>If No, AEENTPT=BEFORE</td>
+</tr>
+<tr>
+<td class="seqw">2.4</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text" placeholder="DD-MMM-YYYY"><span class="note"> Date</span><p class="note left">
+            Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM.
+          </p>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AEENDTC,<br><a href="#Partial"></a><a class="nohover" id="Partial"></a><a href="#dates"></a><a class="nohover" id="dates"></a><a href="#are"></a><a class="nohover" id="are"></a><a href="#stored"></a><a class="nohover" id="stored"></a><a href="#according"></a><a class="nohover" id="according"></a><a href="#to"></a><a class="nohover" id="to"></a><a href="#ISO8601"></a><a class="nohover" id="ISO8601"></a>
+</td>
+</tr>
+<tr>
+<td class="seqw">2.5</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">Absent<span class="note"> (0)</span></label><br><input type="radio" name="$radio"><label for="$radio">Mild<span class="note"> (1)</span></label><br><input type="radio" name="$radio"><label for="$radio">Moderate<span class="note"> (2)</span></label><br><input type="radio" name="$radio"><label for="$radio">Severe<span class="note"> (3)</span></label><br><input type="radio" name="$radio"><label for="$radio">Life Threatening<span class="note"> (4)</span></label><br><input type="radio" name="$radio"><label for="$radio">Fatal<span class="note"> (5)</span></label><br>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AETOXGR</td>
+</tr>
+<tr>
+<td class="seqw">2.6</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">No<span class="note"> (N)</span></label><br><input type="radio" name="$radio"><label for="$radio">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AESER</td>
+</tr>
+<tr>
+<td class="seqw">2.7</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="checkbox" name="$check"><label for="$check">No<span class="note"> (N)</span></label><br><input type="checkbox" name="$check"><label for="$check">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AESCONG</td>
+</tr>
+<tr>
+<td class="seqw">2.8</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="checkbox" name="$check"><label for="$check">No<span class="note"> (N)</span></label><br><input type="checkbox" name="$check"><label for="$check">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AESDISAB</td>
+</tr>
+<tr>
+<td class="seqw">2.9</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="checkbox" name="$check"><label for="$check">No<span class="note"> (N)</span></label><br><input type="checkbox" name="$check"><label for="$check">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AESDTH</td>
+</tr>
+<tr>
+<td class="seqw">2.10</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="checkbox" name="$check"><label for="$check">No<span class="note"> (N)</span></label><br><input type="checkbox" name="$check"><label for="$check">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AESHOSP</td>
+</tr>
+<tr>
+<td class="seqw">2.11</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="checkbox" name="$check"><label for="$check">No<span class="note"> (N)</span></label><br><input type="checkbox" name="$check"><label for="$check">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AESLIFE</td>
+</tr>
+<tr>
+<td class="seqw">2.12</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="checkbox" name="$check"><label for="$check">No<span class="note"> (N)</span></label><br><input type="checkbox" name="$check"><label for="$check">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AESOD</td>
+</tr>
+<tr>
+<td class="seqw">2.13</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="checkbox" name="$check"><label for="$check">No<span class="note"> (N)</span></label><br><input type="checkbox" name="$check"><label for="$check">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AESMIE</td>
+</tr>
+<tr>
+<td class="seqw">2.14</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="checkbox" name="$check"><label for="$check">No<span class="note"> (N)</span></label><br><input type="checkbox" name="$check"><label for="$check">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AECONTRT</td>
+</tr>
+<tr>
+<td class="seqw">2.15</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">No<span class="note"> (N)</span></label><br><input type="radio" name="$radio"><label for="$radio">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AEREL</td>
+</tr>
+<tr>
+<td class="seqw">2.16</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">Adjunct Therapy<span class="note"> (ADJUNCT THERAPY)</span></label><br><input type="radio" name="$radio"><label for="$radio">Concomitant Therapy<span class="note"> (CONCOMITANT THERAPY)</span></label><br><input type="radio" name="$radio"><label for="$radio">Study Device<span class="note"> (STUDY DEVICE)</span></label><br><input type="radio" name="$radio"><label for="$radio">Study Disease<span class="note"> (STUDY DISEASE)</span></label><br><input type="radio" name="$radio"><label for="$radio">Study Procedure<span class="note"> (STUDY PROCEDURE)</span></label><br><input type="radio" name="$radio"><label for="$radio">Other Medical Condition<span class="note"> (OTHER MEDICAL CONDITION)</span></label><br>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AERELNST</td>
+</tr>
+<tr>
+<td class="seqw">2.17</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">Fatal<span class="note"> (FATAL)</span></label><br><input type="radio" name="$radio"><label for="$radio">Not recovered/not resolved<span class="note"> (NOT RECOVERED/NOT RESOLVED )</span></label><br><input type="radio" name="$radio"><label for="$radio">Recovered/resolved with sequelae<span class="note"> (RECOVERED/RESOLVED WITH SEQUELAE )</span></label><br><input type="radio" name="$radio"><label for="$radio">Recovered/resolved<span class="note"> (RECOVERED/RESOLVED)</span></label><br><input type="radio" name="$radio"><label for="$radio">Recovering/resolving<span class="note"> (RECOVERING/RESOLVING )</span></label><br><input type="radio" name="$radio"><label for="$radio">Unkmown<span class="note"> (C49496)</span></label><br>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AEOUT</td>
+</tr>
+<tr>
+<td class="seqw">2.18</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">Dose not changed<span class="note"> (DOSE NOT CHANGED)</span></label><br><input type="radio" name="$radio"><label for="$radio">Dose reduced<span class="note"> (DOSE REDUCED)</span></label><br><input type="radio" name="$radio"><label for="$radio">Dose increased<span class="note"> (DOSE INCREASED)</span></label><br><input type="radio" name="$radio"><label for="$radio">Drug interrupted<span class="note"> (DRUG INTERRUPTED)</span></label><br><input type="radio" name="$radio"><label for="$radio">Drug withdrawn<span class="note"> (DRUG WITHDRAWN)</span></label><br><input type="radio" name="$radio"><label for="$radio">Not applicable<span class="note"> (NOT APPLICABLE)</span></label><br><input type="radio" name="$radio"><label for="$radio">Unknown<span class="note"> (UNKNOWN)</span></label><br>
+</td>
+<td id="anno" class="annw anno">AE.<a href="#"></a><a class="nohover" id=""></a>AEACN</td>
+</tr>
+<tr>
+<td class="seqw">3.1</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">No<span class="note"> (N)</span></label><br><input type="radio" name="$radio"><label for="$radio">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">SUPPAE.<a href="#"></a><a class="nohover" id=""></a>QVAL,<br><a href="#SUPPAE"></a><a class="nohover" id="SUPPAE"></a><a href="#QNAM"></a><a class="nohover" id="QNAM"></a><a href="#AEDLTOXF"></a><a class="nohover" id="AEDLTOXF"></a><a href="#"></a><a class="nohover" id=""></a><a href="#SUPPAE"></a><a class="nohover" id="SUPPAE"></a><a href="#QLABEL"></a><a class="nohover" id="QLABEL"></a><a href="#'Dose"></a><a class="nohover" id="'Dose"></a><a href="#Limiting"></a><a class="nohover" id="Limiting"></a><a href="#Toxicity'"></a><a class="nohover" id="Toxicity'"></a> SUPPAE.QLABEL='Dose Limiting Toxicity'</td>
+</tr>
+</tbody>
+</table>
+<p style="page-break-after: always"></p>
+<table class="maintable">
+<thead>
+<tr><th colspan="4" class="noborder"><div class="left formtitle"><a class="nohover" id="F.0006"><span>ECG Test Results</span></a></div></th></tr>
+<tr><th colspan="4" class="noborder"><br></th></tr>
+<tr>
+<th class="crfhead seqw left">Ref</th>
+<th class="crfhead quew">CRF Question</th>
+<th class="crfhead answ">Data Collected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="seqw">1.1</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">No<span class="note"> (N)</span></label><br><input type="radio" name="$radio"><label for="$radio">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">EG.<a href="#NOT"></a><a class="nohover" id="NOT"></a>NOT,<br><a href="#NOT"></a><a class="nohover" id="NOT"></a><a href="#SUBMITTED"></a><a class="nohover" id="SUBMITTED"></a>
+</td>
+</tr>
+<tr>
+<td class="seqw">1.2</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text" placeholder="DD-MMM-YYYY"><span class="note"> Date</span><p class="note left">
+            Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM.
+          </p>
+</td>
+<td id="anno" class="annw anno">EG.<a href="#"></a><a class="nohover" id=""></a>EGSTDTC,<br><a href="#Date"></a><a class="nohover" id="Date"></a><a href="#and"></a><a class="nohover" id="and"></a><a href="#time"></a><a class="nohover" id="time"></a><a href="#are"></a><a class="nohover" id="are"></a><a href="#to"></a><a class="nohover" id="to"></a><a href="#be"></a><a class="nohover" id="be"></a><a href="#combined"></a><a class="nohover" id="combined"></a><a href="#into"></a><a class="nohover" id="into"></a><a href="#one"></a><a class="nohover" id="one"></a><a href="#variable"></a><a class="nohover" id="variable"></a><a href="#according"></a><a class="nohover" id="according"></a><a href="#to"></a><a class="nohover" id="to"></a><a href="#ISO"></a><a class="nohover" id="ISO"></a><a href="#8601"></a><a class="nohover" id="8601"></a>
+</td>
+</tr>
+<tr>
+<td class="seqw">1.3</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text" placeholder="HH:MM"><span class="note"> Time</span><p class="note left">
+            Always collect times as HH:MM and store times as ISO8601 in SDTM.
+          </p>
+</td>
+<td id="anno" class="annw anno">EG.<a href="#"></a><a class="nohover" id=""></a>EGSTDTC,<br><a href="#Date"></a><a class="nohover" id="Date"></a><a href="#and"></a><a class="nohover" id="and"></a><a href="#time"></a><a class="nohover" id="time"></a><a href="#are"></a><a class="nohover" id="are"></a><a href="#to"></a><a class="nohover" id="to"></a><a href="#be"></a><a class="nohover" id="be"></a><a href="#combined"></a><a class="nohover" id="combined"></a><a href="#into"></a><a class="nohover" id="into"></a><a href="#one"></a><a class="nohover" id="one"></a><a href="#variable"></a><a class="nohover" id="variable"></a><a href="#according"></a><a class="nohover" id="according"></a><a href="#to"></a><a class="nohover" id="to"></a><a href="#ISO"></a><a class="nohover" id="ISO"></a><a href="#8601"></a><a class="nohover" id="8601"></a>
+</td>
+</tr>
+<tr>
+<td class="seqw">1.4</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">Normal<span class="note"> (NORMAL)</span></label><br><input type="radio" name="$radio"><label for="$radio">Abnormal<span class="note"> (ABNORMAL)</span></label><br>
+</td>
+<td id="anno" class="annw anno">EG.<a href="#"></a><a class="nohover" id=""></a>EGORRES</td>
+</tr>
+<tr>
+<td class="seqw">2.1</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">No<span class="note"> (N)</span></label><br><input type="radio" name="$radio"><label for="$radio">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">SUPPEG.<a href="#"></a><a class="nohover" id=""></a>QVAL,<br><a href="#SUPPEG"></a><a class="nohover" id="SUPPEG"></a><a href="#QNAM"></a><a class="nohover" id="QNAM"></a><a href="#'EGCLSIG'"></a><a class="nohover" id="'EGCLSIG'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#SUPPEG"></a><a class="nohover" id="SUPPEG"></a><a href="#QLABEL"></a><a class="nohover" id="QLABEL"></a><a href="#'ECG"></a><a class="nohover" id="'ECG"></a><a href="#clinically"></a><a class="nohover" id="clinically"></a><a href="#significant'"></a><a class="nohover" id="significant'"></a> SUPPEG.QLABEL='ECG clinically significant'</td>
+</tr>
+</tbody>
+</table>
+<p style="page-break-after: always"></p>
+<table class="maintable">
+<thead>
+<tr><th colspan="4" class="noborder"><div class="left formtitle"><a class="nohover" id="F.0000"><span>Death</span></a></div></th></tr>
+<tr><th colspan="4" class="noborder"><br></th></tr>
+<tr>
+<th class="crfhead seqw left">Ref</th>
+<th class="crfhead quew">CRF Question</th>
+<th class="crfhead answ">Data Collected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="seqw">1.1</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">No<span class="note"> (N)</span></label><br><input type="radio" name="$radio"><label for="$radio">Yes<span class="note"> (Y)</span></label><br>
+</td>
+<td id="anno" class="annw anno">DD.<a href="#NOT"></a><a class="nohover" id="NOT"></a>NOT,<br><a href="#NOT"></a><a class="nohover" id="NOT"></a><a href="#SUBMITTED"></a><a class="nohover" id="SUBMITTED"></a>
+</td>
+</tr>
+<tr>
+<td class="seqw">1.2</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text" placeholder="DD-MMM-YYYY"><span class="note"> Date</span><p class="note left">
+            Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM.
+          </p>
+</td>
+<td id="anno" class="annw anno">DD.<a href="#"></a><a class="nohover" id=""></a>DDDTC</td>
+</tr>
+<tr>
+<td class="seqw">2.1</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text" placeholder="DD-MMM-YYYY"><span class="note"> Date</span><p class="note left">
+            Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM.
+          </p>
+</td>
+<td id="anno" class="annw anno">DM.<a href="#"></a><a class="nohover" id=""></a>DTHDTC</td>
+</tr>
+<tr>
+<td class="seqw">3.1</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text"><span class="note"> Text</span>
+</td>
+<td id="anno" class="annw anno">DD.<a href="#"></a><a class="nohover" id=""></a>DDORRES,<br><a href="#DDTESTCD"></a><a class="nohover" id="DDTESTCD"></a><a href="#'DIAGPRIM'"></a><a class="nohover" id="'DIAGPRIM'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#DDTEST"></a><a class="nohover" id="DDTEST"></a><a href="#'Primary"></a><a class="nohover" id="'Primary"></a><a href="#Diagnosis'"></a><a class="nohover" id="Diagnosis'"></a> DDTEST='Primary Diagnosis'</td>
+</tr>
+<tr>
+<td class="seqw">3.2</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text"><span class="note"> Text</span>
+</td>
+<td id="anno" class="annw anno">DD.<a href="#"></a><a class="nohover" id=""></a>DDORRES,<br><a href="#DDTESTCD"></a><a class="nohover" id="DDTESTCD"></a><a href="#'DIAGSEC'"></a><a class="nohover" id="'DIAGSEC'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#DDTEST"></a><a class="nohover" id="DDTEST"></a><a href="#'Secondary"></a><a class="nohover" id="'Secondary"></a><a href="#Diagnosis'"></a><a class="nohover" id="Diagnosis'"></a> DDTEST='Secondary Diagnosis'</td>
+</tr>
+<tr>
+<td class="seqw">3.3</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="radio" name="$radio"><label for="$radio">Home<span class="note"> (HOME)</span></label><br><input type="radio" name="$radio"><label for="$radio">Hospital<span class="note"> (HOSPITAL)</span></label><br><input type="radio" name="$radio"><label for="$radio">Nursing/Rehabilitation Home<span class="note"> (NURSING/REHABILITATION HOME)</span></label><br>
+</td>
+<td id="anno" class="annw anno">DD.<a href="#"></a><a class="nohover" id=""></a>DDORRES,<br><a href="#DDTESTCD"></a><a class="nohover" id="DDTESTCD"></a><a href="#'LOCDTH'"></a><a class="nohover" id="'LOCDTH'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#DDTEST"></a><a class="nohover" id="DDTEST"></a><a href="#'What"></a><a class="nohover" id="'What"></a><a href="#is"></a><a class="nohover" id="is"></a><a href="#the"></a><a class="nohover" id="the"></a><a href="#location"></a><a class="nohover" id="location"></a><a href="#of"></a><a class="nohover" id="of"></a><a href="#death'"></a><a class="nohover" id="death'"></a> DDTEST='What is the location of death'</td>
+</tr>
+<tr>
+<td class="seqw">3.4</td>
+<td class="quew"><p class="note left"></p></td>
+<td class="answ">
+<input type="text"><span class="note"> Text</span>
+</td>
+<td id="anno" class="annw anno">DD.<a href="#"></a><a class="nohover" id=""></a>DDORRES,<br><a href="#DDTESTCD"></a><a class="nohover" id="DDTESTCD"></a><a href="#'DTHWIT'"></a><a class="nohover" id="'DTHWIT'"></a><a href="#"></a><a class="nohover" id=""></a><a href="#DDTEST"></a><a class="nohover" id="DDTEST"></a><a href="#'Was"></a><a class="nohover" id="'Was"></a><a href="#Death"></a><a class="nohover" id="Death"></a><a href="#Witnessed'"></a><a class="nohover" id="Witnessed'"></a> DDTEST='Was Death Witnessed'</td>
+</tr>
+</tbody>
+</table>
+<p style="page-break-after: always"></p>
+</body>
+</html>
