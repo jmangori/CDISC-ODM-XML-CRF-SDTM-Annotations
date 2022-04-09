@@ -26,9 +26,9 @@ The solution is an XML translating style sheet allowing the ODM-xml file to be b
 See the [CRF_renditions.md](CRF_renditions.md) document for details of the CRF itself.
 
 ## Built With <a name="Built_With"/>
-The main component is an XSLT translating style sheet applied to an ODM-xml file of your own. The result is a webpage displaying the CRF pages, questions, and SDTM annotations. The web page page can be printed from the browser, also as PDF.
+The main component is an XSLT translating style sheet applied to an ODM-xml file of your own. The result is a webpage displaying the CRF pages, questions, and SDTM annotations. The web page page can be printed from the browser, also as a PDF file.
 
-The secondary componant is an HTML file used to link the XML file to the XSL style sheet. The HTML file will run in modern browsers, NOT Internet Explorer.
+The secondary component is an HTML file used to link the XML file to the XSL style sheet. The HTML file will run in modern browsers, NOT Internet Explorer. Two versions exist; one showing files residing on a web server, one uploading files and applying a php program.
 
 ## Versions <a name="Versions"/>
 This project covers ODM version 1.3.2 only. Other version of ODM-xml files are not expected to work. ODM version 1.0.0 and ODM version 1.1.0 files have been tested, and they don't work.
@@ -36,12 +36,12 @@ This project covers ODM version 1.3.2 only. Other version of ODM-xml files are n
 Transformations are done using **<xsl:stylesheet version="1.0">** creating HTML 4.
 
 # Getting Started <a name="Getting_Started"/>
-Check out examples of [acrf](/examples/acrf.pdf) and [bcrf](/examples/bcrf.pdf) documents to see the results.
+Check out examples of [acrf](/files/acrf.pdf) and [bcrf](/files/bcrf.pdf) documents to see the results.
 
-Try a [live version](https://try2.info/cdisc-xml/cdisc-xml.html) to test your own ODM file, or my supplied [example](/examples/CDISC_ODM_1.3.2_example.xml) odm file.
+Try a [live version](https://try2.info/cdisc-xml/cdisc-xml.html) to test your own ODM file, or my supplied [example](/files/CDISC_ODM_1.3.2_example.xml) odm file.
 
 ## Installation <a name="Installation"/>
-Download the files from the [xsl_files](/xsl_files) folder and place them in the same folder on your web server.
+Download the files from the [files](/files) folder and place them in the same folder on your web server.
 
 The XSL Style Sheet can work by itself together with any XSLT processor to render the CRF from an ODM-XML file. However, the HTML file requires that the components
 
@@ -53,12 +53,12 @@ are located __ON A WEB SERVER__ in the same folder. The HTML file will not run f
 
 # Usage <a name="Usage"/>
 ## crf_1_3_2.xsl <a name="crf_1_3_2_xsl"/>
-This document is a piece of XSL-xml to display a valid CDISC ODM-xml file as an SDTM annotated CRF in a browser. The selected technology is supported in any modern browser (not Internet Explorer). The resulting web page can toggle various elements on and off, enabling printing of the CRF with and without these parts. Display of SDTM annotations and other elements  can also be controlled via parameters to the `crf_1_3_2.xsl` file. This way of displaying a CRF (pages or a whole book) with SDTM annotations is intended to serve as a visual representation of the ODM-xml file itself.
+This document is a piece of XSL/XSLT to display a valid CDISC ODM-xml file as an SDTM annotated CRF in a browser. This technology is supported in any modern browser (not Internet Explorer). The resulting web page can toggle various elements on and off, enabling printing of the CRF with and without these parts. Display of SDTM annotations and other elements can also be controlled via parameters to the `crf_1_3_2.xsl` file. This way of displaying a CRF (pages or a whole book) with SDTM annotations is intended to serve as a visual representation of the ODM-xml file itself.
 
 The intended procedure is to refresh the ODM-xml file on your server as it's development progresses, and then repeatedly run the `cdisc-xml.html` file in the browser to see the rendition. Please notice that the CRF rendition contains a title page, a live table of contents (links preserved when printed as PDF), a visit matrix if visits are defined in the ODM-xml file, and a separate table per CRF form. When printing, page breaks separating each page and table are created.
 
 ## cdisc-xml.html <a name="cdisc_xml_html"/>
-This document is a piece of HTML code containing only JavaScript to link a valid XSL Translating Style Sheet to a valid ODM-xml file without putting the style sheet link into the XML file itself. All XML and XSL files are supported. The resulting web page can serve as a CRF specification interpreting a valid ODM-xml file. This file needs to be placed on a web server in the same folder as your ODM-xml file and the `crf_1_3_2.xsl` XSL Translating Style Sheet. When opening the HTML file, the browser will perform the transformation of the XML file according to the programming in the XSL file. If the transformation is performed using a stand-alone XSL engine that is not a browser, the HTML file is not needed. I have tested that SAS PROC XSL can perform such a transformation and produce a simmilar result as the `cdisc-xml.html` file.
+This document is a piece of HTML code containing only JavaScript to link a valid XSL Translating Style Sheet to a valid ODM-xml file without putting the style sheet link into the XML file itself. All XML and XSL/XSLT files are supported. The resulting web page can serve as a CRF specification interpreting a valid ODM-xml file. This file needs to be placed on a web server in the same folder as your ODM-xml file and the `crf_1_3_2.xsl` XSL Translating Style Sheet. When opening the HTML file, the browser will perform the transformation of the XML file according to the programming in the XSL file. If the transformation is performed using a stand-alone XSL engine that is not a browser, the HTML file is not needed.
 
 Please notice that file names may be case sensitive on your system too.
 
@@ -75,7 +75,7 @@ Distributed under the MIT License. See [LICENSE](https://github.com/jmangori/CDI
 # Contact <a name="Contact"/>
 Jørgen Mangor Iversen [jmi@try2.info](mailto:jmi@try2.info)
 
-My [web page](http://www.try2.info) in danish unrelated to this project.
+My [web page](https://www.try2.info) in danish unrelated to this project.
 
 [Live version](https://try2.info/cdisc-xml/cdisc-xml.html) to demonstate the principle.
 
