@@ -41,16 +41,16 @@
        * bcrf: Blank CRF for submission (default)
        * acrf: SDTM annotated CRF for submission with SDTM annotations
        * book: Complete CRF book with forms repeated by visit
-       * data: Final CRF ready for data collection (future)
        Standard name, version, and status are derived from the XML file name externally
        Any image logo file may be resized to fit the text height of a headline, preserving aspect
   -->
   <xsl:param name="parmdisplay" select="spec"/> <!-- Display mode -->
+  <xsl:param name="parmdomvar" select="1"/>     <!-- Are dataset and variable in @Domain and @SDSVarname? (0/1) -->
   <xsl:param name="parmstudy"/>                 <!-- Name of any study or standard defined in the ODM-XML file -->
   <xsl:param name="parmversion"/>               <!-- Version of the ODM-XML file -->
   <xsl:param name="parmstatus"/>                <!-- Status of the ODM-XML file -->
   <xsl:param name="parmname"/>                  <!-- Company name -->
-  <xsl:param name="parmlogo"/>                  <!-- Company logo -->
+  <xsl:param name="parmlogo"/>                  <!-- Company logo file name -->
   <xsl:param name="parmlang"/>                  <!-- Language of TranslatedText (future) -->
   <xsl:param name="parmcdash" select="1"/>      <!-- Display CDASH annotation from Alias (if present) (0/1) -->
 
@@ -138,7 +138,7 @@
         <xsl:call-template name="toc"/>
 
         <xsl:choose>
-          <xsl:when test="$parmdisplay = 'book' or $parmdisplay = 'data'">
+          <xsl:when test="$parmdisplay = 'book'">
             <!-- for each visit, for each form -->
             <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:Protocol/odm:StudyEventRef">
               <xsl:sort select="@OrderNumber" data-type="number"/>
@@ -306,7 +306,7 @@
     <p>
       <img>
         <xsl:attribute name="src">
-          <xsl:if test="not(contains($parmlogo, '.'))"></xsl:if>data:image/png;base64,<xsl:value-of select="$parmlogo"/>
+          <xsl:if test="not(contains($parmlogo, '.'))">data:image/png;base64,</xsl:if><xsl:value-of select="$parmlogo"/>
         </xsl:attribute>
       </img>
     </p>
@@ -356,7 +356,7 @@
             <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef[@OID=$visithead]">
               <th class="crfhead rotate">
                 <xsl:choose>
-                  <xsl:when test="$parmdisplay = 'book' or $parmdisplay = 'data'">
+                  <xsl:when test="$parmdisplay = 'book'">
                 <span>
                   <a>
                     <xsl:attribute name="href">#<xsl:value-of select="$visithead"/></xsl:attribute>
@@ -414,7 +414,7 @@
     <xsl:param name="visit_target"/>
     <xsl:param name="visit_name"/>
     <thead>
-      <xsl:if test="$parmdisplay = 'book' or $parmdisplay = 'data'">
+      <xsl:if test="$parmdisplay = 'book'">
         <tr>
           <th colspan="4" class="noborder">
             <table class="maintable">
@@ -427,7 +427,7 @@
                       </xsl:attribute>
                       <img height="40">
                         <xsl:attribute name="src">
-                          <xsl:if test="not(contains($parmlogo, '.'))"></xsl:if>data:image/png;base64,<xsl:value-of select="$parmlogo"/>
+                          <xsl:if test="not(contains($parmlogo, '.'))">data:image/png;base64,</xsl:if><xsl:value-of select="$parmlogo"/>
                         </xsl:attribute>
                       </img>
                     </a>
@@ -563,9 +563,6 @@
   <!-- Show one question on the form, including guidance text and completion note -->
   <xsl:template name="question">
     <xsl:choose>
-      <xsl:when test="$parmdisplay = 'data' and odm:Alias[@Context='prompt']">
-        <xsl:value-of select="normalize-space(odm:Alias[@Context='prompt']/@Name)"/> <!-- Prompt text for data entry -->
-      </xsl:when>
       <xsl:when test="odm:Question/odm:TranslatedText">
         <xsl:value-of select="odm:Question/odm:TranslatedText"/>
       </xsl:when>
@@ -636,33 +633,17 @@
       </xsl:when>
       <!-- Data type date -->
       <xsl:when test="@DataType = 'date'">
-        <xsl:if test="$parmdisplay = 'data'">
-          <input type="date"/><span class="note"> Date</span>
-          <p class="note left">
-            The displayed date is formatted based on the locale of the user's browser. Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM.
-          </p>
-        </xsl:if>
-        <xsl:if test="$parmdisplay != 'data'">
-          <input type="text" placeholder="DD-MMM-YYYY"/><span class="note"> Date</span>
-          <p class="note left">
-            Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM.
-          </p>
-        </xsl:if>
+        <input type="text" placeholder="DD-MMM-YYYY"/><span class="note"> Date</span>
+        <p class="note left">
+          Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM.
+        </p>
       </xsl:when>
       <!-- Data type time -->
       <xsl:when test="@DataType = 'time'">
-        <xsl:if test="$parmdisplay = 'data'">
-          <input type="time"/><span class="note"> Time</span>
-          <p class="note left">
-            The displayed time is formatted based on the locale of the user's browser. Always collect times as HH:MM and store times as ISO8601 in SDTM.
-          </p>
-        </xsl:if>
-        <xsl:if test="$parmdisplay != 'data'">
-          <input type="text" placeholder="HH:MM"/><span class="note"> Time</span>
-          <p class="note left">
-            Always collect times as HH:MM and store times as ISO8601 in SDTM.
-          </p>
-        </xsl:if>
+        <input type="text" placeholder="HH:MM"/><span class="note"> Time</span>
+        <p class="note left">
+          Always collect times as HH:MM and store times as ISO8601 in SDTM.
+        </p>
       </xsl:when>
       <!-- Data type text -->
       <xsl:when test="@DataType = 'text'">
@@ -692,127 +673,90 @@
   <!-- Show the SDTM annotation to the question -->
   <xsl:template name="annotation">
     <xsl:param name="domain"/>
-    <xsl:call-template name="dataset">
-      <xsl:with-param name="dsn_domain"     select="normalize-space($domain)"/>
-      <xsl:with-param name="dsn_sdsvarname" select="normalize-space(@SDSVarName)"/>
-      <xsl:with-param name="dsn_alias"      select="normalize-space(odm:Alias[@Context='SDTM']/@Name)"/>
-    </xsl:call-template>
-    <xsl:call-template name="variable">
-      <xsl:with-param name="var_sdsvarname" select="normalize-space(@SDSVarName)"/>
-      <xsl:with-param name="var_alias"      select="normalize-space(odm:Alias[@Context='SDTM']/@Name)"/>
-    </xsl:call-template>
-    <!-- Add a comma and a line break if SDTM Alias contains additional annotations, then additional annotatoins -->
-    <xsl:if test="contains(translate(odm:Alias[@Context='SDTM']/@Name, ',.=:-', '¤¤¤¤¤'), '¤')">
-      <xsl:text>,</xsl:text>
-      <br/>
-      <xsl:call-template name="words">
-        <xsl:with-param name="text_string" select="translate(odm:Alias[@Context='SDTM']/@Name, ',.=:- ', '¤¤¤¤¤¤')"/>
-      </xsl:call-template>
+
+    <!-- Datase and Variable separated by a period (if applicable) -->
       <xsl:choose>
-        <xsl:when test="normalize-space(@SDSVarName) = ''">
-          <xsl:call-template name="break_lines">
-            <xsl:with-param name="lines" select="substring-after(odm:Alias[@Context='SDTM']/@Name, ',')"/>
+      <!-- Dataset and variable are in @Domain and @SDSVarname -->
+      <xsl:when test="$parmdomvar = '1'">
+        <xsl:if test="normalize-space($domain) != '' and normalize-space(@SDSVarName) != ''">
+          <xsl:value-of select="$domain"/>
+          <xsl:text>.</xsl:text>
+          <xsl:call-template name="define_anchor">
+            <xsl:with-param name="target" select="normalize-space(@SDSVarName)"/>
           </xsl:call-template>
+          <xsl:value-of select="normalize-space(@SDSVarName)"/>
+        </xsl:if>
+      </xsl:when>
+      <!-- Dataset and Variable are in Alias and has a period within the first 9 characters -->
+      <xsl:when test="contains(substring(odm:Alias[@Context='SDTM']/@Name, 1, 9), '.')">
+        <xsl:call-template name="define_anchor">
+          <xsl:with-param name="target" select="substring-before(translate(substring-after(odm:Alias[@Context='SDTM']/@Name, '.'), ',', ' '), ' ')"/>
+        </xsl:call-template>
+        <xsl:value-of select="substring-before(translate(odm:Alias[@Context='SDTM']/@Name, ',', ' '), ' ')"/>
+      </xsl:when>
+      <!-- Dataset and Variable are in Alias without a period, and has a comma before the first sentence (variable without dataset, not sentence) -->
+      <xsl:when test="string-length(substring-before(odm:Alias[@Context='SDTM']/@Name, ',')) &lt; string-length(substring-before(odm:Alias[@Context='SDTM']/@Name, ' '))">
+        <xsl:call-template name="define_anchor">
+          <xsl:with-param name="target" select="substring-before(odm:Alias[@Context='SDTM']/@Name, ',')"/>
+        </xsl:call-template>
+          <xsl:value-of select="substring-before(odm:Alias[@Context='SDTM']/@Name, ',')"/>
         </xsl:when>
         <xsl:otherwise>
+        UNKNOWN DATASET AND/OR VARIABLE
+        </xsl:otherwise>
+      </xsl:choose>
+
+    <!-- Add a comma and a line break if SDTM Alias contains additional annotations, then the additional annotations -->
+    <xsl:choose>
+      <!-- Dataset and variable are in @Domain and @SDSVarname -->
+      <xsl:when test="$parmdomvar = '1'">
+        <xsl:choose>
+          <!-- Both variable name and alias -->
+          <xsl:when test="normalize-space(@SDSVarName) != '' and normalize-space(odm:Alias[@Context='SDTM']/@Name) != ''">
+            <xsl:text>,</xsl:text>
+            <br/>
+      <xsl:call-template name="anchor_words">
+              <xsl:with-param name="text_string" select="odm:Alias[@Context='SDTM']/@Name"/>
+      </xsl:call-template>
+          <xsl:call-template name="break_lines">
+              <xsl:with-param name="lines" select="odm:Alias[@Context='SDTM']/@Name"/>
+          </xsl:call-template>
+        </xsl:when>
+          <!-- No variable name but an alias -->
+          <xsl:when test="normalize-space(odm:Alias[@Context='SDTM']/@Name) != ''">
+            <xsl:call-template name="anchor_words">
+              <xsl:with-param name="text_string" select="odm:Alias[@Context='SDTM']/@Name"/>
+            </xsl:call-template>
           <xsl:call-template name="break_lines">
             <xsl:with-param name="lines" select="odm:Alias[@Context='SDTM']/@Name"/>
           </xsl:call-template>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:if>
-  </xsl:template>
-
-  <!-- Decide and print dataset name as prefix to variable name delimited by a dot -->
-  <xsl:template name="dataset">
-    <xsl:param name="dsn_domain"/>
-    <xsl:param name="dsn_sdsvarname"/>
-    <xsl:param name="dsn_alias"/>
-    <xsl:choose>
-      <!-- If the Domain attribute for ItemgroupDef has a value -->
-      <xsl:when test="$dsn_domain != ''">
-        <xsl:value-of select="$dsn_domain"/><xsl:text>.</xsl:text>
       </xsl:when>
-      <!-- If the SDSVarName attribute for ItemDef has a value with a dot in the first 9 characters -->
-      <xsl:when test="$dsn_sdsvarname != ''">
-        <xsl:if test="contains(substring($dsn_sdsvarname, 1, 9), '.')">
-          <xsl:value-of select="substring-before($dsn_sdsvarname, '.')"/><xsl:text>.</xsl:text>
-        </xsl:if>
-      </xsl:when>
-      <!-- If the SDTM Alias for ItemDef has a value with a dot in the first 9 characters -->
-      <xsl:when test="$dsn_alias != ''">
-        <xsl:if test="contains(substring($dsn_alias, 1, 9), '.')">
-          <xsl:value-of select="substring-before($dsn_alias, '.')"/><xsl:text>.</xsl:text>
-        </xsl:if>
-      </xsl:when>
-      <xsl:otherwise>
-        <!-- If no dataset value, don't print it -->
-      </xsl:otherwise>
+          <!-- No variable name and no alias -->
+          <xsl:otherwise/>
     </xsl:choose>
-  </xsl:template>
-
-  <!-- Decide and print variable name, possibly first or second word of SDTM annotation -->
-  <xsl:template name="variable">
-    <xsl:param name="var_sdsvarname"/>
-    <xsl:param name="var_alias"/>
-    <xsl:choose>
-      <!-- If SDSVarName attribute has a value -->
-      <xsl:when test="$var_sdsvarname != ''">
-        <xsl:choose>
-          <!-- If SDSVarName attribute has a dot in the first 9 characters -->
-          <xsl:when test="contains(substring($var_sdsvarname, 1, 9), '.')">
-            <xsl:call-template name="define_anchor">
-              <xsl:with-param name="target" select="substring-after($var_sdsvarname, '.')"/>
-            </xsl:call-template>
-            <xsl:value-of select="substring-after($var_sdsvarname, '.')"/>
           </xsl:when>
-          <!-- Else just print it unaltered -->
+      <!-- Dataset and Variable are in Alias -->
           <xsl:otherwise>
-            <xsl:call-template name="define_anchor">
-              <xsl:with-param name="target" select="@var_sdsvarname"/>
-            </xsl:call-template>
-            <xsl:value-of select="$var_sdsvarname"/>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:when>
-      <!-- If SDTM Alias has a value -->
-      <xsl:when test="$var_alias != ''">
-        <xsl:choose>
-          <!-- If SDTM Alias for ItemDef has a value with a dot in the first 9 character, print the word after the dot -->
-          <xsl:when test="contains(substring($var_alias, 1, 9), '.')">
             <xsl:choose>
-              <xsl:when test="contains($var_alias, ' ')">
-                <xsl:call-template name="define_anchor">
-                  <xsl:with-param name="target" select="substring-before(translate(substring-after($var_alias, '.'), ',.', '  '), ' ')"/>
+          <!-- Comma separates (Dataset and) Variable name from additional annotation -->
+          <xsl:when test="contains(odm:Alias[@Context='SDTM']/@Name, ',')">
+            <xsl:text>,</xsl:text>
+            <br/>
+            <xsl:call-template name="anchor_words">
+              <xsl:with-param name="text_string" select="substring-after(odm:Alias[@Context='SDTM']/@Name, ',')"/>
                 </xsl:call-template>
-                <xsl:value-of select="substring-before(translate(substring-after($var_alias, '.'), ',.', '  '), ' ')"/>
-              </xsl:when>
-              <xsl:otherwise>
-                <xsl:call-template name="define_anchor">
-                  <xsl:with-param name="target" select="substring-after($var_alias, '.')"/>
-                </xsl:call-template>
-                <xsl:value-of select="substring-after($var_alias, '.')"/>
-              </xsl:otherwise>
-            </xsl:choose>
+            <xsl:value-of select="substring-after(odm:Alias[@Context='SDTM']/@Name, ',')"/>
           </xsl:when>
-          <!-- If SDTM Alias for ItemDef contains additional annotation -->
-          <xsl:when test="contains(translate(odm:Alias[@Context='SDTM']/@Name, ',.=:-', '¤¤¤¤¤'), '¤')">
-            <xsl:call-template name="define_anchor">
-              <xsl:with-param name="target" select="substring-before(translate($var_alias, ',.', '  '), ' ')"/>
+          <!-- Alias has a (Dataset and) Variable name without further annotation -->
+          <xsl:when test="normalize-space(odm:Alias[@Context='SDTM']/@Name) != ''">
+            <xsl:call-template name="anchor_words">
+              <xsl:with-param name="text_string" select="odm:Alias[@Context='SDTM']/@Name"/>
             </xsl:call-template>
-            <xsl:value-of select="substring-before(translate($var_alias, ',.', '  '), ' ')"/>
+            <xsl:value-of select="odm:Alias[@Context='SDTM']/@Name"/>
           </xsl:when>
-          <!-- Else just print it unaltered -->
-          <xsl:otherwise>
-            <xsl:call-template name="define_anchor">
-              <xsl:with-param name="target" select="$var_alias"/>
-            </xsl:call-template>
-            <xsl:value-of select="$var_alias"/>
-          </xsl:otherwise>
+          <!-- Nothing in Alias -->
+          <xsl:otherwise/>
         </xsl:choose>
-      </xsl:when>
-      <xsl:otherwise>
-        <!-- If no variable value, don't print it -->
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -820,6 +764,7 @@
   <!-- PDF anchor for define.xml. Also create a link to the target to preserve the target -->
   <xsl:template name="define_anchor">
     <xsl:param name="target"/>
+    <xsl:if test="$target != ''">
     <a>
       <xsl:attribute name="href">
         #<xsl:value-of select="$target"/>
@@ -830,6 +775,7 @@
         <xsl:value-of select="$target"/>
       </xsl:attribute>
     </a>
+    </xsl:if>
   </xsl:template>
 
   <!-- Replace occurences of '. ' (period blank) with HTML line break -->
@@ -854,7 +800,7 @@
   </xsl:template>
 
   <!-- Split a string into words -->
-  <xsl:template name="words">
+  <xsl:template name="anchor_words">
     <xsl:param name="text_string" select="''"/>
     <xsl:param name="separator" select="'¤'"/>
     <xsl:if test="not($text_string = '' or $separator = '')">
@@ -863,7 +809,7 @@
       <xsl:call-template name="define_anchor">
         <xsl:with-param name="target" select="$head"/>
       </xsl:call-template>
-      <xsl:call-template name="words">
+      <xsl:call-template name="anchor_words">
         <xsl:with-param name="text_string" select="$tail"/>
         <xsl:with-param name="separator" select="$separator"/>
       </xsl:call-template>
