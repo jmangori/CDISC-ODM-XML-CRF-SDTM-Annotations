@@ -134,6 +134,7 @@
         <!-- Either Toc or Visit Matrix for navigation -->
         <xsl:if test="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef">
           <xsl:call-template name="visit_matrix"/>
+          <p style="page-break-before: always; margin-top: 0;"/>
         </xsl:if>
         <xsl:call-template name="toc"/>
 
@@ -317,7 +318,7 @@
     <table class="center maxw">
       <thead>
         <tr>
-          <td class="noborder">
+          <td class="noborder" colspan="3">
             <h2 class="center">Table of Contents</h2>
           </td>
         </tr>
