@@ -6,11 +6,11 @@ The main feature of the CRF layout presented here is to put the SDTM annotations
 
 ![Example CRF rendition from pure ODM-xml](images/CRF.png)
 
-The CRF rendition consists of one table for each form in the CRF identified as **FormDef** tags.
-* The 1<sup>st</sup> column is a sequence number constructed entirely form the **OrderNumber** attributes at different tags in the ODM-xml file. The number serves as a human reference when discussing and reviewing CRF content, as well as keeping track of the sorting of CRF elements. If a form or a question has an implementation note, a hash sign (**#**) is shown next to the number, and the actual note in a footnote after the CRF page, refering to the number
-* The 2<sup>nd</sup> column is the question from the CRF forms identified as **Question/TranslatedText** tags. Any completion instruction is shown with the question
-* The 3<sup>rd</sup> column is the answer to the question distinguised by **DataType** attributes. Each data type is displayed as a browser specific interpretation of an HTML tag of the corresponding type. As no indication of multiple selects exist in the ODM definition, this data type is extracted from the text itself
-* The 4<sup>th</sup> column is the SDTM annotation identified as **@SDSVarName** attributes. Additional information is added from **Alias/@Name** attributes having a **@Context='SDTM'** attribute as SDTM annotation marker. Each sentence in the SDTM annotation is presented on a line of its own for readability
+The CRF rendition consists of one table having the columns below, for each form in the CRF identified as **FormDef** tags.
+1. A sequence number constructed entirely form the **OrderNumber** attributes at different tags in the ODM-xml file. The number serves as a human reference when discussing and reviewing CRF content, as well as keeping track of the sorting of CRF elements. If a form or a question has an implementation note, a hash sign (**#**) is shown next to the number, and the actual note in a footnote after the CRF page, refering to the number
+2. The question from the CRF forms identified as **Question/TranslatedText** tags. Any completion instruction is shown with the question
+3. The answer to the question distinguised by **DataType** attributes. Each data type is displayed as a browser specific interpretation of an HTML tag of the corresponding type. As no indication of multiple selects exist in the ODM definition, this data type is extracted from the text itself, triggered by the string **all that apply** within relevant tags
+4. The SDTM annotation identified as **@SDSVarName** attributes. Additional information is added from **Alias/@Name** attributes having a **@Context='SDTM'** attribute as SDTM annotation marker. Each sentence in the SDTM annotation is presented on a line of its own for readability
 
 ## Design choises
 All vendor specific name spaces and XML addendums to the ODM-XML file are ignored.
