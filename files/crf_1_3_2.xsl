@@ -45,7 +45,6 @@
        Any image logo file may be resized to fit the text height of a headline, preserving aspect
   -->
   <xsl:param name="parmdisplay" select="spec"/> <!-- Display mode -->
-  <xsl:param name="parmdomvar" select="1"/>     <!-- Are dataset and variable in @Domain and @SDSVarname? (0/1) -->
   <xsl:param name="parmstudy"/>                 <!-- Name of any study or standard defined in the ODM-XML file -->
   <xsl:param name="parmversion"/>               <!-- Version of the ODM-XML file -->
   <xsl:param name="parmstatus"/>                <!-- Status of the ODM-XML file -->
@@ -675,97 +674,92 @@
   <xsl:template name="annotation">
     <xsl:param name="domain"/>
 
-    <!-- Datase and Variable separated by a period (if applicable) -->
-      <xsl:choose>
-      <!-- Dataset and variable are in @Domain and @SDSVarname -->
-      <xsl:when test="$parmdomvar = '1'">
-        <xsl:if test="normalize-space($domain) != '' and normalize-space(@SDSVarName) != ''">
-          <xsl:value-of select="$domain"/>
-          <xsl:text>.</xsl:text>
-          <xsl:call-template name="define_anchor">
-            <xsl:with-param name="target" select="normalize-space(@SDSVarName)"/>
-          </xsl:call-template>
-          <xsl:value-of select="normalize-space(@SDSVarName)"/>
+    <!-- Dataset and Variable -->
+    <xsl:choose>
+      <!-- Dataset and variable are each in Domain and SDSVarname -->
+      <xsl:when test="normalize-space($domain) != '' and normalize-space(@SDSVarName) != ''">
+        <!-- Anchor for domain.variable -->
+        <xsl:call-template name="define_anchor">
+          <xsl:with-param name="target" select="concat($domain, '.', @SDSVarName)"/>
+        </xsl:call-template>
+        <!-- Anchor for variable alone -->
+        <xsl:call-template name="define_anchor">
+          <xsl:with-param name="target" select="@SDSVarName"/>
+        </xsl:call-template>
+        <xsl:value-of select="$domain"/>
+        <xsl:text>.</xsl:text>
+        <xsl:value-of select="@SDSVarName"/>
+        <xsl:if test="odm:Alias[@Context='SDTM']/@Name">
+          <xsl:text>,</xsl:text>
+          <br/>
         </xsl:if>
       </xsl:when>
-      <!-- Dataset and Variable are in Alias and has a period within the first 9 characters -->
-      <xsl:when test="contains(substring(odm:Alias[@Context='SDTM']/@Name, 1, 9), '.')">
+      <!-- Dataset and Variable are both in SDSVarname separated by a period -->
+      <xsl:when test="normalize-space(@SDSVarName) != '' and contains(substring(@SDSVarName, 1, 9), '.')">
+        <!-- Anchor for variable contents -->
         <xsl:call-template name="define_anchor">
-          <xsl:with-param name="target" select="substring-before(translate(substring-after(odm:Alias[@Context='SDTM']/@Name, '.'), ',', ' '), ' ')"/>
+          <xsl:with-param name="target" select="@SDSVarName"/>
         </xsl:call-template>
-        <xsl:value-of select="substring-before(translate(odm:Alias[@Context='SDTM']/@Name, ',', ' '), ' ')"/>
+        <xsl:value-of select="@SDSVarName"/>
+        <xsl:if test="odm:Alias[@Context='SDTM']/@Name">
+          <xsl:text>,</xsl:text>
+          <br/>
+        </xsl:if>
       </xsl:when>
-      <!-- Dataset and Variable are in Alias without a period, and has a comma before the first sentence (variable without dataset, not sentence) -->
-      <xsl:when test="string-length(substring-before(odm:Alias[@Context='SDTM']/@Name, ',')) &lt; string-length(substring-before(odm:Alias[@Context='SDTM']/@Name, ' '))">
+        <!-- No dataset or variable specified, annotation expected in Alias only -->
+      <xsl:otherwise/>
+    </xsl:choose>
+
+    <!-- Additional annotations beyond Dataset and Variable -->
+    <xsl:choose>
+      <!-- Variable with an optional Dataset prefix are in Alias -->
+      <xsl:when test="contains(odm:Alias[@Context='SDTM']/@Name, ',') and
+                      not(contains(substring-before(odm:Alias[@Context='SDTM']/@Name, ','), '=')) and
+                      not(contains(substring-before(odm:Alias[@Context='SDTM']/@Name, ','), ' '))">
         <xsl:call-template name="define_anchor">
           <xsl:with-param name="target" select="substring-before(odm:Alias[@Context='SDTM']/@Name, ',')"/>
         </xsl:call-template>
-          <xsl:value-of select="substring-before(odm:Alias[@Context='SDTM']/@Name, ',')"/>
-        </xsl:when>
-        <xsl:otherwise>
-        UNKNOWN DATASET AND/OR VARIABLE
-        </xsl:otherwise>
-      </xsl:choose>
-
-    <!-- Add a comma and a line break if SDTM Alias contains additional annotations, then the additional annotations -->
-    <xsl:choose>
-      <!-- Dataset and variable are in @Domain and @SDSVarname -->
-      <xsl:when test="$parmdomvar = '1'">
-        <xsl:choose>
-          <!-- Both variable name and alias -->
-          <xsl:when test="normalize-space(@SDSVarName) != '' and normalize-space(odm:Alias[@Context='SDTM']/@Name) != ''">
-            <xsl:text>,</xsl:text>
-            <br/>
-      <xsl:call-template name="anchor_words">
-              <xsl:with-param name="text_string" select="odm:Alias[@Context='SDTM']/@Name"/>
-      </xsl:call-template>
-          <xsl:call-template name="break_lines">
-              <xsl:with-param name="lines" select="odm:Alias[@Context='SDTM']/@Name"/>
-          </xsl:call-template>
-        </xsl:when>
-          <!-- No variable name but an alias -->
-          <xsl:when test="normalize-space(odm:Alias[@Context='SDTM']/@Name) != ''">
-            <xsl:call-template name="anchor_words">
-              <xsl:with-param name="text_string" select="odm:Alias[@Context='SDTM']/@Name"/>
-            </xsl:call-template>
-          <xsl:call-template name="break_lines">
-            <xsl:with-param name="lines" select="odm:Alias[@Context='SDTM']/@Name"/>
-          </xsl:call-template>
+        <xsl:value-of select="substring-before(odm:Alias[@Context='SDTM']/@Name, ',')"/>
+        <xsl:text>,</xsl:text>
+        <br/>
+        <xsl:call-template name="annotation_text">
+          <xsl:with-param name="text_line" select="substring-after(odm:Alias[@Context='SDTM']/@Name, ',')"/>
+        </xsl:call-template>
       </xsl:when>
-          <!-- No variable name and no alias -->
-          <xsl:otherwise/>
-    </xsl:choose>
-          </xsl:when>
-      <!-- Dataset and Variable are in Alias -->
-          <xsl:otherwise>
-            <xsl:choose>
-          <!-- Comma separates (Dataset and) Variable name from additional annotation -->
-          <xsl:when test="contains(odm:Alias[@Context='SDTM']/@Name, ',')">
-            <xsl:text>,</xsl:text>
-            <br/>
-            <xsl:call-template name="anchor_words">
-              <xsl:with-param name="text_string" select="substring-after(odm:Alias[@Context='SDTM']/@Name, ',')"/>
-                </xsl:call-template>
-            <xsl:value-of select="substring-after(odm:Alias[@Context='SDTM']/@Name, ',')"/>
-          </xsl:when>
-          <!-- Alias has a (Dataset and) Variable name without further annotation -->
-          <xsl:when test="normalize-space(odm:Alias[@Context='SDTM']/@Name) != ''">
-            <xsl:call-template name="anchor_words">
-              <xsl:with-param name="text_string" select="odm:Alias[@Context='SDTM']/@Name"/>
-            </xsl:call-template>
-            <xsl:value-of select="odm:Alias[@Context='SDTM']/@Name"/>
-          </xsl:when>
-          <!-- Nothing in Alias -->
-          <xsl:otherwise/>
-        </xsl:choose>
+      <!-- Alias contains only additional annotations -->
+      <xsl:when test="contains(odm:Alias[@Context='SDTM']/@Name, ',') or contains(odm:Alias[@Context='SDTM']/@Name, ' ')">
+        <xsl:call-template name="annotation_text">
+          <xsl:with-param name="text_line" select="odm:Alias[@Context='SDTM']/@Name"/>
+        </xsl:call-template>
+      </xsl:when>
+      <!-- Alias contains only a Variable, with an optional Dataset prefix -->
+      <xsl:otherwise>
+        <xsl:call-template name="define_anchor">
+          <xsl:with-param name="target" select="odm:Alias[@Context='SDTM']/@Name"/>
+        </xsl:call-template>
+        <xsl:call-template name="inline_anchor">
+          <xsl:with-param name="inline" select="odm:Alias[@Context='SDTM']/@Name"/>
+        </xsl:call-template>
+        <xsl:value-of select="odm:Alias[@Context='SDTM']/@Name"/>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <!-- Link target for each word of text and splitting of lines -->
+  <xsl:template name="annotation_text">
+    <xsl:param name="text_line"/>
+    <xsl:call-template name="anchor_words">
+      <xsl:with-param name="text_string" select='translate($text_line, ",.=:-_ &apos;", "¤¤¤¤¤¤¤¤")'/>
+    </xsl:call-template>
+    <xsl:call-template name="break_lines">
+      <xsl:with-param name="lines" select="normalize-space($text_line)"/>
+    </xsl:call-template>
   </xsl:template>
 
   <!-- PDF anchor for define.xml. Also create a link to the target to preserve the target -->
   <xsl:template name="define_anchor">
     <xsl:param name="target"/>
-    <xsl:if test="$target != ''">
+    <xsl:if test="$target != '' and not(contains($target, ' '))">
     <a>
       <xsl:attribute name="href">
         #<xsl:value-of select="$target"/>
@@ -787,14 +781,27 @@
         <!-- Prevent this routine from hanging -->
         <xsl:value-of select="$lines"/>
       </xsl:when>
-      <xsl:when test="contains($lines, '. ')">
+      <!-- Do not split lines when '. ' (period blank) occurs inside single quotes (abbreviations) -->
+      <xsl:when test='contains($lines, ". ") and ((string-length(substring-before($lines, ". ")) - string-length(translate(substring-before($lines, ". "), "&apos;", ""))) mod 2 = 0 or not(contains($lines, "&apos;")))'>
+        <xsl:call-template name="inline_anchor">
+          <xsl:with-param name="inline" select="substring-before($lines, '. ')"/>
+        </xsl:call-template>
         <xsl:value-of select="substring-before($lines, '. ')"/>.
         <br/>
         <xsl:call-template name="break_lines">
           <xsl:with-param name="lines" select="substring-after($lines, '. ')"/>
         </xsl:call-template>
       </xsl:when>
+      <xsl:when test='contains($lines, ". ")'>
+        <xsl:call-template name="inline_anchor">
+          <xsl:with-param name="inline" select="$lines"/>
+        </xsl:call-template>
+        <xsl:value-of select="$lines"/>
+      </xsl:when>
       <xsl:otherwise>
+        <xsl:call-template name="inline_anchor">
+          <xsl:with-param name="inline" select="$lines"/>
+        </xsl:call-template>
         <xsl:value-of select="$lines"/>
       </xsl:otherwise>
     </xsl:choose>
@@ -814,6 +821,28 @@
         <xsl:with-param name="text_string" select="$tail"/>
         <xsl:with-param name="separator" select="$separator"/>
       </xsl:call-template>
+    </xsl:if>
+  </xsl:template>
+
+  <!-- Identify in-text Dataset.Variable constructs and create them a target -->
+  <xsl:template name="inline_anchor">
+    <xsl:param name="inline" select="''"/>
+    <xsl:if test="normalize-space($inline) != ''">
+      <xsl:if test="contains($inline, ',')">
+        <xsl:call-template name="inline_anchor">
+          <xsl:with-param name="inline" select="substring-after($inline, ',')"/>
+        </xsl:call-template>
+      </xsl:if>
+      <xsl:if test="contains(substring-before($inline, '='), '.')">
+        <xsl:call-template name="define_anchor">
+          <xsl:with-param name="target" select="normalize-space(substring-before($inline, '='))"/>
+        </xsl:call-template>
+        <xsl:if test="contains(substring-after($inline, '='), '.') and not(contains(substring-after($inline, '='), ' ')) and not(contains(substring-after($inline, '='), ','))">
+          <xsl:call-template name="define_anchor">
+            <xsl:with-param name="target" select="normalize-space(substring-after($inline, '='))"/>
+          </xsl:call-template>
+        </xsl:if>
+      </xsl:if>
     </xsl:if>
   </xsl:template>
 
