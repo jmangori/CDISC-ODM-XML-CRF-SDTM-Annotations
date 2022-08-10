@@ -18,7 +18,7 @@ This project is to exploit the CDISC ODM standard as 'a one source of truth' def
 
 * Visual inspection of a CRF design directly from an ODM-xml file
 * Documentation of the link between the CRF questions and the collected data points through SDTM annotations
-* Creation of `acrf.pdf` and `bcrf.pdf` submission documents including link targets from define-xml
+* Creation of [acrf](/files/acrf.pdf) and [bcrf](/files/bcrf.pdf) submission documents including link targets from define-xml
 * The ODM-xml file to be used as an import specification to eCRF software
 
 The solution is an XML translating style sheet allowing the ODM-xml file to be both human and machine readable without changing the content.
