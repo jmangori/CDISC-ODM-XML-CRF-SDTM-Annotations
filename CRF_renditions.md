@@ -1,3 +1,10 @@
+# Table of Contents
+* [CRF Renditions](#CRF_Renditions)
+   * [CRF layout](#CRF_layout)
+   *  [Design choices](#Design_choices)
+      *  [SDTM Datasets and Variables](#SDTM_Datasets_and_Variables)
+   *  [Creating PDF documents](#Creating_PDF_documents)
+
 # CRF Renditions
 A short description of the CRF generated from the ODM-xml document.
 
