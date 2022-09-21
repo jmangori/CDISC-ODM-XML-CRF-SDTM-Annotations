@@ -1,4 +1,4 @@
-# Table of Contents
+#### Table of Contents
 * [CRF Renditions](#CRF_Renditions)
    * [CRF layout](#CRF_layout)
    * [Design choices](#Design_choices)
@@ -39,7 +39,7 @@ Mapping Instructions    | ItemDef/Alias[@Context='mappingInstructions']/@Name   
 CDASH                   | ItemDef/Alias[@Context="CDASH"]/@Name                          | Optional, controlled by a parameter
 SDTM                    | ItemDef/@SDSVarName <br/> ItemDef/Alias[@Context="SDTM"]/@Name | When @Domain attribute not present, Dataset.Variable syntax is assumed
 
-Great inspiration, as well as the CRF contents, is taken from the eCRF portal on the CDISC website. I have made very few design choices of my own. These do include a cleanup of the SDTM annotations, such as:
+Great inspiration, as well as the CRF contents, is taken from the [eCRF portal on the CDISC website](https://www.cdisc.org/kb/ecrf). I have made very few changes of my own to the CRF contents to adapt it to my solution. These do include a cleanup of the SDTM annotations, such as:
 * All text constants are enclosed in quotation marks
 * Consistent use of single quotation marks in the SDTM annotations
 * Addition of a reference number for each CRF question. This has proved useful when reviewing CRFs
@@ -50,7 +50,7 @@ Some debate has been encountered on how to capture Dataset name and Variable nam
 
 The main reason for this is to remove the binding between CRF layout and SDTM annotations, imposed by having the Dataset name in the **@Domain** attribute on **@ItemGroupDef** level, and the Variable name in the **SDSVarName** attribute on **ItemDef** level. While this may seem logical by mimicking the tabular Dataset/Variable structure, it really serves no purpose beyond dictating that CRF Forms must be designed following SDTM dataset structure. Practical experience has shown that complex Forms (e.g. Adverse events) often annotate to different SDTM domains (e.g. AE and SUPPAE) in an alternating way, and thus dictates the change of **@ItemGroupDef** (sections) to change domain, serving only SDTM annotation purposes.
 
-My [interim] solution is to have **SDSVarName** contain both Dataset name and Variable name separated by a period (e.g. AE.AETERM) in common SQL style. A better and more permanent solution is to advocate that CDISC moves the **@Domain** attribute to the **ItemDef** level i their ODM-XML specification. This will ensure that the Dataset name is specified at the same level as the Variable name, eliminating the need for the CRF sections to be structured after the SDTM annotations. Although this will call for redundant specification of Dataset names in an ODM file, systems ought to be able to populate this from SDTM specifications.
+My [interim] solution is to have **SDSVarName** contain both Dataset name and Variable name separated by a period (e.g. AE.AETERM) in common SQL style. A better and more permanent solution is to advocate that [CDISC](https://www.cdisc.org/) moves the **@Domain** attribute to the **ItemDef** level i their ODM-XML specification. This will ensure that the Dataset name is specified at the same level as the Variable name, eliminating the need for the CRF sections to be structured after the SDTM annotations. Although this will call for redundant specification of Dataset names in an ODM file, systems ought to be able to populate this from SDTM specifications.
 
 ## Creating PDF documents <a name="Creating_PDF_documents"/>
 In all browsers, print the CRF renditions as PDF documents on your disk as either [acrf](/examples/acrf.pdf) or [bcrf](/examples/bcrf.pdf) submission documents, respectively. Please note:
