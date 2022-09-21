@@ -4,7 +4,6 @@
   * [Versions](#Versions)
 * [Getting Started](#Getting_Started)
   * [Installation](#Installation)
-  * [Prerequisites](#Prerequisites)
 * [Usage](#Usage)
   * [crf_1_3_2.xsl](#crf_1_3_2_xsl)
   * [cdisc-xml.html](#cdisc_xml_html)
