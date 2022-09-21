@@ -19,7 +19,8 @@ This project is to exploit the CDISC ODM standard as 'a one source of truth' def
 * Visual inspection of a CRF design directly from an ODM-xml file
 * Documentation of the link between the CRF questions and the collected data points through SDTM annotations
 * Creation of [acrf](/files/acrf.pdf) and [bcrf](/files/bcrf.pdf) submission documents including link targets from define-xml
-* The ODM-xml file to be used as an import specification to eCRF software
+
+All this to encurage ODM-xml files to be used as an import specification to eCRF software.
 
 The solution is an XML translating style sheet allowing the ODM-xml file to be both human and machine readable without changing the content.
 
@@ -49,7 +50,7 @@ The XSL Style Sheet can work by itself together with any XSLT processor to rende
 * HTML file `cdisc-xml.html`
 * ODM-xml file `odm-file-of-your-choise.xml`
 
-are located __ON A WEB SERVER__ in the same folder. The HTML file will not apply the style sheet from a file folder without a web server.
+are located __ON A WEB SERVER__ in the same folder. The HTML file will not apply the style sheet from a file folder without a web server, due to browser restictions.
 
 # Usage <a name="Usage"/>
 ## crf_1_3_2.xsl <a name="crf_1_3_2_xsl"/>
@@ -60,7 +61,7 @@ The intended procedure is to refresh the ODM-xml file on your server as it's dev
 ## cdisc-xml.html <a name="cdisc_xml_html"/>
 This document is a piece of HTML code using JavaScript to link a valid XSL Translating Style Sheet to a valid ODM-xml file without putting the style sheet link into the XML file itself. All XML and XSL/XSLT files are supported. The resulting web page can serve as a CRF specification interpreting a valid ODM-xml file, or to display a define-xml file. The `cdisc-xml.html` file needs to be placed on a web server in the same folder as your ODM-xml file and the `crf_1_3_2.xsl` XSL Translating Style Sheet. When opening the HTML file, the browser will perform the transformation of the XML file according to the programming in the XSL file. If the transformation is performed using a stand-alone XSL engine locally, the HTML file is not needed.
 
-Please notice that file names may be case sensitive on your system too.
+Please notice that file names may be case sensitive on your system. And please observe that browsers may behave slightly different, even when sharing the same browser engine.
 
 # Roadmap <a name="Roadmap"/>
 It is my hope that this way of displaying annotations will catch on and eventually become wide spread throughout the pharma industry.
