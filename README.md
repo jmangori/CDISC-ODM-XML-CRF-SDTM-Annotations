@@ -18,7 +18,7 @@ This project is to exploit the CDISC ODM standard as 'a one source of truth' def
 
 * Visual inspection of a CRF design directly from an ODM-xml file
 * Documentation of the link between the CRF questions and the collected data points through SDTM annotations
-* Creation of [acrf](/files/acrf.pdf) and [bcrf](/files/bcrf.pdf) submission documents including link targets from define-xml
+* Creation of [acrf](/examples/acrf.pdf) and [bcrf](/examples/bcrf.pdf) submission documents including link targets from define-xml
 
 All this to encurage ODM-xml files to be used as an import specification to eCRF software.
 
@@ -37,9 +37,9 @@ This project covers ODM version 1.3.2 only. Other version of ODM-xml files are n
 Transformations are done using **<xsl:stylesheet version="1.0">** creating HTML 4.
 
 # Getting Started <a name="Getting_Started"/>
-Check out examples of [acrf](/files/acrf.pdf) and [bcrf](/files/bcrf.pdf) documents to see the results.
+Check out examples of [acrf](/examples/acrf.pdf) and [bcrf](/examples/bcrf.pdf) documents to see the results.
 
-Try a [live version](https://try2.info/cdisc-xml/cdisc-xml.html) to test your own ODM file, or my supplied [example](/files/CDISC_ODM_1.3.2_example.xml) odm file.
+Try a [live version](https://try2.info/cdisc-xml/cdisc-xml.html) to test your own ODM file, or my supplied [example](/examples/CDISC_ODM_1.3.2_example.xml) odm file.
 
 ## Installation <a name="Installation"/>
 Download the files from the [files](/files) folder and place them in the same folder on your web server.
