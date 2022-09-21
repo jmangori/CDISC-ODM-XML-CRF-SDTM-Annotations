@@ -75,7 +75,7 @@ Distributed under the MIT License. See [LICENSE](https://github.com/jmangori/CDI
 # Contact <a name="Contact"/>
 Jørgen Mangor Iversen [jmi@try2.info](mailto:jmi@try2.info)
 
-My [web page](https://www.try2.info) in restrictions unrelated to this project.
+My [web page](https://www.try2.info) in Danish unrelated to this project.
 
 [Live version](https://try2.info/cdisc-xml/cdisc-xml.html) to demonstrate the principle.
 
