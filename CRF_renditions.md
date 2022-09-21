@@ -39,7 +39,7 @@ Mapping Instructions    | ItemDef/Alias[@Context='mappingInstructions']/@Name   
 CDASH                   | ItemDef/Alias[@Context="CDASH"]/@Name                          | Optional, controlled by a parameter
 SDTM                    | ItemDef/@SDSVarName <br/> ItemDef/Alias[@Context="SDTM"]/@Name | When @Domain attribute not present, Dataset.Variable syntax is assumed
 
-Great inspiration, as well as the CRF contents, is taken from the [eCRF portal on the CDISC website](https://www.cdisc.org/kb/ecrf). I have made very few changes of my own to the CRF contents to adapt it to my solution. These do include a cleanup of the SDTM annotations, such as:
+Great inspiration, as well as the CRF contents, is taken from the [eCRF portal on the CDISC website](https://www.cdisc.org/kb/ecrf). I have made very few changes of my own to the CRF contents to adapt it to my solution. These do include a cleanup of the SDTM annotations and choices, such as:
 * All text constants are enclosed in quotation marks
 * Consistent use of single quotation marks in the SDTM annotations
 * Addition of a reference number for each CRF question. This has proved useful when reviewing CRFs
