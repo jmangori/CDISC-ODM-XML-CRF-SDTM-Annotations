@@ -20,23 +20,28 @@ The CRF rendition consists of one table for each Form in the CRF, identified as 
 All vendor specific name spaces and XML addendums to the ODM-XML file are ignored.
 
 The following assumptions regarding the specifics of the ODM-XML files XPATH are used:
-CRF Element             | XPath
----                     | ---
-Form Title/Name         | FormDef/Description/TranslatedText
-Section Title/Name      | Sections/ItemGroup names are not shown
-Question Text           | ItemDef/Question/TranslatedText
-Prompt                  | ItemDef/Alias[@Context="prompt"]/@Name
-Completion Instructions | ItemDef/Alias[@Context="completionInstructions"]/@Name
-Implementation Notes    | ItemDef/Alias[@Context="implementationNotes"]/@Name
-Mapping Instructions    | ItemDef/Alias[@Context='mappingInstructions']/@Name
-CDASH                   | ItemDef/Alias[@Context="CDASH"]/@Name
-SDTM                    | ItemDef/@SDSVarName <br/> ItemDef/Alias[@Context="SDTM"]/@Name
+CRF Element             | XPath                                                          | Comment
+---                     | ---                                                            | ---
+Form Title/Name         | FormDef/Description/TranslatedText                             | As it appears on the CRF
+Section Title/Name      | Sections/ItemGroup/@Name                                       | Never displayed
+Question Text           | ItemDef/Question/TranslatedText                                | As it appears on the CRF
+Prompt                  | ItemDef/Alias[@Context="prompt"]/@Name                         | If present in ODM-XML
+Completion Instructions | ItemDef/Alias[@Context="completionInstructions"]/@Name         | If present in ODM-XML
+Implementation Notes    | ItemDef/Alias[@Context="implementationNotes"]/@Name            | If present in ODM-XML
+Mapping Instructions    | ItemDef/Alias[@Context='mappingInstructions']/@Name            | If present in ODM-XML
+CDASH                   | ItemDef/Alias[@Context="CDASH"]/@Name                          | Optional, controlled by a parameter
+SDTM                    | ItemDef/@SDSVarName <br/> ItemDef/Alias[@Context="SDTM"]/@Name | When @Domain attribute not present, Dataset.Variable syntax is assumed
 
 Great inspiration, as well as the CRF contens, is taken from the eCRF portal on the CDISC website. I have made very few design choises of my own. These do include a cleanup of the SDTM annotations, such as:
 * All text constants are enclosed in quotation marks
 * Consistent use of single quotation marks in the SDTM annotations
 * Addition of a reference number for each CRF question. This has proved usefull when revieving CRFs
 * Instructions/notes are written using a smaller font and in _italics_
+
+### SDTM Datasets and Variables
+Some debate has been encountered on how to capture Dataset name and Variable name for SDTM annotations in ODM-XML. Some ODM editing/generating systems use the **ItemGroupDef/@Domain** attribe to hold the Dataset name, some do not. Most seems to agree on **ItemDef/@SDSVarName** for the SDTM Variable name. I have chosen to support both, selecting **ItemGroupDef/@Domain** when present, but really encurraging using 2-level names in **ItemDef/@SDSVarName**.
+
+The main reason for this is to remove the binding between CRF layout and SDTM annotations, imposed by having the Dataset name in the **@Domain** attribute on **@ItemGroupDef** level, and the Variable name in the **SDSVarName** attribute on **ItemDef** level. While this may seem logical by mimicking the tabular Dataset/Variable structure, it really serves no purpose beyond dictating that CRF Forms must be designed following SDTM dataset structure. Practical experiance has shown that complex Forms (e.g. Advers events) often annotate to different SDTM domains (e.g. AE and SUPPAE) in an alternating way, and thus dictate the change of **@ItemGroupDef** (sections) serving only SDTM annotation purposes.
 
 ## Creating PDF documents
 In all browsers, print the CRF renditions as PDF documents on your disk as either [acrf](/examples/acrf.pdf) or [bcrf](/examples/bcrf.pdf) submission documents, respectively. Please note:
