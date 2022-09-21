@@ -20,14 +20,14 @@ This project is to exploit the CDISC ODM standard as 'a one source of truth' def
 * Documentation of the link between the CRF questions and the collected data points through SDTM annotations
 * Creation of [acrf](/examples/acrf.pdf) and [bcrf](/examples/bcrf.pdf) submission documents including link targets from define-xml
 
-All this to encurage ODM-xml files to be used as an import specification to eCRF software.
+All this to encourage ODM-xml files to be used as an import specification to eCRF software.
 
 The solution is an XML translating style sheet allowing the ODM-xml file to be both human and machine readable without changing the content.
 
 See the [CRF_renditions.md](CRF_renditions.md) document for details of the CRF itself.
 
 ## Built With <a name="Built_With"/>
-The main component is an XSLT translating style sheet applied to an ODM-xml file of your own. The result is a webpage displaying the CRF pages, questions, and SDTM annotations. The web page page can be printed from the browser, also as a PDF file.
+The main component is an XSLT translating style sheet applied to an ODM-xml file of your own. The result is a webpage displaying the CRF Forms, Questions, and SDTM annotations. The webpage can be printed from the browser, also as a PDF file.
 
 The secondary component is an HTML file used to link the XML file to the XSL style sheet. The HTML file will run in modern browsers, NOT Internet Explorer. Two versions exist; one showing files residing on a web server, one uploading files and applying a **php** program.
 
@@ -39,7 +39,7 @@ Transformations are done using **<xsl:stylesheet version="1.0">** creating HTML 
 # Getting Started <a name="Getting_Started"/>
 Check out examples of [acrf](/examples/acrf.pdf) and [bcrf](/examples/bcrf.pdf) documents to see the results.
 
-Try a [live version](https://try2.info/cdisc-xml/cdisc-xml.html) to test your own ODM file, or my supplied [example](/examples/CDISC_ODM_1.3.2_example.xml) odm file.
+Try a [live version](https://try2.info/cdisc-xml/cdisc-xml.html) to test your own ODM file, or my supplied [example](/examples/CDISC_ODM_1.3.2_example.xml) ODM file.
 
 ## Installation <a name="Installation"/>
 Download the files from the [files](/files) folder and place them in the same folder on your web server.
@@ -50,7 +50,7 @@ The XSL Style Sheet can work by itself together with any XSLT processor to rende
 * HTML file `cdisc-xml.html`
 * ODM-xml file `odm-file-of-your-choise.xml`
 
-are located __ON A WEB SERVER__ in the same folder. The HTML file will not apply the style sheet from a file folder without a web server, due to browser restictions.
+are located __ON A WEB SERVER__ in the same folder. The HTML file will not apply the style sheet from a file folder without a web server, due to browser restrictions.
 
 # Usage <a name="Usage"/>
 ## crf_1_3_2.xsl <a name="crf_1_3_2_xsl"/>
@@ -76,13 +76,13 @@ Distributed under the MIT License. See [LICENSE](https://github.com/jmangori/CDI
 # Contact <a name="Contact"/>
 Jørgen Mangor Iversen [jmi@try2.info](mailto:jmi@try2.info)
 
-My [web page](https://www.try2.info) in danish unrelated to this project.
+My [web page](https://www.try2.info) in restrictions unrelated to this project.
 
-[Live version](https://try2.info/cdisc-xml/cdisc-xml.html) to demonstate the principle.
+[Live version](https://try2.info/cdisc-xml/cdisc-xml.html) to demonstrate the principle.
 
 My [LinkedIn](https://www.linkedin.com/in/jørgen-iversen-ab5908b/) profile.
 
 # Acknowledgements <a name="Acknowledgements"/>
-Thanks to [Martin Honnen](https://github.com/martin-honnen/martin-honnen.github.io/blob/master/xslt/arcor-archive/2016/test2016081501.html) for code to execute asynchronous `XSLTProcessor()` clientside in the browser.
+Thanks to [Martin Honnen](https://github.com/martin-honnen/martin-honnen.github.io/blob/master/xslt/arcor-archive/2016/test2016081501.html) for code to execute asynchronous `XSLTProcessor()` client side in the browser.
 
 This software is made public with the explicit permission from LEO Pharma A/S.
