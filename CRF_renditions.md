@@ -1,14 +1,14 @@
 # Table of Contents
 * [CRF Renditions](#CRF_Renditions)
    * [CRF layout](#CRF_layout)
-   *  [Design choices](#Design_choices)
-      *  [SDTM Datasets and Variables](#SDTM_Datasets_and_Variables)
-   *  [Creating PDF documents](#Creating_PDF_documents)
+   * [Design choices](#Design_choices)
+      * [SDTM Datasets and Variables](#SDTM_Datasets_and_Variables)
+   * [Creating PDF documents](#Creating_PDF_documents)
 
-# CRF Renditions
+# CRF Renditions  <a name="CRF_Renditions"/>
 A short description of the CRF generated from the ODM-xml document.
 
-## CRF layout
+## CRF layout  <a name="CRF_layout"/>
 The main feature of the CRF layout presented here is to put the SDTM annotations in a column adjacent to each question line. This way the SDTM annotations are displayed at the proper location, without the need to move boxes of annotations around inside and on top of CRF elements.
 
 ![Example CRF rendition from pure ODM-xml](images/CRF.png)
@@ -23,7 +23,7 @@ The CRF rendition consists of one table for each Form in the CRF, identified as 
    * ItemDef/Alias[@Context='completionInstructions']/@Name
 5. The SDTM annotation identified as **@SDSVarName** attributes. Additional information is added from **Alias/@Name** attributes having a **@Context='SDTM'** attribute as SDTM annotation marker. Each sentence separated by `'. '` (period blank) in the SDTM annotation is presented on a line of its own for readability. SDTM dataset names are extracted from either **ItemGroupDef/@Domain** or **ItemDef/@SDSVarName** attributes, where the latter may be a two-level name separated by a period `dataset.variable`
 
-## Design choices
+## Design choices <a name="Design_choices"/>
 All vendor specific name spaces and XML addendums to the ODM-XML file are ignored.
 
 The following assumptions regarding the specifics of the ODM-XML files XPATH are used:
@@ -45,14 +45,14 @@ Great inspiration, as well as the CRF contents, is taken from the eCRF portal on
 * Addition of a reference number for each CRF question. This has proved useful when reviewing CRFs
 * Instructions/notes are written using a smaller font and in _italics_
 
-### SDTM Datasets and Variables
+### SDTM Datasets and Variables <a name="SDTM_Datasets_and_Variables"/>
 Some debate has been encountered on how to capture Dataset name and Variable name for SDTM annotations in ODM-XML. Some ODM editing/generating systems use the **ItemGroupDef/@Domain** attribe to hold the Dataset name, some do not. Most seems to agree on **ItemDef/@SDSVarName** for the SDTM Variable name. I have chosen to support both, selecting **ItemGroupDef/@Domain** when present, but really encouraging using 2-level names in **ItemDef/@SDSVarName**.
 
 The main reason for this is to remove the binding between CRF layout and SDTM annotations, imposed by having the Dataset name in the **@Domain** attribute on **@ItemGroupDef** level, and the Variable name in the **SDSVarName** attribute on **ItemDef** level. While this may seem logical by mimicking the tabular Dataset/Variable structure, it really serves no purpose beyond dictating that CRF Forms must be designed following SDTM dataset structure. Practical experience has shown that complex Forms (e.g. Adverse events) often annotate to different SDTM domains (e.g. AE and SUPPAE) in an alternating way, and thus dictates the change of **@ItemGroupDef** (sections) to change domain, serving only SDTM annotation purposes.
 
 My [interim] solution is to have **SDSVarName** contain both Dataset name and Variable name separated by a period (e.g. AE.AETERM) in common SQL style. A better and more permanent solution is to advocate that CDISC moves the **@Domain** attribute to the **ItemDef** level i their ODM-XML specification. This will ensure that the Dataset name is specified at the same level as the Variable name, eliminating the need for the CRF sections to be structured after the SDTM annotations. Although this will call for redundant specification of Dataset names in an ODM file, systems ought to be able to populate this from SDTM specifications.
 
-## Creating PDF documents
+## Creating PDF documents <a name="Creating_PDF_documents"/>
 In all browsers, print the CRF renditions as PDF documents on your disk as either [acrf](/examples/acrf.pdf) or [bcrf](/examples/bcrf.pdf) submission documents, respectively. Please note:
 * The on-screen button is not included in PDF documents created by printing to a PDF file
 * The TOC will work correctly as links within the PDF documents
