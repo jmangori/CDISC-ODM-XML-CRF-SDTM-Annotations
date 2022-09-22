@@ -4,11 +4,10 @@
   * [Versions](#Versions)
 * [Getting Started](#Getting_Started)
   * [Installation](#Installation)
+     * [Client side rendition](#Client_side)
+     * [Server side rendition](#Server_side)
 * [Usage](#Usage)
   * [crf_1_3_2.xsl](#crf_1_3_2_xsl)
-  * [Browser display](#Browser_display)
-     * [Client side](#Client_side)
-     * [Server side](#Server_side)
 * [Roadmap](#Roadmap)
 * [License](#License)
 * [Contact](#Contact)
@@ -45,32 +44,19 @@ Try a [live version](https://try2.info/cdisc-xml/cdisc-xml.html) to test your ow
 ## Installation <a name="Installation"/>
 Download the files from the [files](/files) folder and place them in the same folder on your web server.
 
-The XSL Style Sheet can work by itself together with any XSLT processor to render the CRF from an ODM-XML file. However, the HTML file requires that the components
+To set up the style sheet, you have to decide whether to perform the transformations on the client or on a server.
 
-* XSL Style sheet `crf_1_3_2.xsl`
-* HTML file `cdisc-xml.html`
-* ODM-xml file `odm-file-of-your-choise.xml`
+### Client side rendition <a name="Client_side"/>
+The `cdisc xml.html` (no hyphen) file must be placed on a web server in the same folder as your ODM-xml file and the `crf_1_3_2.xsl` Translating Style Sheet. Other XSL/XSLT files can be used as well, particular `define2-0-0.xsl` for displaying define-xml. This file must be obtained from [CDISC](https://www.cdisc.org/). When adding you own XSL/XSLT files to your server, simply add them as an `<option>` line to the `<select>` tag specifying style sheets within the HTML code.
 
-are located __ON A WEB SERVER__ in the same folder. The HTML file will not apply the style sheet from a file folder without a web server, due to browser restrictions.
+### Server side rendition <a name="Server_side"/>
+The `cdisc-xml.html` (with a hyphen) file and the `cdisc-xml.php` file must be installed on a webserver in the same folder. Together these files can apply any XSL/XSLT translating style sheet to any XML file, including, but not limited to, ODM-xml and define-xml.
+
+## crf_1_3_2.xsl <a name="crf_1_3_2_xsl"/>
+This document is the central XSL/XSLT translating style sheet to display a valid CDISC ODM-xml file as an SDTM annotated CRF. This technology is supported in any modern browser, and can be used by any command line XSLT processor supporting XSLT version 1.0. Display of SDTM annotations and other elements can be controlled via parameters to the `crf_1_3_2.xsl` file.
 
 # Usage <a name="Usage"/>
 The intended procedure is to refresh the ODM-XML file in your favorite ODM tool as it's development progresses, and then repeatedly apply the `crf_1_3_2.xsl` file to see the rendition progress. Please notice that the CRF rendition contains a title page, a live table of contents (links preserved when converted to PDF), a visit matrix if visits are defined in the ODM-xml file, and a separate table per CRF Form. When printing, page breaks separating title page, toc, visit matrix, and Forms, are created.
-
-## crf_1_3_2.xsl <a name="crf_1_3_2_xsl"/>
-This document is the central XSL/XSLT translating style sheet to display a valid CDISC ODM-xml file as an SDTM annotated CRF. This technology is supported in any modern browser, and can be used by any command line XSLT processor supporting XSLT version 1.0. Display of SDTM annotations and other elements can be controlled via parameters to the `crf_1_3_2.xsl` file. This way of displaying a CRF (pages or a whole book) with SDTM annotations is intended to serve as a visual representation of the ODM-xml file itself.
-
-## Browser display <a name="Browser_display"/>
-Although some argues that XSLT transformations should not be performed in the browser, I do believe that this is what the technology was originally invented for, and I have found it an extremely efficient and transparent way of working with XML. If you prefer using a command line or batch XSLT processor, this is fully supported.
-
-To set up the style sheet in a browser you have to decide whether to perform the transformations on the client or on a server.
-
-### Client side <a name="Client_side"/>
-The `cdisc xml.html` (no hyphen) file needs to be placed on a web server in the same folder as your ODM-xml file and the `crf_1_3_2.xsl` XSL Translating Style Sheet. Other XSL/XSLT files can be used as well, particular `define2-0-0.xsl` for displaying define-xml. This file must be obtained from [CDISC](https://www.cdisc.org/). When adding you own XSL/XSLT files to your server, simply add them as an `<option>` line to the `<select>` tag specifying style sheets within the HTML code.
-
-### Server side <a name="Server_side"/>
-The `cdisc-xml.html` (with a hyphen) file and the `cdisc-xml.php` file must be installed on a webserver in the same folder. Together these files can apply any XSL/XSLT translating style sheet to any XML file, including, but not limited to, ODM-xml and define.xml.
-
-In either case, the resulting web page can serve as a CRF specification interpreting a valid ODM-xml file, or to display a define-xml file. When displaying the HTML file, the browser will perform the transformation of the XML file according to the programming in the XSL file. If the transformation is performed using a stand-alone XSL engine locally, the HTML tools are not needed.
 
 Please notice that file names may be case sensitive on your system. And please observe that browsers may behave slightly different, even when sharing the same browser engine.
 
