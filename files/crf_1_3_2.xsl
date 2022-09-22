@@ -37,9 +37,9 @@
                 version="4.0"/>
 
   <!-- Parameters passed from outside. Default display mode is a blank CRF:
-       * spec: CRF specifcation with selection buttons, LEO notes, SDTM annotations (default)
-       * bcrf: Blank CRF for submission (default)
-       * acrf: SDTM annotated CRF for submission with SDTM annotations
+       * spec: CRF specification with selection buttons, implementation notes, SDTM annotations (default)
+       * bcrf: Blank CRF for submission
+       * acrf: SDTM annotated CRF for submission
        * book: Complete CRF book with forms repeated by visit
        Standard name, version, and status are derived from the XML file name externally
        Any image logo file may be resized to fit the text height of a headline, preserving aspect
