@@ -3,12 +3,13 @@
    * [CRF layout](#CRF_layout)
    * [Design choices](#Design_choices)
       * [SDTM Datasets and Variables](#SDTM_Datasets_and_Variables)
+   * [Parameters](#Parameters)
    * [Creating PDF documents](#Creating_PDF_documents)
 
-# CRF Renditions  <a name="CRF_Renditions"/>
+# CRF Renditions <a name="CRF_Renditions"/>
 A short description of the CRF generated from the ODM-xml document.
 
-## CRF layout  <a name="CRF_layout"/>
+## CRF layout <a name="CRF_layout"/>
 The main feature of the CRF layout presented here is to put the SDTM annotations in a column adjacent to each question line. This way the SDTM annotations are displayed at the proper location, without the need to move boxes of annotations around inside and on top of CRF elements.
 
 ![Example CRF rendition from pure ODM-xml](images/CRF.png)
@@ -51,6 +52,33 @@ Some debate has been encountered on how to capture Dataset name and Variable nam
 The main reason for this is to remove the binding between CRF layout and SDTM annotations, imposed by having the Dataset name in the **@Domain** attribute on **@ItemGroupDef** level, and the Variable name in the **SDSVarName** attribute on **ItemDef** level. While this may seem logical by mimicking the tabular Dataset/Variable structure, it really serves no purpose beyond dictating that CRF Forms must be designed following SDTM dataset structure. Practical experience has shown that complex Forms (e.g. Adverse events) often annotate to different SDTM domains (e.g. AE and SUPPAE) in an alternating way, and thus dictates the change of **@ItemGroupDef** (sections) to change domain, serving only SDTM annotation purposes.
 
 My [interim] solution is to have **SDSVarName** contain both Dataset name and Variable name separated by a period (e.g. AE.AETERM) in common SQL style. A better and more permanent solution is to advocate that [CDISC](https://www.cdisc.org/) moves the **@Domain** attribute to the **ItemDef** level i their ODM-XML specification. This will ensure that the Dataset name is specified at the same level as the Variable name, eliminating the need for the CRF sections to be structured after the SDTM annotations. Although this will call for redundant specification of Dataset names in an ODM file, systems ought to be able to populate this from SDTM specifications.
+
+## Parameters <a name="Parameters"/>
+Parameter | Description | Default value | Comment
+---         | ---                                 | ---                        | ---
+parmdisplay | Display mode                        | spec                       | spec: CRF specifcation with impleentation notes, SDTM annotations<br/>
+                                                                                 bcrf: Blank CRF for submission<br/>
+                                                                                 acrf: SDTM annotated CRF for submission<br/>
+                                                                                 book: Complete CRF book with forms repeated by visit<br/>
+parmstudy   | Name of study or standard           |                            | Can be derived from ODM file name
+parmversion | Version of the ODM-XML file         |                            | Can be derived from ODM file name
+parmstatus  | Status of the ODM-XML file          |                            | Can be derived from ODM file name
+parmname    | Company name                        | My Company                 | User supplied
+parmlogo    | Company logo file name              |                            | User supplied
+parmlang    | Language of TranslatedText          | All, assuming one language | Future
+parmcdash   | Display CDASH annotation from Alias | 1                          | If present, 0 or 1
+
+Specification of the parmdisplay (Display mode) parameter
+<dl>
+  <dt>spec</dt>
+  <dd>CRF specifcation with impleentation notes, SDTM annotations</dd>
+  <dt>bcrf</dt>
+  <dd>Blank CRF for submission</dd>
+  <dt>acrf</dt>
+  <dd>SDTM annotated CRF for submission</dd>
+  <dt>book</dt>
+  <dd>Complete CRF book with forms repeated by visit</dd>
+</dl>
 
 ## Creating PDF documents <a name="Creating_PDF_documents"/>
 In all browsers, print the CRF renditions as PDF documents on your disk as either [acrf](/examples/acrf.pdf) or [bcrf](/examples/bcrf.pdf) submission documents, respectively. Please note:
