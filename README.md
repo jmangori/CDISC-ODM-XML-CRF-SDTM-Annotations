@@ -54,7 +54,7 @@ The XSL Style Sheet can work by itself together with any XSLT processor to rende
 are located __ON A WEB SERVER__ in the same folder. The HTML file will not apply the style sheet from a file folder without a web server, due to browser restrictions.
 
 # Usage <a name="Usage"/>
-The intended procedure is to refresh the ODM-XML file in your favourite ODM tool as it's development progresses, and then repeatedly apply the `crf_1_3_2.xsl` file to see the rendition progress. Please notice that the CRF rendition contains a title page, a live table of contents (links preserved when converted to PDF), a visit matrix if visits are defined in the ODM-xml file, and a separate table per CRF Form. When printing, page breaks separating title page, toc, visit matrix, and Forms, are created.
+The intended procedure is to refresh the ODM-XML file in your favorite ODM tool as it's development progresses, and then repeatedly apply the `crf_1_3_2.xsl` file to see the rendition progress. Please notice that the CRF rendition contains a title page, a live table of contents (links preserved when converted to PDF), a visit matrix if visits are defined in the ODM-xml file, and a separate table per CRF Form. When printing, page breaks separating title page, toc, visit matrix, and Forms, are created.
 
 ## crf_1_3_2.xsl <a name="crf_1_3_2_xsl"/>
 This document is the central XSL/XSLT translating style sheet to display a valid CDISC ODM-xml file as an SDTM annotated CRF. This technology is supported in any modern browser, and can be used by any command line XSLT processor supporting XSLT version 1.0. Display of SDTM annotations and other elements can be controlled via parameters to the `crf_1_3_2.xsl` file. This way of displaying a CRF (pages or a whole book) with SDTM annotations is intended to serve as a visual representation of the ODM-xml file itself.
@@ -65,10 +65,12 @@ Although some argues that XSLT transformations should not be performed in the br
 To set up the style sheet in a browser you have to decide whether to perform the transformations on the client or on a server.
 
 ### Client side <a name="Client_side"/>
-The `cdisc xml.html` (no hyphen) file needs to be placed on a web server in the same folder as your ODM-xml file and the `crf_1_3_2.xsl` XSL Translating Style Sheet. Other XSL/XSLT files can be used as well, particular `define2-0-0.xsl` for displaying define-xml. This file must be required from [CDISC](https://www.cdisc.org/). When adding you own XSL/XSLT files to your server, simply add themas a `option`  to the `select` tage within the HTML code.
+The `cdisc xml.html` (no hyphen) file needs to be placed on a web server in the same folder as your ODM-xml file and the `crf_1_3_2.xsl` XSL Translating Style Sheet. Other XSL/XSLT files can be used as well, particular `define2-0-0.xsl` for displaying define-xml. This file must be obtained from [CDISC](https://www.cdisc.org/). When adding you own XSL/XSLT files to your server, simply add them as an `<option>` line to the `<select>` tag specifying style sheets within the HTML code.
 
 ### Server side <a name="Server_side"/>
-This document is a piece of HTML code using JavaScript to link a valid XSL Translating Style Sheet to a valid ODM-xml file without putting the style sheet link into the XML file itself. All XML and XSL/XSLT files are supported. The resulting web page can serve as a CRF specification interpreting a valid ODM-xml file, or to display a define-xml file. When opening the HTML file, the browser will perform the transformation of the XML file according to the programming in the XSL file. If the transformation is performed using a stand-alone XSL engine locally, the HTML file is not needed.
+The `cdisc-xml.html` (with a hyphen) file and the `cdisc-xml.php` file must be installed on a webserver in the same folder. Together these files can apply any XSL/XSLT translating style sheet to any XML file, including, but not limited to, ODM-xml and define.xml.
+
+In either case, the resulting web page can serve as a CRF specification interpreting a valid ODM-xml file, or to display a define-xml file. When displaying the HTML file, the browser will perform the transformation of the XML file according to the programming in the XSL file. If the transformation is performed using a stand-alone XSL engine locally, the HTML tools are not needed.
 
 Please notice that file names may be case sensitive on your system. And please observe that browsers may behave slightly different, even when sharing the same browser engine.
 
