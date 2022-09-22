@@ -54,31 +54,18 @@ The main reason for this is to remove the binding between CRF layout and SDTM an
 My [interim] solution is to have **SDSVarName** contain both Dataset name and Variable name separated by a period (e.g. AE.AETERM) in common SQL style. A better and more permanent solution is to advocate that [CDISC](https://www.cdisc.org/) moves the **@Domain** attribute to the **ItemDef** level i their ODM-XML specification. This will ensure that the Dataset name is specified at the same level as the Variable name, eliminating the need for the CRF sections to be structured after the SDTM annotations. Although this will call for redundant specification of Dataset names in an ODM file, systems ought to be able to populate this from SDTM specifications.
 
 ## Parameters <a name="Parameters"/>
+Parameters to the `crf_1_3_2.xsl` file are documented in the table below
+
 Parameter | Description | Default value | Comment
 ---         | ---                                 | ---                        | ---
-parmdisplay | Display mode                        | spec                       | spec: CRF specifcation with impleentation notes, SDTM annotations<br/>
-                                                                                 bcrf: Blank CRF for submission<br/>
-                                                                                 acrf: SDTM annotated CRF for submission<br/>
-                                                                                 book: Complete CRF book with forms repeated by visit<br/>
+parmdisplay | Display mode                        | spec                       | **spec**: CRF specification with implementation notes, SDTM annotations, etc. <br/> **bcrf**: Blank CRF for submission <br/> **acrf**: SDTM annotated CRF for submission <br/> **book**: Complete CRF book with forms repeated by visit
 parmstudy   | Name of study or standard           |                            | Can be derived from ODM file name
 parmversion | Version of the ODM-XML file         |                            | Can be derived from ODM file name
 parmstatus  | Status of the ODM-XML file          |                            | Can be derived from ODM file name
 parmname    | Company name                        | My Company                 | User supplied
 parmlogo    | Company logo file name              |                            | User supplied
-parmlang    | Language of TranslatedText          | All, assuming one language | Future
+parmlang    | Language of TranslatedText          | All, assuming one language | Future implementation
 parmcdash   | Display CDASH annotation from Alias | 1                          | If present, 0 or 1
-
-Specification of the parmdisplay (Display mode) parameter
-<dl>
-  <dt>spec</dt>
-  <dd>CRF specifcation with impleentation notes, SDTM annotations</dd>
-  <dt>bcrf</dt>
-  <dd>Blank CRF for submission</dd>
-  <dt>acrf</dt>
-  <dd>SDTM annotated CRF for submission</dd>
-  <dt>book</dt>
-  <dd>Complete CRF book with forms repeated by visit</dd>
-</dl>
 
 ## Creating PDF documents <a name="Creating_PDF_documents"/>
 In all browsers, print the CRF renditions as PDF documents on your disk as either [acrf](/examples/acrf.pdf) or [bcrf](/examples/bcrf.pdf) submission documents, respectively. Please note:
