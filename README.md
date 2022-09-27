@@ -19,7 +19,7 @@ This project is to exploit the CDISC ODM standard as [a single source of truth](
 * Visual inspection of a CRF design directly from an ODM-xml file
 * Documentation of the link between the CRF questions and the collected data points through SDTM annotations of the CRF Forms
 * Creation of [acrf](/examples/acrf.pdf) and [bcrf](/examples/bcrf.pdf) submission documents including link targets from define-xml
-* Elimination of the labor intensive task of manually moving text boxes of SDTM annotations arround on the [acrf](/examples/acrf.pdf) document
+* Elimination of the labor intensive task of manually moving text boxes of SDTM annotations around on the [acrf](/examples/acrf.pdf) document
 * Elimination of the even more labor intensive task of identifying CRF page numbers on the [acrf](/examples/acrf.pdf) document for referencing from define-xml, by replacing them with targets for the links from define.xml
 * Encouraging ODM-xml files to be used as an import specification to eCRF software
 
@@ -73,8 +73,6 @@ Distributed under the MIT License. See [LICENSE](https://github.com/jmangori/CDI
 
 # Contact <a name="Contact"/>
 Jørgen Mangor Iversen [jmi@try2.info](mailto:jmi@try2.info)
-
-My [web page](https://www.try2.info) in Danish unrelated to this project.
 
 [Live version](https://try2.info/cdisc-xml/cdisc-xml.html) to demonstrate the principle.
 
