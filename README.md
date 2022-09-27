@@ -14,22 +14,23 @@
 * [Acknowledgements](#Acknowledgements)
 
 # About The Project <a name="About_The_Project"/>
-This project is to exploit the CDISC ODM standard as 'a one source of truth' definition of a CRF specification, allowing
+This project is to exploit the CDISC ODM standard as [a single source of truth](https://en.wikipedia.org/wiki/Single_source_of_truth) definition of a CRF specification, allowing
 
 * Visual inspection of a CRF design directly from an ODM-xml file
-* Documentation of the link between the CRF questions and the collected data points through SDTM annotations
+* Documentation of the link between the CRF questions and the collected data points through SDTM annotations of the CRF Forms
 * Creation of [acrf](/examples/acrf.pdf) and [bcrf](/examples/bcrf.pdf) submission documents including link targets from define-xml
+* Elimination of the labor intensive task of manually moving text boxes of SDTM annotations arround on the [acrf](/examples/acrf.pdf) document
+* Elimination of the even more labor intensive task of identifying CRF page numbers on the [acrf](/examples/acrf.pdf) document for referencing from define-xml, by replacing them with targets for the links from define.xml
+* Encouraging ODM-xml files to be used as an import specification to eCRF software
 
-All this to encourage ODM-xml files to be used as an import specification to eCRF software.
+The solution is an XML translating style sheet allowing any valid ODM-xml file to be both human and machine readable, without changing the content.
 
-The solution is an XML translating style sheet allowing the ODM-xml file to be both human and machine readable without changing the content.
-
-See the [CRF_renditions.md](CRF_renditions.md) document for details of the CRF itself.
+See the [CRF_renditions.md](CRF_renditions.md) document for details of the style sheet itself.
 
 ## Built With <a name="Built_With"/>
-The main component is an XSLT translating style sheet applied to an ODM-xml file of your own. The result is a webpage displaying the CRF Forms, Questions, and SDTM annotations. The webpage can be printed from the browser, also as a PDF file.
+The main component is an XSLT translating style sheet applied to any ODM-xml file of your own. The result is a webpage displaying the CRF Forms, Questions, data to be collected, and SDTM annotations. The webpage can be printed from the browser, also as a PDF file.
 
-The secondary component is an HTML file used to link the XML file to the XSL style sheet. The HTML file will run in modern browsers, NOT Internet Explorer. Two versions exist; one showing files residing on a web server, one uploading files and applying a **php** program.
+The secondary component is an HTML file used to link the XML file to the XSL style sheet. The HTML file will run in modern browsers, NOT Internet Explorer. Two versions exist; one showing files residing on a web server, one uploading files and applying a **php** program. Both version apply the same style sheet to the same ODM-xml file, resulting in the same browser result.
 
 ## Versions <a name="Versions"/>
 This project covers ODM version 1.3.2 only. Other version of ODM-xml files are not expected to work. ODM version 1.0.0 and ODM version 1.1.0 files have been tested, and they don't work.
@@ -53,7 +54,7 @@ The `cdisc xml.html` (no hyphen) file must be placed on a web server in the same
 The `cdisc-xml.html` (with a hyphen) file and the `cdisc-xml.php` file must be placed in the same folder on a webserver. Together these files can apply any XSL/XSLT translating style sheet to any XML file, including, but not limited to, ODM-xml and define-xml.
 
 ## crf_1_3_2.xsl <a name="crf_1_3_2_xsl"/>
-This document is the central XSL/XSLT translating style sheet to display a valid CDISC ODM-xml file as an SDTM annotated CRF. This technology is supported in any modern browser, and can be used by any command line XSLT processor supporting XSLT version 1.0. Display of SDTM annotations and other elements can be controlled via parameters to the `crf_1_3_2.xsl` file.
+This document is the central XSL/XSLT translating style sheet to display a valid CDISC ODM-xml file as an SDTM annotated CRF. This technology is supported in any modern browser, and can be used by any XSLT processor supporting XSLT version 1.0. Display of SDTM annotations and other elements can be controlled via parameters to the `crf_1_3_2.xsl` file.
 
 # Usage <a name="Usage"/>
 The intended procedure is to refresh the ODM-XML file in your favorite ODM tool as it's development progresses, and then repeatedly apply the `crf_1_3_2.xsl` file to see the rendition progress. Please notice that the CRF rendition contains a title page, a live table of contents (links preserved when converted to PDF), a visit matrix if visits are defined in the ODM-xml file, and a separate table per CRF Form. When printing, page breaks separating title page, toc, visit matrix, and Forms, are created.
