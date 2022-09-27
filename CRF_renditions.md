@@ -7,7 +7,7 @@
    * [Creating PDF documents](#Creating_PDF_documents)
 
 # CRF Renditions <a name="CRF_Renditions"/>
-A short description of the CRF generated from the ODM-xml document.
+A short description of how the style sheet generates the CRF pages in the browser from the ODM-xml document.
 
 ## CRF layout <a name="CRF_layout"/>
 The main feature of the CRF layout presented here is to put the SDTM annotations in a column adjacent to each question line. This way the SDTM annotations are displayed at the proper location, without the need to move boxes of annotations around inside and on top of CRF elements.
