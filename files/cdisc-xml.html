@@ -43,188 +43,188 @@
       .indent      { list-style-type: none; padding-left: 1.4em; }
     </style>
     <script>
-      //const urlParams   = new URLSearchParams(window.location.search);
-      //const workspaceId = urlParams.get('workspaceId');
+      const urlParams   = new URLSearchParams(window.location.search);
+      const workspaceId = urlParams.get('workspaceId');
 
-      //function loadDoc(url) {
-        //return new Promise(function(resolve) {
-          //var req = new XMLHttpRequest();
-          //req.open("GET", url.concat('?workspaceId=', workspaceId));
-          //req.onload = function() {
-            //resolve(this.responseXML)
-          //}
-          //req.send();
-        //});
-      //}
+      function loadDoc(url) {
+        return new Promise(function(resolve) {
+          var req = new XMLHttpRequest();
+          req.open("GET", url.concat('?workspaceId=', workspaceId));
+          req.onload = function() {
+            resolve(this.responseXML)
+          }
+          req.send();
+        });
+      }
 
-      //function transform(xmlUrl, xslUrl, display, name, logo, study, version, status, language, cdash, ncli, method, comment, prefix, lenformd, targetElement) {
-        //targetElement.innerHTML = '<canvas id="canvas" width="100" height="100" style="background-color:#fff; position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);"/>';
-        //var canvas = document.getElementById("canvas");
-        //var ctx = canvas.getContext("2d");
-        //var radius = canvas.height / 2;
-        //ctx.translate(radius, radius);
-        //radius = radius * 0.90
-        //setInterval(drawClock, 1000);
+      function transform(xmlUrl, xslUrl, display, name, logo, study, version, status, language, cdash, ncli, method, comment, prefix, lenformd, targetElement) {
+        targetElement.innerHTML = '<canvas id="canvas" width="100" height="100" style="background-color:#fff; position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);"/>';
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        var radius = canvas.height / 2;
+        ctx.translate(radius, radius);
+        radius = radius * 0.90
+        setInterval(drawClock, 1000);
 
-        //function drawClock() {
-          //drawFace(ctx, radius);
-          //drawNumbers(ctx, radius);
-          //drawTime(ctx, radius);
-        //}
+        function drawClock() {
+          drawFace(ctx, radius);
+          drawNumbers(ctx, radius);
+          drawTime(ctx, radius);
+        }
 
-        //function drawFace(ctx, radius) {
-          //var grad;
-          //ctx.beginPath();
-          //ctx.arc(0, 0, radius, 0, 2*Math.PI);
-          //ctx.fillStyle = 'white';
-          //ctx.fill();
-          //grad = ctx.createRadialGradient(0,0,radius*0.95, 0,0,radius*1.05);
-          //grad.addColorStop(0, '#333');
-          //grad.addColorStop(0.5, 'white');
-          //grad.addColorStop(1, '#333');
-          //ctx.strokeStyle = grad;
-          //ctx.lineWidth = radius*0.1;
-          //ctx.stroke();
-          //ctx.beginPath();
-          //ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
-          //ctx.fillStyle = '#333';
-          //ctx.fill();
-        //}
+        function drawFace(ctx, radius) {
+          var grad;
+          ctx.beginPath();
+          ctx.arc(0, 0, radius, 0, 2*Math.PI);
+          ctx.fillStyle = 'white';
+          ctx.fill();
+          grad = ctx.createRadialGradient(0,0,radius*0.95, 0,0,radius*1.05);
+          grad.addColorStop(0, '#333');
+          grad.addColorStop(0.5, 'white');
+          grad.addColorStop(1, '#333');
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = radius*0.1;
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
+          ctx.fillStyle = '#333';
+          ctx.fill();
+        }
 
-        //function drawNumbers(ctx, radius) {
-          //var ang;
-          //var num;
-          //ctx.font = radius*0.15 + "px arial";
-          //ctx.textBaseline="middle";
-          //ctx.textAlign="center";
-          //for(num = 1; num < 13; num++){
-            //ang = num * Math.PI / 6;
-            //ctx.rotate(ang);
-            //ctx.translate(0, -radius*0.85);
-            //ctx.rotate(-ang);
-            //ctx.fillText(num.toString(), 0, 0);
-            //ctx.rotate(ang);
-            //ctx.translate(0, radius*0.85);
-            //ctx.rotate(-ang);
-          //}
-        //}
+        function drawNumbers(ctx, radius) {
+          var ang;
+          var num;
+          ctx.font = radius*0.15 + "px arial";
+          ctx.textBaseline="middle";
+          ctx.textAlign="center";
+          for(num = 1; num < 13; num++){
+            ang = num * Math.PI / 6;
+            ctx.rotate(ang);
+            ctx.translate(0, -radius*0.85);
+            ctx.rotate(-ang);
+            ctx.fillText(num.toString(), 0, 0);
+            ctx.rotate(ang);
+            ctx.translate(0, radius*0.85);
+            ctx.rotate(-ang);
+          }
+        }
 
-        //function drawTime(ctx, radius){
-            //var now = new Date();
-            //var hour = now.getHours();
-            //var minute = now.getMinutes();
-            //var second = now.getSeconds();
-            ////hour
-            //hour=hour%12;
-            //hour=(hour*Math.PI/6)+
-            //(minute*Math.PI/(6*60))+
-            //(second*Math.PI/(360*60));
-            //drawHand(ctx, hour, radius*0.5, radius*0.07);
-            ////minute
-            //minute=(minute*Math.PI/30)+(second*Math.PI/(30*60));
-            //drawHand(ctx, minute, radius*0.8, radius*0.07);
-            //// second
-            //second=(second*Math.PI/30);
-            //drawHand(ctx, second, radius*0.9, radius*0.02);
-        //}
+        function drawTime(ctx, radius){
+            var now = new Date();
+            var hour = now.getHours();
+            var minute = now.getMinutes();
+            var second = now.getSeconds();
+            //hour
+            hour=hour%12;
+            hour=(hour*Math.PI/6)+
+            (minute*Math.PI/(6*60))+
+            (second*Math.PI/(360*60));
+            drawHand(ctx, hour, radius*0.5, radius*0.07);
+            //minute
+            minute=(minute*Math.PI/30)+(second*Math.PI/(30*60));
+            drawHand(ctx, minute, radius*0.8, radius*0.07);
+            // second
+            second=(second*Math.PI/30);
+            drawHand(ctx, second, radius*0.9, radius*0.02);
+        }
 
-        //function drawHand(ctx, pos, length, width) {
-            //ctx.beginPath();
-            //ctx.lineWidth = width;
-            //ctx.lineCap = "round";
-            //ctx.moveTo(0,0);
-            //ctx.rotate(pos);
-            //ctx.lineTo(0, -length);
-            //ctx.stroke();
-            //ctx.rotate(-pos);
-        //}
+        function drawHand(ctx, pos, length, width) {
+            ctx.beginPath();
+            ctx.lineWidth = width;
+            ctx.lineCap = "round";
+            ctx.moveTo(0,0);
+            ctx.rotate(pos);
+            ctx.lineTo(0, -length);
+            ctx.stroke();
+            ctx.rotate(-pos);
+        }
 
-        //Promise.all([loadDoc(xmlUrl), loadDoc(xslUrl)]).then(function(data) {
-          //var xmlDoc = data[0];
-          //var xslDoc = data[1];
-          //var proc = new XSLTProcessor();
-          //proc.importStylesheet(xslDoc);
-          //if (display  !== undefined) proc.setParameter(null, "parmdisplay",            display);
-          //if (name     !== undefined) proc.setParameter(null, "parmname",               name);
-          //if (logo     !== undefined) proc.setParameter(null, "parmlogo",               logo);
-          //if (study    !== undefined) proc.setParameter(null, "parmstudy",              study);
-          //if (version  !== undefined) proc.setParameter(null, "parmversion",            version);
-          //if (status   !== undefined) proc.setParameter(null, "parmstatus",             status);
-          //if (language !== undefined) proc.setParameter(null, "parmlang",               language);
-          //if (cdash    !== undefined) proc.setParameter(null, "parmcdash",              cdash);
-          //if (ncli     !== undefined) proc.setParameter(null, "nCodeListItemDisplay",   ncli);
-          //if (method   !== undefined) proc.setParameter(null, "displayMethodsTable",    method);
-          //if (comment  !== undefined) proc.setParameter(null, "displayCommentsTable",   comment);
-          //if (prefix    !== undefined) proc.setParameter(null, "displayPrefix",           prefix);
-          //if (lenformd !== undefined) proc.setParameter(null, "displayLengthDFormatSD", lenformd);
+        Promise.all([loadDoc(xmlUrl), loadDoc(xslUrl)]).then(function(data) {
+          var xmlDoc = data[0];
+          var xslDoc = data[1];
+          var proc = new XSLTProcessor();
+          proc.importStylesheet(xslDoc);
+          if (display  !== undefined) proc.setParameter(null, "parmdisplay",            display);
+          if (name     !== undefined) proc.setParameter(null, "parmname",               name);
+          if (logo     !== undefined) proc.setParameter(null, "parmlogo",               logo);
+          if (study    !== undefined) proc.setParameter(null, "parmstudy",              study);
+          if (version  !== undefined) proc.setParameter(null, "parmversion",            version);
+          if (status   !== undefined) proc.setParameter(null, "parmstatus",             status);
+          if (language !== undefined) proc.setParameter(null, "parmlang",               language);
+          if (cdash    !== undefined) proc.setParameter(null, "parmcdash",              cdash);
+          if (ncli     !== undefined) proc.setParameter(null, "nCodeListItemDisplay",   ncli);
+          if (method   !== undefined) proc.setParameter(null, "displayMethodsTable",    method);
+          if (comment  !== undefined) proc.setParameter(null, "displayCommentsTable",   comment);
+          if (prefix    !== undefined) proc.setParameter(null, "displayPrefix",           prefix);
+          if (lenformd !== undefined) proc.setParameter(null, "displayLengthDFormatSD", lenformd);
 
-          //var resultFrag = proc.transformToFragment(xmlDoc, targetElement.ownerDocument);
+          var resultFrag = proc.transformToFragment(xmlDoc, targetElement.ownerDocument);
 
-          //targetElement.textContent = '';
-          //targetElement.appendChild(resultFrag);
-        //}).catch(error => { console.log(`Error in promises ${error}`);
-           //targetElement.innerHTML =
-            //'<h1 style="text-align:center;">Error in the rendition</h1>' +
-            //'<h2 style="text-align:center;">Page parameters</h2>' +
-            //'<table style="margin-left: auto; margin-right: auto;">' +
-            //'<tr><td>XML File            </td><td>' + xmlUrl   + '</td></tr>' +
-            //'<tr><td>Style Sheet         </td><td>' + xslUrl   + '</td></tr>' +
-            //'<tr><td>Display option      </td><td>' + display  + '</td></tr>' +
-            //'<tr><td>CDASH               </td><td>' + cdash    + '</td></tr>' +
-            //'<tr><td>Company name        </td><td>' + name     + '</td></tr>' +
-            //'<tr><td>Logo                </td><td>' + logo     + '</td></tr>' +
-            //'<tr><td>Study               </td><td>' + study    + '</td></tr>' +
-            //'<tr><td>Version             </td><td>' + version  + '</td></tr>' +
-            //'<tr><td>Status              </td><td>' + status   + '</td></tr>' +
-            //'<tr><td>Language            </td><td>' + language + '</td></tr>' +
-            //'<tr><td>CodeListItem number </td><td>' + ncli     + '</td></tr>' +
-            //'<tr><td>Display Methods     </td><td>' + method   + '</td></tr>' +
-            //'<tr><td>Display Comments    </td><td>' + comment  + '</td></tr>' +
-            //'<tr><td>Display Prefix      </td><td>' + prefix   + '</td></tr>' +
-            //'<tr><td>Length Format Digits</td><td>' + lenformd + '</td></tr>' +
-            //'</table>' +
-            //'<h2 style="text-align:center;">System messages</h2>' +
-            //'<p  style="text-align:center;">' + error + '</p>' +
-            //'<p style="text-align:center;"><button onClick="window.location.reload();">Refresh Page</button></p>'
-           //});
-      //}
+          targetElement.textContent = '';
+          targetElement.appendChild(resultFrag);
+        }).catch(error => { console.log(`Error in promises ${error}`);
+           targetElement.innerHTML =
+            '<h1 style="text-align:center;">Error in the rendition</h1>' +
+            '<h2 style="text-align:center;">Page parameters</h2>' +
+            '<table style="margin-left: auto; margin-right: auto;">' +
+            '<tr><td>XML File            </td><td>' + xmlUrl   + '</td></tr>' +
+            '<tr><td>Style Sheet         </td><td>' + xslUrl   + '</td></tr>' +
+            '<tr><td>Display option      </td><td>' + display  + '</td></tr>' +
+            '<tr><td>CDASH               </td><td>' + cdash    + '</td></tr>' +
+            '<tr><td>Company name        </td><td>' + name     + '</td></tr>' +
+            '<tr><td>Logo                </td><td>' + logo     + '</td></tr>' +
+            '<tr><td>Study               </td><td>' + study    + '</td></tr>' +
+            '<tr><td>Version             </td><td>' + version  + '</td></tr>' +
+            '<tr><td>Status              </td><td>' + status   + '</td></tr>' +
+            '<tr><td>Language            </td><td>' + language + '</td></tr>' +
+            '<tr><td>CodeListItem number </td><td>' + ncli     + '</td></tr>' +
+            '<tr><td>Display Methods     </td><td>' + method   + '</td></tr>' +
+            '<tr><td>Display Comments    </td><td>' + comment  + '</td></tr>' +
+            '<tr><td>Display Prefix      </td><td>' + prefix   + '</td></tr>' +
+            '<tr><td>Length Format Digits</td><td>' + lenformd + '</td></tr>' +
+            '</table>' +
+            '<h2 style="text-align:center;">System messages</h2>' +
+            '<p  style="text-align:center;">' + error + '</p>' +
+            '<p style="text-align:center;"><button onClick="window.location.reload();">Refresh Page</button></p>'
+           });
+      }
 
-      //function displayxml() {
-        //if (document.getElementById("parmxml").value == '') {
-          //alert("You must specify an XML file name");
-          //return false;
-        //}
-        //var number = document.getElementById("nCodeListItemDisplay").value;
-        //if (isNaN(number) || number < 0 || number > 999) {
-          //alert("Number of CodeListItems must be numeric in the interval 0-999");
-          //return false;
-        //}
+      function displayxml() {
+        if (document.getElementById("parmxml").value == '') {
+          alert("You must specify an XML file name");
+          return false;
+        }
+        var number = document.getElementById("nCodeListItemDisplay").value;
+        if (isNaN(number) || number < 0 || number > 999) {
+          alert("Number of CodeListItems must be numeric in the interval 0-999");
+          return false;
+        }
 
-        //for (var button of document.getElementsByClassName("radio"))
-          //if (button.checked)
-            //var display = button.value;
-        //var name     = document.getElementById("parmname").value;
-        //var logo     = document.getElementById("parmlogo").value;
-        //var parmxml  = document.getElementById("parmxml").value;
-        //var parmxsl  = document.getElementById("parmxsl").value;
-        //var language = document.getElementById("parmlang").value;
-        //var cdash    = document.getElementById("parmcdash").checked              ? "1" : "0";
-        //var ncli     = document.getElementById("nCodeListItemDisplay").value;
-        //var method   = document.getElementById("displayMethodsTable").checked    ? "1" : "0";
-        //var comment  = document.getElementById("displayCommentsTable").checked   ? "1" : "0";
-        //var prefix   = document.getElementById("displayPrefix").checked          ? "1" : "0";
-        //var lenformd = document.getElementById("displayLengthDFormatSD").checked ? "1" : "0";
-        //if (parmxml.match(/ Version /i) && parmxml.match(/ CRF /i)) {
-          //var parts = parmxml.split(" ");
-          //for (var versix = 0; parts[versix].toLowerCase() != "version"; versix++);
-          //var version = parts[versix] + " " + parts[versix + 1];
-          //var study   = parmxml.substring(0, parmxml.toUpperCase().indexOf(" CRF "));
-          //var status  = parts[versix + 2].split(".")[0];
-          //for (var statix = versix + 3; statix < parts.length; statix++)
-            //status = status + " " + parts[statix].split(".")[0];
-        //}
-        //transform(parmxml, parmxsl, display, name, logo, study, version, status, language, cdash, ncli, method, comment, prefix, lenformd, document.documentElement);
-      //}
+        for (var button of document.getElementsByClassName("radio"))
+          if (button.checked)
+            var display = button.value;
+        var name     = document.getElementById("parmname").value;
+        var logo     = document.getElementById("parmlogo").value;
+        var parmxml  = document.getElementById("parmxml").value;
+        var parmxsl  = document.getElementById("parmxsl").value;
+        var language = document.getElementById("parmlang").value;
+        var cdash    = document.getElementById("parmcdash").checked              ? "1" : "0";
+        var ncli     = document.getElementById("nCodeListItemDisplay").value;
+        var method   = document.getElementById("displayMethodsTable").checked    ? "1" : "0";
+        var comment  = document.getElementById("displayCommentsTable").checked   ? "1" : "0";
+        var prefix   = document.getElementById("displayPrefix").checked          ? "1" : "0";
+        var lenformd = document.getElementById("displayLengthDFormatSD").checked ? "1" : "0";
+        if (parmxml.match(/ Version /i) && parmxml.match(/ CRF /i)) {
+          var parts = parmxml.split(" ");
+          for (var versix = 0; parts[versix].toLowerCase() != "version"; versix++);
+          var version = parts[versix] + " " + parts[versix + 1];
+          var study   = parmxml.substring(0, parmxml.toUpperCase().indexOf(" CRF "));
+          var status  = parts[versix + 2].split(".")[0];
+          for (var statix = versix + 3; statix < parts.length; statix++)
+            status = status + " " + parts[statix].split(".")[0];
+        }
+        transform(parmxml, parmxsl, display, name, logo, study, version, status, language, cdash, ncli, method, comment, prefix, lenformd, document.documentElement);
+      }
 
       function toggle() {
         var selected = document.getElementById("parmxsl").value.toLowerCase().replaceAll('\\', '/'); // handle forward and backward slashes
