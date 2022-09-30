@@ -30,7 +30,7 @@ See the [CRF_renditions.md](CRF_renditions.md) document for details of the style
 ## Built With <a name="Built_With"/>
 The main component is an XSLT translating style sheet applied to any ODM-xml file of your own. The result is a webpage displaying the CRF Forms, Questions, data to be collected, and SDTM annotations. The webpage can be printed from the browser, also as a PDF file.
 
-The secondary component is an HTML file used to link the XML file to the XSL style sheet. The HTML file will run in modern browsers, NOT Internet Explorer. Two versions exist; one showing files residing on a web server, one uploading files and applying a **php** program. Both version apply the same style sheet to the same ODM-xml file, resulting in the same browser result.
+The secondary component is an HTML file used to link the XML file to the XSL style sheet. The HTML file will run in modern browsers, NOT Internet Explorer. Two versions exist; one showing files residing on a web server, one uploading files and applying a `php` program. Both version apply the same style sheet to the same ODM-xml file, resulting in the same CRF rendition.
 
 ## Versions <a name="Versions"/>
 This project covers ODM version 1.3.2 only. Other version of ODM-xml files are not expected to work. ODM version 1.0.0 and ODM version 1.1.0 files have been tested, and they don't work.
