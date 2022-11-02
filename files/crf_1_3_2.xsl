@@ -37,9 +37,9 @@
                 version="4.0"/>
 
   <!-- Parameters passed from outside. Default display mode is a blank CRF:
-       * spec: CRF specifcation with selection buttons, LEO notes, SDTM annotations (default)
-       * bcrf: Blank CRF for submission (default)
-       * acrf: SDTM annotated CRF for submission with SDTM annotations
+       * spec: CRF specification with selection buttons, implementation notes, SDTM annotations (default)
+       * bcrf: Blank CRF for submission
+       * acrf: SDTM annotated CRF for submission
        * book: Complete CRF book with forms repeated by visit
        Standard name, version, and status are derived from the XML file name externally
        Any image logo file may be resized to fit the text height of a headline, preserving aspect
@@ -210,6 +210,11 @@
                     <xsl:call-template name="answer"/>
                   </td>
                   <td id="anno" class="annw anno">
+                    <xsl:if test="odm:Alias[@Context='Target']/@Name">
+                      <xsl:call-template name="define_anchor">
+                        <xsl:with-param name="target" select="substring-after(odm:Alias[@Context='Target']/@Name, '#')"/>
+                      </xsl:call-template>
+                    </xsl:if>
                     <xsl:call-template name="annotation">
                       <xsl:with-param name="domain" select="$domain"/>
                     </xsl:call-template>
@@ -760,16 +765,16 @@
   <xsl:template name="define_anchor">
     <xsl:param name="target"/>
     <xsl:if test="$target != '' and not(contains($target, ' '))">
-    <a>
-      <xsl:attribute name="href">
-        #<xsl:value-of select="$target"/>
-      </xsl:attribute>
-    </a>
-    <a class="nohover">
-      <xsl:attribute name="id">
-        <xsl:value-of select="$target"/>
-      </xsl:attribute>
-    </a>
+      <a>
+        <xsl:attribute name="href">
+          #<xsl:value-of select="$target"/>
+        </xsl:attribute>
+      </a>
+      <a class="nohover">
+        <xsl:attribute name="id">
+          <xsl:value-of select="$target"/>
+        </xsl:attribute>
+      </a>
     </xsl:if>
   </xsl:template>
 
