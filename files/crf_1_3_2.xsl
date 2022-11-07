@@ -663,7 +663,7 @@
         <input type="checkbox" name="$check"/>
         <label for="$check">
           <xsl:value-of select="odm:Question/odm:TranslatedText"/>
-          <span class="note"> (<xsl:value-of select="translate(odm:Question/odm:TranslatedText, $lowercase, $uppercase)"/>)</span>
+          <span class="note"> (<xsl:value-of select="translate(odm:Question/odm:TranslatedText, $lowercase, $uppercase)"/>) Boolean</span>
         </label><br/>
       </xsl:when>
       <!-- Unknown data type is marked for debugging -->
