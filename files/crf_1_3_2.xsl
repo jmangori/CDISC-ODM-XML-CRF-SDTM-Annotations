@@ -57,6 +57,10 @@
   <xsl:key name="by_StudyEventRef" match="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:Protocol/odm:StudyEventRef" use="@StudyEventOID"/>
   <xsl:key name="by_FormRef"       match="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef/odm:FormRef"  use="@FormOID"/>
 
+  <!-- Variables for case conversion -->
+  <xsl:variable name="lowercase" select="'abcdefghijklmnopqrstuvwxyz'" />
+  <xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" />
+
   <xsl:template match="/">
     <html>
       <head>
@@ -653,6 +657,14 @@
       <!-- Data type text -->
       <xsl:when test="@DataType = 'text'">
         <input type="text"/><span class="note"> Text</span>
+      </xsl:when>
+      <!-- Data type boolean -->
+      <xsl:when test="@DataType = 'boolean'">
+        <input type="checkbox" name="$check"/>
+        <label for="$check">
+          <xsl:value-of select="odm:Question/odm:TranslatedText"/>
+          <span class="note"> (<xsl:value-of select="translate(odm:Question/odm:TranslatedText, $lowercase, $uppercase)"/>)</span>
+        </label><br/>
       </xsl:when>
       <!-- Unknown data type is marked for debugging -->
       <xsl:otherwise>
