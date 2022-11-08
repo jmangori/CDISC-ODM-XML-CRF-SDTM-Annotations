@@ -216,7 +216,7 @@
                   <td id="anno" class="annw anno">
                     <xsl:if test="odm:Alias[@Context='Target']/@Name">
                       <xsl:call-template name="define_anchor">
-                        <xsl:with-param name="target" select="substring-after(odm:Alias[@Context='Target']/@Name, '#')"/>
+                        <xsl:with-param name="target" select="odm:Alias[@Context='Target']/@Name"/>
                       </xsl:call-template>
                     </xsl:if>
                     <xsl:call-template name="annotation">
