@@ -25,10 +25,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>CDISC XML</title>
     <meta http-equiv="X-UA-Compatible" content="IE=9">
-    <meta http-equiv="Cache-Control"   content="no-cache, no-store, must-revalidate"/>
-    <meta http-equiv="Pragma"          content="no-cache"/>
-    <meta http-equiv="Expires"         content="0"/>
-    <meta name="Author"                content="Jørgen Mangor Iversen">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta name="Author" content="Jørgen Mangor Iversen">
     <style>
       *            { font-family: Helvetica, Arial, sans-serif !important; line-height: 1.3em; margin-bottom: 0.2em; }
       h1, ul       { margin-top: 0; margin-bottom: 0; }
@@ -36,199 +36,60 @@
       .narrow      { margin-left: 20%; margin-right: 20%; }
       .column      { float: left; }
       .left        { width: 35%; }
-      .right       { width: 65%; }
+      .center      { width: 35%; }
+      .right       { width: 30%; }
+      .centright   { width: 65%; }
       .row:after   { content: ""; display: table; clear: both; }
       .greyed      { color: Grey; }
       .defineparms  { color: LightGrey; }
       .indent      { list-style-type: none; padding-left: 1.4em; }
     </style>
     <script>
-      const urlParams   = new URLSearchParams(window.location.search);
-      const workspaceId = urlParams.get('workspaceId');
+      var xslfile = document.getElementById("parmxsl");
+      xslfile.addEventListener('input', toggleXls);
 
-      function loadDoc(url) {
-        return new Promise(function(resolve) {
-          var req = new XMLHttpRequest();
-          req.open("GET", url.concat('?workspaceId=', workspaceId));
-          req.onload = function() {
-            resolve(this.responseXML)
-          }
-          req.send();
-        });
-      }
-
-      function transform(xmlUrl, xslUrl, display, name, logo, study, version, status, language, cdash, ncli, method, comment, prefix, lenformd, targetElement) {
-        targetElement.innerHTML = '<canvas id="canvas" width="100" height="100" style="background-color:#fff; position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);"/>';
-        var canvas = document.getElementById("canvas");
-        var ctx = canvas.getContext("2d");
-        var radius = canvas.height / 2;
-        ctx.translate(radius, radius);
-        radius = radius * 0.90
-        setInterval(drawClock, 1000);
-
-        function drawClock() {
-          drawFace(ctx, radius);
-          drawNumbers(ctx, radius);
-          drawTime(ctx, radius);
-        }
-
-        function drawFace(ctx, radius) {
-          var grad;
-          ctx.beginPath();
-          ctx.arc(0, 0, radius, 0, 2*Math.PI);
-          ctx.fillStyle = 'white';
-          ctx.fill();
-          grad = ctx.createRadialGradient(0,0,radius*0.95, 0,0,radius*1.05);
-          grad.addColorStop(0, '#333');
-          grad.addColorStop(0.5, 'white');
-          grad.addColorStop(1, '#333');
-          ctx.strokeStyle = grad;
-          ctx.lineWidth = radius*0.1;
-          ctx.stroke();
-          ctx.beginPath();
-          ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
-          ctx.fillStyle = '#333';
-          ctx.fill();
-        }
-
-        function drawNumbers(ctx, radius) {
-          var ang;
-          var num;
-          ctx.font = radius*0.15 + "px arial";
-          ctx.textBaseline="middle";
-          ctx.textAlign="center";
-          for(num = 1; num < 13; num++){
-            ang = num * Math.PI / 6;
-            ctx.rotate(ang);
-            ctx.translate(0, -radius*0.85);
-            ctx.rotate(-ang);
-            ctx.fillText(num.toString(), 0, 0);
-            ctx.rotate(ang);
-            ctx.translate(0, radius*0.85);
-            ctx.rotate(-ang);
-          }
-        }
-
-        function drawTime(ctx, radius){
-            var now = new Date();
-            var hour = now.getHours();
-            var minute = now.getMinutes();
-            var second = now.getSeconds();
-            //hour
-            hour=hour%12;
-            hour=(hour*Math.PI/6)+
-            (minute*Math.PI/(6*60))+
-            (second*Math.PI/(360*60));
-            drawHand(ctx, hour, radius*0.5, radius*0.07);
-            //minute
-            minute=(minute*Math.PI/30)+(second*Math.PI/(30*60));
-            drawHand(ctx, minute, radius*0.8, radius*0.07);
-            // second
-            second=(second*Math.PI/30);
-            drawHand(ctx, second, radius*0.9, radius*0.02);
-        }
-
-        function drawHand(ctx, pos, length, width) {
-            ctx.beginPath();
-            ctx.lineWidth = width;
-            ctx.lineCap = "round";
-            ctx.moveTo(0,0);
-            ctx.rotate(pos);
-            ctx.lineTo(0, -length);
-            ctx.stroke();
-            ctx.rotate(-pos);
-        }
-
-        Promise.all([loadDoc(xmlUrl), loadDoc(xslUrl)]).then(function(data) {
-          var xmlDoc = data[0];
-          var xslDoc = data[1];
-          var proc = new XSLTProcessor();
-          proc.importStylesheet(xslDoc);
-          if (display  !== undefined) proc.setParameter(null, "parmdisplay",            display);
-          if (name     !== undefined) proc.setParameter(null, "parmname",               name);
-          if (logo     !== undefined) proc.setParameter(null, "parmlogo",               logo);
-          if (study    !== undefined) proc.setParameter(null, "parmstudy",              study);
-          if (version  !== undefined) proc.setParameter(null, "parmversion",            version);
-          if (status   !== undefined) proc.setParameter(null, "parmstatus",             status);
-          if (language !== undefined) proc.setParameter(null, "parmlang",               language);
-          if (cdash    !== undefined) proc.setParameter(null, "parmcdash",              cdash);
-          if (ncli     !== undefined) proc.setParameter(null, "nCodeListItemDisplay",   ncli);
-          if (method   !== undefined) proc.setParameter(null, "displayMethodsTable",    method);
-          if (comment  !== undefined) proc.setParameter(null, "displayCommentsTable",   comment);
-          if (prefix    !== undefined) proc.setParameter(null, "displayPrefix",           prefix);
-          if (lenformd !== undefined) proc.setParameter(null, "displayLengthDFormatSD", lenformd);
-
-          var resultFrag = proc.transformToFragment(xmlDoc, targetElement.ownerDocument);
-
-          targetElement.textContent = '';
-          targetElement.appendChild(resultFrag);
-        }).catch(error => { console.log(`Error in promises ${error}`);
-           targetElement.innerHTML =
-            '<h1 style="text-align:center;">Error in the rendition</h1>' +
-            '<h2 style="text-align:center;">Page parameters</h2>' +
-            '<table style="margin-left: auto; margin-right: auto;">' +
-            '<tr><td>XML File            </td><td>' + xmlUrl   + '</td></tr>' +
-            '<tr><td>Style Sheet         </td><td>' + xslUrl   + '</td></tr>' +
-            '<tr><td>Display option      </td><td>' + display  + '</td></tr>' +
-            '<tr><td>CDASH               </td><td>' + cdash    + '</td></tr>' +
-            '<tr><td>Company name        </td><td>' + name     + '</td></tr>' +
-            '<tr><td>Logo                </td><td>' + logo     + '</td></tr>' +
-            '<tr><td>Study               </td><td>' + study    + '</td></tr>' +
-            '<tr><td>Version             </td><td>' + version  + '</td></tr>' +
-            '<tr><td>Status              </td><td>' + status   + '</td></tr>' +
-            '<tr><td>Language            </td><td>' + language + '</td></tr>' +
-            '<tr><td>CodeListItem number </td><td>' + ncli     + '</td></tr>' +
-            '<tr><td>Display Methods     </td><td>' + method   + '</td></tr>' +
-            '<tr><td>Display Comments    </td><td>' + comment  + '</td></tr>' +
-            '<tr><td>Display Prefix      </td><td>' + prefix   + '</td></tr>' +
-            '<tr><td>Length Format Digits</td><td>' + lenformd + '</td></tr>' +
-            '</table>' +
-            '<h2 style="text-align:center;">System messages</h2>' +
-            '<p  style="text-align:center;">' + error + '</p>' +
-            '<p style="text-align:center;"><button onClick="window.location.reload();">Refresh Page</button></p>'
-           });
-      }
-
-      function displayxml() {
+      function valform() {
         if (document.getElementById("parmxml").value == '') {
           alert("You must specify an XML file name");
           return false;
         }
-        var number = document.getElementById("nCodeListItemDisplay").value;
+        if (document.getElementById("parmxsl").value == '') {
+          alert("You must specify an XSL file name");
+          return false;
+        }
+        var number = document.getElementById("ncli").value;
         if (isNaN(number) || number < 0 || number > 999) {
           alert("Number of CodeListItems must be numeric in the interval 0-999");
           return false;
         }
+      }
 
-        for (var button of document.getElementsByClassName("radio"))
-          if (button.checked)
-            var display = button.value;
-        var name     = document.getElementById("parmname").value;
-        var logo     = document.getElementById("parmlogo").value;
+      function displayxml() {
         var parmxml  = document.getElementById("parmxml").value;
-        var parmxsl  = document.getElementById("parmxsl").value;
-        var language = document.getElementById("parmlang").value;
-        var cdash    = document.getElementById("parmcdash").checked              ? "1" : "0";
-        var ncli     = document.getElementById("nCodeListItemDisplay").value;
-        var method   = document.getElementById("displayMethodsTable").checked    ? "1" : "0";
-        var comment  = document.getElementById("displayCommentsTable").checked   ? "1" : "0";
-        var prefix   = document.getElementById("displayPrefix").checked          ? "1" : "0";
-        var lenformd = document.getElementById("displayLengthDFormatSD").checked ? "1" : "0";
         if (parmxml.match(/ Version /i) && parmxml.match(/ CRF /i)) {
           var parts = parmxml.split(" ");
           for (var versix = 0; parts[versix].toLowerCase() != "version"; versix++);
           var version = parts[versix] + " " + parts[versix + 1];
-          var study   = parmxml.substring(0, parmxml.toUpperCase().indexOf(" CRF "));
+          var study   = parmxml.substring(parmxml.lastIndexOf("\\") + 1, parmxml.toUpperCase().indexOf(" CRF "));  // Remove C:\fakepath\
           var status  = parts[versix + 2].split(".")[0];
           for (var statix = versix + 3; statix < parts.length; statix++)
             status = status + " " + parts[statix].split(".")[0];
+          document.getElementById("parmstudy"             ).value = study;
+          document.getElementById("parmstatus"            ).value = status;
+          document.getElementById("parmversion"           ).value = version;
+          document.getElementById("parmcdash"             ).value = document.getElementById("cdash").checked ? "1" : "0";
+          document.getElementById("parmlang"              ).value = document.getElementById("lang").value;
+          document.getElementById("nCodeListItemDisplay"  ).value = document.getElementById("ncli").value;
+          document.getElementById("displayMethodsTable"   ).value = document.getElementById("methods").value;
+          document.getElementById("displayCommentsTable"  ).value = document.getElementById("comments").value;
+          document.getElementById("displayPrefix"          ).value = document.getElementById("prefix").value;
+          document.getElementById("displayLengthDFormatSD").value = document.getElementById("lenform").value;
         }
-        transform(parmxml, parmxsl, display, name, logo, study, version, status, language, cdash, ncli, method, comment, prefix, lenformd, document.documentElement);
       }
 
-      function toggle() {
-        var selected = document.getElementById("parmxsl").value.toLowerCase().replaceAll('\\', '/'); // handle forward and backward slashes
-        selected = selected.substring(selected.lastIndexOf('/') +1);                                 // handle C:/fakepath/
+      function toggleXls() {
+        var selected = document.getElementById("parmxsl").value.toLowerCase();
+        selected = selected.substring(selected.lastIndexOf("\\") + 1); // Remove C:\fakepath\
         if (selected.startsWith("define"))
           for (element of document.getElementsByClassName("crfparms")) {
             element.style.color = "LightGrey";
@@ -239,7 +100,7 @@
             element.style.color = "black";
             element.disabled = false;
           }
-        if (selected.startsWith("define2-1"))
+        if (selected.startsWith("define2"))
           for (element of document.getElementsByClassName("defineparms")) {
             element.style.color = "black";
             element.disabled = false;
@@ -250,15 +111,38 @@
             element.disabled = true;
           }
       }
-      function valform() {
-        for (var element of document.forms["parms"]) {
-          element.value = element.value.replace(/\s+/g, '');
+
+      function toggleCheck() {
+        if (document.getElementById("spec").checked) {
+          document.getElementById("cdash").disabled = false;
+        }
+        if (document.getElementById("acrf").checked) {
+          document.getElementById("cdash").disabled = true;
+          document.getElementById("cdash").checked  = false;
+        }
+        if (document.getElementById("bcrf").checked) {
+          document.getElementById("cdash").checked  = false;
+          document.getElementById("cdash").disabled = true;
+        }
+        if (document.getElementById("book").checked) {
+          document.getElementById("cdash").disabled = true;
+          document.getElementById("cdash").checked  = false;
         }
       }
     </script>
   </head>
-  <body class="narrow">
-    <form name="parms" action="cdisc-xml.php" onsubmit="return valform()" method="post" enctype="multipart/form-data">
+  <body class="narrow" onLoad="toggleXls();">
+    <form name="parms" action="cdisc-xml.php" onSubmit="return valform()" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="parmstudy"              id="parmstudy"/>
+      <input type="hidden" name="parmstatus"             id="parmstatus"n/>
+      <input type="hidden" name="parmversion"            id="parmversion"/>
+      <input type="hidden" name="parmcdash"              id="parmcdash"/>
+      <input type="hidden" name="parmlang"               id="parmlang"/>
+      <input type="hidden" name="nCodeListItemDisplay"   id="nCodeListItemDisplay"/>
+      <input type="hidden" name="displayMethodsTable"    id="displayMethodsTable"/>
+      <input type="hidden" name="displayCommentsTable"   id="displayCommentsTable"/>
+      <input type="hidden" name="displayPrefix"           id="displayPrefix"/>
+      <input type="hidden" name="displayLengthDFormatSD" id="displayLengthDFormatSD"/>
       <h1>Display ODM-xml or Define-xml files in the browser</h1>
       <h2>Usage</h2>
       Chose a valid XML document and display it in the brower using the appropriate style sheet.
@@ -274,127 +158,134 @@
         <div class="column left">
           &nbsp;
         </div>
-        <div class="column right">
+        <div class="column center">
           <h3>Selection</h3>
         </div>
         <div class="column left">
           XML file
         </div>
-        <div class="column right">
+        <div class="column center">
           <input type="file" name="parmxml" id="parmxml" accept="text/xml, .xml" autofocus/>
         </div>
         <div class="column left greyed">
-          Naming template for ODM files
+          Naming template
         </div>
-        <div class="column right greyed">
-          &lt;Asset name&gt; CRF Version &lt;version number&gt; &lt;status&gt;.xml
+        <div class="column centright greyed">
+          &lt;Asset name&gt; [CRF|SDTM|ADaM] Version &lt;version number&gt; &lt;status&gt;.xml
         </div>
         <div class="column left">
           XSL Style Sheet
         </div>
-        <div class="column right">
-          <input type="file" name="parmxsl" id="parmxsl" accept="text/xsl, .xsl, text/xslt, .xslt" oninput="toggle();"/>
+        <div class="column center">
+          <input type="file" name="parmxsl" id="parmxsl" accept="text/xsl, .xsl, text/xslt, .xslt" onInput="toggleXls();"/>
         </div>
 
-        <fieldset>
-          <div class="column left crfparms">
-            &nbsp;
-          </div>
-          <div class="column right crfparms">
-            <h3>Parameters for the CRF</h3>
-          </div>
-          <div class="column left crfparms">
-            ODM-XML display type
-          </div>
-          <div class="column right crfparms">
-            <input type="radio" id="spec" name="parmdisplay" class="radio crfparms" value="spec" checked="checked"/>
-            <label for="spec">SDTM annotated CRF specification</label>
-            <ul class="indent">
-              <li>
-                <input type="checkbox" name="parmcdash"  id="parmcdash" class="crfparms"/>
-                <label for="parmcdash">Display CDASH annotations</label>
-              </li>
-            </ul>
-            <input type="radio" id="acrf" name="parmdisplay" class="radio crfparms" value="acrf"/>
-            <label for="acrf">SDTM annotated CRF (acrf)</label>
-            <br>
-            <input type="radio" id="bcrf" name="parmdisplay" class="radio crfparms" value="bcrf"/>
-            <label for="bcrf">Blank CRF (bcrf)</label>
-            <br>
-            <input type="radio" id="book" name="parmdisplay" class="radio crfparms" value="book"/>
-            <label for="book">CRF book (forms per visit)</label>
-          </div>
-          <div class="column left crfparms">
-            Company Name
-          </div>
-          <div class="column right crfparms">
-            <input type="text" name="parmname" id="parmname" placeholder="Your Company" class="crfparms" size="30"/>
-          </div>
-          <div class="column left crfparms">
-            Company Logo (image file)
-          </div>
-          <div class="column right crfparms">
-            <input type="file" name="parmlogo" id="parmlogo" accept="image/png, .png, image/gif, .gif, image/jpg .jpg, image/jpeg, .jpeg" class="crfparms"/>
-          </div>
-          <div class="column left crfparms" hidden>
-            Language for TranslatedText
-          </div>
-          <div class="column right crfparms" hidden>
-            <input type="text" name="parmlang" id="parmlang" size="5" class="crfparms"/> (I.e. blank, FR, fr-CA)
-          </div>
-        </fieldset>
+        <div class="column left crfparms">
+          &nbsp;
+        </div>
+        <div class="column center crfparms">
+          <h3>Parameters for the CRF</h3>
+        </div>
+        <div class="column left crfparms">
+          ODM-XML display type
+        </div>
+        <div class="column center crfparms">
+          <input type="radio" id="spec" name="parmdisplay" class="radio crfparms" value="spec" checked="checked" onClick="toggleCheck();"/>
+          <label for="spec">SDTM annotated CRF specification</label>
+        </div>
+        <div class="column right crfparms">
+          <input type="checkbox" name="cdash" id="cdash" class="crfparms"/>
+          <label for="cdash">Display CDASH annotations</label>
+        </div>
+        <div class="column left crfparms">
+          &nbsp;
+        </div>
+        <div class="column center crfparms">
+          <input type="radio" id="acrf" name="parmdisplay" class="radio crfparms" value="acrf" onClick="toggleCheck();"/>
+          <label for="acrf">SDTM annotated CRF (acrf)</label>
+        </div>
+        <div class="column left crfparms">
+          &nbsp;
+        </div>
+        <div class="column center crfparms">
+          <input type="radio" id="bcrf" name="parmdisplay" class="radio crfparms" value="bcrf" onClick="toggleCheck();"/>
+          <label for="bcrf">Blank CRF (bcrf)</label>
+        </div>
+        <div class="column left crfparms">
+          &nbsp;
+        </div>
+        <div class="column center crfparms">
+          <input type="radio" id="book" name="parmdisplay" class="radio crfparms" value="book" onClick="toggleCheck();"/>
+          <label for="book">CRF book (forms per visit)</label>
+        </div>
+        <div class="column left crfparms">
+          Company Name
+        </div>
+        <div class="column center crfparms">
+          <input type="text" name="parmname" id="parmname" value="LEO Pharma A/S" class="crfparms" size="30"/>
+        </div>
+        <div class="column left crfparms">
+          Company Logo (image file)
+        </div>
+        <div class="column center crfparms">
+          <input type="file" name="parmlogo" name="parmlogo" id="parmlogo" accept="image/png, .png, image/gif, .gif, image/jpg .jpg, image/jpeg, .jpeg" class="crfparms"/>
+        </div>
+        <div class="column left crfparms" hidden>
+          Language for TranslatedText
+        </div>
+        <div class="column center crfparms" hidden>
+          <input type="text" name="lang" id="lang" size="5" class="crfparms" disabled="true"/> (I.e. blank, FR, fr-CA)
+        </div>
 
-        <fieldset>
-          <div class="column left defineparms">
-            &nbsp;
-          </div>
-          <div class="column right defineparms">
-            <h3>Parameters for Define-xml v 2.1</h3>
-          </div>
-          <div class="column left defineparms">
-            Number of CodeListItems to display
-          </div>
-          <div class="column right defineparms">
-            <input type="number" name="nCodeListItemDisplay" id="nCodeListItemDisplay" min="0" max="999" step="1" value="5" disabled="true" class="defineparms"/>
-            <label for="nCodeListItemDisplay">0 = No CodeListItems, 999 = All CodeListItems.</label>
-          </div>
-          <div class="column left defineparms">
-            Display Methods table
-          </div>
-          <div class="column right defineparms">
-            <input type="checkbox" name="displayMethodsTable" id="displayMethodsTable" checked disabled="true" class="defineparms"/>
-          </div>
-          <div class="column left defineparms">
-            Display Comments table
-          </div>
-          <div class="column right defineparms">
-            <input type="checkbox" name="displayCommentsTable" id="displayCommentsTable" disabled="true" class="defineparms"/>
-          </div>
-          <div class="column left defineparms">
-            Display Prefixes ([Comment], [Method], [Origin])
-          </div>
-          <div class="column right defineparms">
-            <input type="checkbox" name="displayPrefix" id="displayPrefix" disabled="true" class="defineparms"/>
-          </div>
-          <div class="column left defineparms">
-            Display Length, DisplayFormat and Significant Digits
-          </div>
-          <div class="column right defineparms">
-            <input type="checkbox" name="displayLengthDFormatSD" id="displayLengthDFormatSD" disabled="true" class="defineparms"/>
-          </div>
-        </fieldset>
+        <div class="column left defineparms">
+          &nbsp;
+        </div>
+        <div class="column center defineparms">
+          <h3>Parameters for Define-xml v 2</h3>
+        </div>
+        <div class="column left defineparms">
+          Number of CodeListItems to display
+        </div>
+        <div class="column center defineparms">
+          <input type="number" name="ncli" id="ncli" min="0" max="999" step="1" value="5" disabled="true" class="defineparms"/>
+          <label for="ncli">0 = No CodeListItems, 999 = All CodeListItems.</label>
+        </div>
+        <div class="column left defineparms">
+          Display Methods table
+        </div>
+        <div class="column center defineparms">
+          <input type="checkbox" name="methods" id="methods" checked disabled="true" class="defineparms"/>
+        </div>
+        <div class="column left defineparms">
+          Display Comments table
+        </div>
+        <div class="column center defineparms">
+          <input type="checkbox" name="comments" id="comments" disabled="true" class="defineparms"/>
+        </div>
+        <div class="column left defineparms">
+          Display Prefixes ([Comment], [Method], [Origin])
+        </div>
+        <div class="column center defineparms">
+          <input type="checkbox" name="prefix" id="prefix" disabled="true" class="defineparms"/>
+        </div>
+        <div class="column left defineparms">
+          Display Length, DisplayFormat and Significant Digits
+        </div>
+        <div class="column center defineparms">
+          <input type="checkbox" name="lenform" id="lenform" disabled="true" class="defineparms"/>
+        </div>
 
         <div class="column left">
           &nbsp;
         </div>
-        <div class="column right">
+        <div class="column center">
           <h3>Display</h3>
         </div>
         <div class="column left">
           &nbsp;
         </div>
-        <div class="column right">
-          <input type="submit" name="submit" value="Display XML file with XSL Style Sheet"/>
+        <div class="column center">
+          <input type="submit" onclick="displayxml();" value="Display XML file with XSL Style Sheet"/>
         </div>
       </div>
 

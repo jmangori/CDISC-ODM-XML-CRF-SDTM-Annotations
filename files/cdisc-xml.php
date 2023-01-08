@@ -26,28 +26,24 @@
   header('Expires: 0');
 
   // Upload the XML source from disk
-  if (isset($_FILES['parmxml']) && ($_FILES['parmxml']['error'] == UPLOAD_ERR_OK))
-    $xml = simplexml_load_file($_FILES['parmxml']['tmp_name']);
-
+  if (isset($_FILES["parmxml"]) && ($_FILES["parmxml"]["error"] == UPLOAD_ERR_OK))
+    $xml = simplexml_load_file($_FILES["parmxml"]["tmp_name"]);
   // Upload the translating style sheet from server
-  if (isset($_FILES['parmxsl']) && ($_FILES['parmxsl']['error'] == UPLOAD_ERR_OK))
-    $xsl = simplexml_load_file($_FILES['parmxsl']['tmp_name']);
-
-//  $xsl = new DOMDocument;
-//  $xsl->load($_POST["parmxsl"]);
+  if (isset($_FILES["parmxsl"]) && ($_FILES["parmxsl"]["error"] == UPLOAD_ERR_OK))
+    $xsl = simplexml_load_file($_FILES["parmxsl"]["tmp_name"]);
 
   // Upload logo image file from disk
-  if (isset($_FILES['parmlogo']) && ($_FILES['parmlogo']['error'] == UPLOAD_ERR_OK))
-    $logo = base64_encode(file_get_contents($_FILES['parmlogo']['tmp_name']));
+  if (isset($_FILES['parmlogo']) && ($_FILES["parmlogo"]["error"] == UPLOAD_ERR_OK))
+    $logo = base64_encode(file_get_contents($_FILES["parmlogo"]["name"]));
 
   // Configure the transformer
-  $proc = new XSLTProcessor;
+  $proc = new XSLTProcessor();
   $proc->importStyleSheet($xsl); // attach the xsl rules
 
   // XSLT parameters
   $proc->setParameter('', "parmdisplay",            $_POST["parmdisplay"]);
   $proc->setParameter('', "parmname",               $_POST["parmname"]);
-  $proc->setParameter('', "parmlogo",               $logo);
+  $proc->setParameter('', "parmlogo",               "$logo");
   $proc->setParameter('', "parmstudy",              $_POST["parmstudy"]);
   $proc->setParameter('', "parmversion",            $_POST["parmversion"]);
   $proc->setParameter('', "parmstatus",             $_POST["parmstatus"]);
