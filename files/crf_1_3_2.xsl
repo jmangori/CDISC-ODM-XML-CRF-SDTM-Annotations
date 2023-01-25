@@ -88,9 +88,9 @@
           a:visited     { color: black; background-color: transparent; text-decoration: none; }
           a:hover       { color: blue;  background-color: transparent; text-decoration: underline; }
           .nohover      { pointer-events: none; }
-          @media print  { .noprint { display: none; } thead {display: table-header-group; } }
+          @media print  { .noprint { display: none; } thead { display: table-header-group; } .rotate { padding: 0px 0px 0px 0px; margin: 0px; } }
           .noprint      { position: fixed; bottom: 0.5em; right: 0.5em; z-index: 99; }
-          .rotate span  { writing-mode: vertical-rl; transform: rotate(180deg); }
+          .rotate span  { writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; }
           .noborder     { border: none; }
           .center       { margin-left: auto; margin-right: auto; }
           .matrix       { text-align: center; }
@@ -363,7 +363,7 @@
             <xsl:sort select="@OrderNumber" data-type="number"/>
             <xsl:variable name="visithead" select="@StudyEventOID"/>
             <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:StudyEventDef[@OID=$visithead]">
-              <th class="crfhead rotate">
+              <th class="crfhead rotate plain">
                 <xsl:choose>
                   <xsl:when test="$parmdisplay = 'book'">
                 <span>
