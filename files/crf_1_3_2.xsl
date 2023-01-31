@@ -52,6 +52,7 @@
   <xsl:param name="parmlogo"/>                  <!-- Company logo file name -->
   <xsl:param name="parmlang"/>                  <!-- Language of TranslatedText (future) -->
   <xsl:param name="parmcdash" select="1"/>      <!-- Display CDASH annotation from Alias (if present) (0/1) -->
+  <xsl:param name="parmoids"  select="0"/>      <!-- Display identifiers (OIDs)          (if present) (0/1) -->
 
   <!-- Keys to sort forms in the order of visit schedule, if present -->
   <xsl:key name="by_StudyEventRef" match="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:Protocol/odm:StudyEventRef" use="@StudyEventOID"/>
@@ -122,6 +123,9 @@
               .desw     { width: 100%; }
             </xsl:otherwise>
           </xsl:choose>
+          <xsl:if test="$parmdisplay != 'spec' and normalize-space($parmdisplay) != ''">
+              #internal { visibility: hidden; display: none; }
+          </xsl:if>
         </style>
       </head>
       <body>
@@ -192,6 +196,9 @@
           <xsl:variable name="gnum"  select="@OrderNumber"/>
           <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemGroupDef[@OID=$group]">
             <xsl:variable name="domain" select="@Domain"/>
+            <xsl:if test="$parmoids = '1'">
+              <xsl:call-template name="section"/>
+            </xsl:if>
             <xsl:for-each select="odm:ItemRef">
               <xsl:sort select="@OrderNumber" data-type="number"/>
               <xsl:variable name="item" select="@ItemOID"/>
@@ -238,7 +245,38 @@
   <xsl:template name="buttons">
     <table class="noprint">
       <tr>
-        <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and $parmcdash = '1' and .//odm:Alias[@Context='CDASH']">
+        <xsl:if test="$parmoids = '1'">
+          <td class="noborder">
+            <button onClick="for(var element of document.querySelectorAll('[id=oids]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';">
+              Identifiers Off and On
+            </button>
+          </td>
+        </xsl:if>
+        <xsl:if test="$parmdisplay = 'spec' or normalize-space($parmdisplay) = ''">
+          <td class="noborder">
+            <button onClick="for(var element of document.querySelectorAll('[id=anno]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';for(var element of document.querySelectorAll('[id=anno]')) element.style.borderRight = (element.style.borderRight == '0px') ? '1px solid Darkgrey' : '0px';for(var element of document.querySelectorAll('[id=anno]')) element.style.borderBottom = (element.style.borderBottom == '0px') ? '1px solid Darkgrey' : '0px';for(var element of document.querySelectorAll('[id=anno]')) element.style.borderTop = (element.style.borderTop == '0px') ? '1px solid Darkgrey' : '0px';">
+              SDTM annotations Off and On
+            </button>
+          </td>
+          <td class="noborder">
+            <button onClick="for(var element of document.querySelectorAll('[id=internal]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';">
+              Internal notes Off and On
+            </button>
+          </td>
+          <td class="noborder">
+            <button onClick="for(var element of document.querySelectorAll('[id=implement]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';">
+              Implementation notes Off and On
+            </button>
+          </td>
+        </xsl:if>
+        <xsl:if test=".//odm:Alias[@Context='completionInstructions']/@Name">
+          <td class="noborder">
+            <button onClick="for(var element of document.querySelectorAll('[id=complete]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';">
+              Completion instructions Off and On
+            </button>
+          </td>
+        </xsl:if>
+        <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) != '') and $parmcdash = '1' and .//odm:Alias[@Context='CDASH']">
           <td class="noborder">
             <button onClick="for(var element of document.querySelectorAll('[id=cdash]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';">
               CDASH annotations Off and On
@@ -293,7 +331,7 @@
       <p><xsl:value-of select="odm:StudyDescription"/></p>
     </xsl:if>
     <xsl:if test="normalize-space(odm:StudyName) != normalize-space(odm:ProtocolName) and normalize-space(odm:ProtocolName) != 'Not applicable' and normalize-space(odm:ProtocolName) != ''">
-      <h2>Protocol Name: <xsl:value-of select="/odm:ProtocolName"/></h2>
+      <h2>Protocol Name: <xsl:value-of select="odm:ProtocolName"/></h2>
     </xsl:if>
   </xsl:template>
 
@@ -486,7 +524,12 @@
             <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and
                              normalize-space(odm:Alias[@Context='implementationNotes']/@Name) != ''">
                                <!-- Implementation Notes -->
-              #
+              <text id="implement"> #</text>
+            </xsl:if>
+            <xsl:if test="$parmoids = '1'">
+              <span id="oids" class="note">
+                <br/>FormDef OID = <xsl:value-of select="@OID"/>
+              </span>
             </xsl:if>
           </div>
         </th>
@@ -494,8 +537,8 @@
       <xsl:if test="normalize-space(
         odm:Alias[@Context='completionInstructions']/@Name)
           != ''"> <!-- Completion Instructions. Candidate for deletion -->
-        <tr>
-          <th colspan="4" class="noborder">
+        <tr id="complete">
+          <th colspan="4" class="noborder left note">
             <xsl:apply-templates select=
               "odm:Alias[@Context='completionInstructions']/@Name"/>
                 <!-- Completion Instructions. Candidate for deletion -->
@@ -503,7 +546,7 @@
         </tr>
       </xsl:if>
       <xsl:if test="odm:Description">
-        <tr>
+        <tr id="internal">
           <th colspan="4" class="noborder">
             <xsl:apply-templates select="odm:Description"/>
           </th>
@@ -541,7 +584,7 @@
 -->
   <!-- Add Note from Description/TranslatedText to Forms -->
   <xsl:template match="odm:Description">
-    <div class="left note">
+    <div id="internal" class="left note">
       <xsl:value-of select="odm:TranslatedText"/>
     </div>
   </xsl:template>
@@ -558,6 +601,18 @@
     </a>
   </xsl:template>
 
+  <!-- Show a section -->
+  <xsl:template name="section">
+    <tr id="oids">
+      <td class="seqw"/>
+      <td class="quew note">
+        ItemGroupDef OID = <xsl:value-of select="@OID"/>
+      </td>
+      <td class="answ"/>
+      <td class="annw anno" id="anno"/>
+    </tr>
+  </xsl:template>
+
   <!-- Show the sequence number as a reference to each question -->
   <xsl:template name="sequence_number">
     <xsl:param name="major"/>
@@ -565,12 +620,17 @@
     <xsl:param name="has_note"/>
     <xsl:value-of select="$major"/>.<xsl:value-of select="$minor"/>
     <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and $has_note">
-      #
+      <text id="implement"> #</text>
     </xsl:if>
   </xsl:template>
 
   <!-- Show one question on the form, including guidance text and completion note -->
   <xsl:template name="question">
+    <xsl:if test="$parmoids = '1'">
+      <div id="oids" class="note">
+        ItemDef OID = <xsl:value-of select="@OID"/>
+      </div>
+    </xsl:if>
     <xsl:choose>
       <xsl:when test="odm:Question/odm:TranslatedText">
         <xsl:value-of select="odm:Question/odm:TranslatedText"/>
@@ -589,7 +649,7 @@
       </p> <!-- Prompt text for data entry -->
     </xsl:if>
     <xsl:if test="odm:Alias[@Context='completionInstructions']/@Name">
-      <p class="note left"><xsl:value-of select="odm:Alias[@Context='completionInstructions']/@Name"/></p> <!-- Completion Instructions -->
+      <p class="note left" id="complete"><xsl:value-of select="odm:Alias[@Context='completionInstructions']/@Name"/></p> <!-- Completion Instructions -->
     </xsl:if>
 <!--
     Description at question level contains a repeat of the CDASH Alias in all the CDISC ePortal forms
@@ -599,6 +659,11 @@
 
   <!-- Collect the data as answer to the question -->
   <xsl:template name="answer">
+    <xsl:if test="$parmoids = '1' and odm:CodeListRef/@CodeListOID">
+      <div id="oids" class="note">
+        CodeList OID = <xsl:value-of select="odm:CodeListRef/@CodeListOID"/>
+      </div>
+    </xsl:if>
     <xsl:choose>
       <!-- Questions having the text 'all that apply' associated anywhere are data type Checkbox -->
       <xsl:when test="contains(@Name,                                              'all that apply') or
@@ -617,8 +682,16 @@
         <!-- CodeListItem and EnumeratedItem are mutually exclusive, thus processing them in sequence displays only the one having data -->
         <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:CodeList/odm:CodeListItem[../@OID=$radio]">
           <xsl:sort select="@OrderNumber" data-type="number"/>
-          <input type="radio" name="$radio"/>
-            <label for="$radio">
+          <xsl:variable name="radioname" select="translate(../@OID, ' ', '_')"/>
+          <input type="radio">
+            <xsl:attribute name="name">
+              <xsl:value-of select="$radioname"/>
+            </xsl:attribute>
+          </input>
+          <label>
+            <xsl:attribute name="for">
+              <xsl:value-of select="$radioname"/>
+            </xsl:attribute>
               <xsl:value-of select="odm:Decode/odm:TranslatedText"/>
               <xsl:if test="normalize-space(odm:Decode/odm:TranslatedText) = ''">
                 <xsl:value-of select="@CodedValue"/>
@@ -627,9 +700,21 @@
             </label>
             <br/>
         </xsl:for-each>
+        <!-- Enumerated codelists are simple radio buttons -->
         <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:CodeList/odm:EnumeratedItem[../@OID=$radio]">
-          <xsl:sort select="@OrderNumber" data-type="number"/>
-          <input type="radio" name="$radio"/><label for="$radio"><xsl:value-of select="@CodedValue"/></label><br/>
+          <xsl:sort select="@Rank" data-type="number"/>
+          <xsl:variable name="enumname" select="translate(../@OID, ' ', '_')"/>
+          <input type="radio">
+            <xsl:attribute name="name">
+              <xsl:value-of select="$enumname"/>
+            </xsl:attribute>
+          </input>
+          <label>
+            <xsl:attribute name="for">
+              <xsl:value-of select="$enumname"/>
+            </xsl:attribute>
+            <span class="note"><xsl:value-of select="@CodedValue"/></span>
+          </label><br/>
         </xsl:for-each>
       </xsl:when>
       <!-- Data type integer -->
@@ -644,14 +729,14 @@
       <xsl:when test="@DataType = 'date'">
         <input type="text" placeholder="DD-MMM-YYYY"/><span class="note"> Date</span>
         <p class="note left">
-          Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM.
+          Always collect dates as DD-MMM-YYYY and store dates as ISO8601 in SDTM
         </p>
       </xsl:when>
       <!-- Data type time -->
       <xsl:when test="@DataType = 'time'">
         <input type="text" placeholder="HH:MM"/><span class="note"> Time</span>
         <p class="note left">
-          Always collect times as HH:MM and store times as ISO8601 in SDTM.
+          Always collect times as HH:MM and store times as ISO8601 in SDTM
         </p>
       </xsl:when>
       <!-- Data type text -->
@@ -660,8 +745,16 @@
       </xsl:when>
       <!-- Data type boolean -->
       <xsl:when test="@DataType = 'boolean'">
-        <input type="checkbox" name="$check"/>
-        <label for="$check">
+        <xsl:variable name="boolname" select="translate(@OID, ' ', '_')"/>
+        <input type="checkbox">
+          <xsl:attribute name="name">
+            <xsl:value-of select="$boolname"/>
+          </xsl:attribute>
+        </input>
+        <label>
+          <xsl:attribute name="for">
+            <xsl:value-of select="$boolname"/>
+          </xsl:attribute>
           <xsl:value-of select="odm:Question/odm:TranslatedText"/>
           <span class="note"> (<xsl:value-of select="translate(odm:Question/odm:TranslatedText, $lowercase, $uppercase)"/>) Boolean</span>
         </label><br/>
@@ -675,6 +768,26 @@
         </input>
       </xsl:otherwise>
     </xsl:choose>
+    <xsl:if test="odm:MeasurementUnitRef">
+      <xsl:variable name="unitoid" select="odm:MeasurementUnitRef/@MeasurementUnitOID"/>
+      <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:BasicDefinitions/odm:MeasurementUnit[@OID=$unitoid]">
+        <xsl:variable name="unitname" select="translate(@OID, ' ', '_')"/>
+        <br/>
+        <input type="radio">
+          <xsl:attribute name="name">
+            <xsl:value-of select="$unitname"/>
+          </xsl:attribute>
+        </input>
+        <label>
+          <xsl:attribute name="for">
+            <xsl:value-of select="$unitname"/>
+          </xsl:attribute>
+          <span class="note">Unit
+            (<xsl:value-of select="odm:Symbol/odm:TranslatedText"/>)
+          </span>
+        </label>
+      </xsl:for-each>
+    </xsl:if>
     <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and $parmcdash = '1' and odm:Alias[@Context='CDASH']">
       <table class="cdash left" id="cdash">
         <tr>
@@ -863,74 +976,74 @@
     </xsl:if>
   </xsl:template>
 
-  <!-- Show design notes for each question identified by the question reference number -->
+  <!-- Show implementation notes for each question identified by the question reference number -->
   <xsl:template name="question_notes">
-    <!-- Collect an indicator for each question design note for this form -->
+    <!-- Collect an indicator for each question implementation note for this form -->
     <xsl:if test="$parmdisplay = 'spec' or normalize-space($parmdisplay) = ''">
-    <xsl:variable name="qnotes">
-      <xsl:for-each select="odm:ItemGroupRef">
-        <xsl:variable name="groupkey1" select="@ItemGroupOID"/>
-        <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemGroupDef[@OID=$groupkey1]">
-          <xsl:for-each select="odm:ItemRef">
-            <xsl:variable name="itemkey1" select="@ItemOID"/>
-            <xsl:if test="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemDef[@OID=$itemkey1]/odm:Alias[@Context='implementationNotes']/@Name"> <!-- Implementation Notes -->
-              Design note
-            </xsl:if>
+      <xsl:variable name="qnotes">
+        <xsl:for-each select="odm:ItemGroupRef">
+          <xsl:variable name="groupkey1" select="@ItemGroupOID"/>
+          <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemGroupDef[@OID=$groupkey1]">
+            <xsl:for-each select="odm:ItemRef">
+              <xsl:variable name="itemkey1" select="@ItemOID"/>
+              <xsl:if test="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemDef[@OID=$itemkey1]/odm:Alias[@Context='implementationNotes']/@Name"> <!-- Implementation Notes -->
+                Implementation note
+              </xsl:if>
+            </xsl:for-each>
           </xsl:for-each>
         </xsl:for-each>
-      </xsl:for-each>
-    </xsl:variable>
+      </xsl:variable>
 
-    <!-- Question Design Note(s), if any -->
-    <xsl:if test="normalize-space($qnotes) != ''">
-      <p/>
-      <table class="desw">
-        <thead>
-          <tr><th class="left" colspan="2">Question design note(s)</th></tr>
-        </thead>
-        <tbody>
-          <tr><td class="seqw">Question</td><td>Note</td></tr>
-          <xsl:for-each select="odm:ItemGroupRef">
-            <xsl:sort select="@OrderNumber" data-type="number"/>
-            <xsl:variable name="groupnote" select="@ItemGroupOID"/>
-            <xsl:variable name="gnumnote"  select="@OrderNumber"/>
-            <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemGroupDef[@OID=$groupnote]">
-              <xsl:for-each select="odm:ItemRef">
-                <xsl:sort select="@OrderNumber" data-type="number"/>
-                <xsl:variable name="itemnote" select="@ItemOID"/>
-                <xsl:variable name="inumnote" select="@OrderNumber"/>
-                <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemDef[@OID=$itemnote]">
-                  <xsl:variable name="questionnote" select="odm:Alias[@Context='implementationNotes']/@Name"/> <!-- Implementation Notes -->
-                  <xsl:if test="normalize-space($questionnote) != ''">
-                    <tr>
-                      <td class="seqw">
-                        <xsl:call-template name="sequence_number">
-                          <xsl:with-param name="major"    select="$gnumnote"/>
-                          <xsl:with-param name="minor"    select="$inumnote"/>
-                          <xsl:with-param name="has_note" select="false"/>
-                        </xsl:call-template>
-                      </td>
-                      <td class="note"><xsl:value-of select="$questionnote"/></td>
-                    </tr>
-                  </xsl:if>
+      <!-- Question implementation note(s), if any -->
+      <xsl:if test="normalize-space($qnotes) != ''">
+        <p/>
+        <table class="desw" id="implement">
+          <thead>
+            <tr><th class="left" colspan="2">Question implementation note(s)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="seqw">Question</td><td>Note</td></tr>
+            <xsl:for-each select="odm:ItemGroupRef">
+              <xsl:sort select="@OrderNumber" data-type="number"/>
+              <xsl:variable name="groupnote" select="@ItemGroupOID"/>
+              <xsl:variable name="gnumnote"  select="@OrderNumber"/>
+              <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemGroupDef[@OID=$groupnote]">
+                <xsl:for-each select="odm:ItemRef">
+                  <xsl:sort select="@OrderNumber" data-type="number"/>
+                  <xsl:variable name="itemnote" select="@ItemOID"/>
+                  <xsl:variable name="inumnote" select="@OrderNumber"/>
+                  <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:ItemDef[@OID=$itemnote]">
+                    <xsl:variable name="questionnote" select="odm:Alias[@Context='implementationNotes']/@Name"/> <!-- Implementation Notes -->
+                    <xsl:if test="normalize-space($questionnote) != ''">
+                      <tr>
+                        <td class="seqw">
+                          <xsl:call-template name="sequence_number">
+                            <xsl:with-param name="major"    select="$gnumnote"/>
+                            <xsl:with-param name="minor"    select="$inumnote"/>
+                            <xsl:with-param name="has_note" select="false"/>
+                          </xsl:call-template>
+                        </td>
+                        <td class="note"><xsl:value-of select="$questionnote"/></td>
+                      </tr>
+                    </xsl:if>
+                  </xsl:for-each>
                 </xsl:for-each>
               </xsl:for-each>
             </xsl:for-each>
-          </xsl:for-each>
-        </tbody>
-      </table>
-    </xsl:if>
+          </tbody>
+        </table>
+      </xsl:if>
     </xsl:if>
   </xsl:template>
 
-  <!-- Form Design Note, if any. Candidate for deletion -->
+  <!-- Form implementation note, if any. Candidate for deletion -->
   <xsl:template name="form_notes">
     <xsl:if test="($parmdisplay = 'spec' or normalize-space($parmdisplay) = '') and
                     normalize-space(odm:Alias[@Context='implementationNotes']/@Name) != ''"> <!-- Implementation Notes -->
       <p/>
-      <table class="desw">
+      <table class="desw" id="implement">
         <thead>
-          <tr><th class="left">Form design note</th></tr>
+          <tr><th class="left">Form implementation note</th></tr>
         </thead>
         <tbody>
           <tr><td class="note"><xsl:value-of select="odm:Alias[@Context='implementationNotes']/@Name"/></td></tr> <!-- Implementation Notes -->
