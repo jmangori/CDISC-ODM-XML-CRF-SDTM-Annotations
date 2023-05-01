@@ -723,7 +723,7 @@
       </xsl:when>
       <!-- Data type float -->
       <xsl:when test="@DataType = 'float'">
-        <input type="number"/><span class="note"> Floating point</span>
+        <input type="number"/><span class="note"> Floating point (<xsl:value-of select="@Length"/>.<xsl:value-of select="@SignificantDigits"/>)</span>
       </xsl:when>
       <!-- Data type date -->
       <xsl:when test="@DataType = 'date'">
