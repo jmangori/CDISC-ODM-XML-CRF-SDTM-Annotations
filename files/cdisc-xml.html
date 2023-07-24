@@ -25,9 +25,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>CDISC XML</title>
     <meta http-equiv="X-UA-Compatible" content="IE=9">
-    <meta http-equiv="cache-control" content="no-cache">
-    <meta http-equiv="pragma" content="no-cache">
-    <meta http-equiv="expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <meta name="Author" content="Jørgen Mangor Iversen">
     <style>
       *            { font-family: Helvetica, Arial, sans-serif !important; line-height: 1.3em; margin-bottom: 0.2em; }
@@ -45,9 +45,6 @@
       .indent      { list-style-type: none; padding-left: 1.4em; }
     </style>
     <script>
-      var xslfile = document.getElementById("parmxsl");
-      xslfile.addEventListener('input', toggleXls);
-
       function valform() {
         if (document.getElementById("parmxml").value == '') {
           alert("You must specify an XML file name");
@@ -131,7 +128,7 @@
       }
     </script>
   </head>
-  <body class="narrow" onLoad="toggleXls();">
+  <body class="narrow" onLoad="document.getElementById('parmxsl').addEventListener('input', toggleXls);">
     <form name="parms" action="cdisc-xml.php" onSubmit="return valform()" method="post" enctype="multipart/form-data">
       <input type="hidden" name="parmstudy"              id="parmstudy"/>
       <input type="hidden" name="parmstatus"             id="parmstatus"n/>
@@ -147,9 +144,9 @@
       <h2>Usage</h2>
       Chose a valid XML document and display it in the brower using the appropriate style sheet.
       Style sheet must exist in the same folder as the XML file.
-      <div/>
+      <br/>
       Please allow up to 20 seconds for a large XML file to render.
-      <div/>
+      <br/>
       <div class="crfparms">
         Add an optional company name and an optional image file of the company logo to be part of the generated CRF pages.
       </div>
@@ -177,7 +174,7 @@
           XSL Style Sheet
         </div>
         <div class="column center">
-          <input type="file" name="parmxsl" id="parmxsl" accept="text/xsl, .xsl, text/xslt, .xslt" onInput="toggleXls();"/>
+          <input type="file" name="parmxsl" id="parmxsl"/>
         </div>
 
         <div class="column left crfparms">
@@ -217,6 +214,16 @@
         <div class="column center crfparms">
           <input type="radio" id="book" name="parmdisplay" class="radio crfparms" value="book" onClick="toggleCheck();"/>
           <label for="book">CRF book (forms per visit)</label>
+        </div>
+        <div class="column left crfparms">
+          &nbsp;
+        </div>
+        <div class="column center crfparms">
+          <input type="checkbox" id="parmoids" class="crfparms"/>
+          <label for="parmoids">Display identifiers (OIDs)</label>
+        </div>
+        <div class="column right crfparms">
+          &nbsp;
         </div>
         <div class="column left crfparms">
           Company Name
