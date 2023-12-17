@@ -75,6 +75,7 @@
           document.getElementById("parmstatus"            ).value = status;
           document.getElementById("parmversion"           ).value = version;
           document.getElementById("parmcdash"             ).value = document.getElementById("cdash").checked ? "1" : "0";
+          document.getElementById("parmoids"              ).value = document.getElementById("oids").checked  ? "1" : "0";
           document.getElementById("parmlang"              ).value = document.getElementById("lang").value;
           document.getElementById("nCodeListItemDisplay"  ).value = document.getElementById("ncli").value;
           document.getElementById("displayMethodsTable"   ).value = document.getElementById("methods").value;
@@ -134,6 +135,7 @@
       <input type="hidden" name="parmstatus"             id="parmstatus"n/>
       <input type="hidden" name="parmversion"            id="parmversion"/>
       <input type="hidden" name="parmcdash"              id="parmcdash"/>
+      <input type="hidden" name="parmoids"               id="parmoids"/>
       <input type="hidden" name="parmlang"               id="parmlang"/>
       <input type="hidden" name="nCodeListItemDisplay"   id="nCodeListItemDisplay"/>
       <input type="hidden" name="displayMethodsTable"    id="displayMethodsTable"/>
@@ -219,8 +221,8 @@
           &nbsp;
         </div>
         <div class="column center crfparms">
-          <input type="checkbox" id="parmoids" class="crfparms"/>
-          <label for="parmoids">Display identifiers (OIDs)</label>
+          <input type="checkbox" id="oids" name="oids" class="crfparms"/>
+          <label for="oids">Display identifiers (OIDs)</label>
         </div>
         <div class="column right crfparms">
           &nbsp;
@@ -229,7 +231,7 @@
           Company Name
         </div>
         <div class="column center crfparms">
-          <input type="text" name="parmname" id="parmname" value="LEO Pharma A/S" class="crfparms" size="30"/>
+          <input type="text" name="parmname" id="parmname" class="crfparms" size="30"/>
         </div>
         <div class="column left crfparms">
           Company Logo (image file)

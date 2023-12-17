@@ -33,8 +33,8 @@
     $xsl = simplexml_load_file($_FILES["parmxsl"]["tmp_name"]);
 
   // Upload logo image file from disk
-  if (isset($_FILES['parmlogo']) && ($_FILES["parmlogo"]["error"] == UPLOAD_ERR_OK))
-    $logo = base64_encode(file_get_contents($_FILES["parmlogo"]["name"]));
+  if (isset($_FILES["parmlogo"]) && ($_FILES["parmlogo"]["error"] == UPLOAD_ERR_OK))
+    $logo = base64_encode(file_get_contents($_FILES["parmlogo"]["tmp_name"]));
 
   // Configure the transformer
   $proc = new XSLTProcessor();
@@ -49,6 +49,7 @@
   $proc->setParameter('', "parmstatus",             $_POST["parmstatus"]);
   $proc->setParameter('', "parmlang",               $_POST["parmlang"]);
   $proc->setParameter('', "parmcdash",              $_POST["parmcdash"]);
+  $proc->setParameter('', "parmoids",               $_POST["parmoids"]);
   $proc->setParameter('', "nCodeListItemDisplay",   $_POST["nCodeListItemDisplay"]);
   $proc->setParameter('', "displayMethodsTable",    $_POST["displayMethodsTable"]);
   $proc->setParameter('', "displayCommentsTable",   $_POST["displayCommentsTable"]);
