@@ -254,7 +254,10 @@
         </xsl:if>
         <xsl:if test="$parmdisplay = 'spec' or normalize-space($parmdisplay) = ''">
           <td class="noborder">
-            <button onClick="for(var element of document.querySelectorAll('[id=anno]')) element.style.visibility = (element.style.visibility == 'collapse') ? 'visible' : 'collapse';for(var element of document.querySelectorAll('[id=anno]')) element.style.borderRight = (element.style.borderRight == '0px') ? '1px solid Darkgrey' : '0px';for(var element of document.querySelectorAll('[id=anno]')) element.style.borderBottom = (element.style.borderBottom == '0px') ? '1px solid Darkgrey' : '0px';for(var element of document.querySelectorAll('[id=anno]')) element.style.borderTop = (element.style.borderTop == '0px') ? '1px solid Darkgrey' : '0px';">
+            <button onClick="for(var element of document.querySelectorAll('[id=anno]')) element.style.visibility   = (element.style.visibility   == 'collapse') ? 'visible' : 'collapse';
+                             for(var element of document.querySelectorAll('[id=anno]')) element.style.borderRight  = (element.style.borderRight  == '0px') ? '1px solid Darkgrey' : '0px';
+                             for(var element of document.querySelectorAll('[id=anno]')) element.style.borderBottom = (element.style.borderBottom == '0px') ? '1px solid Darkgrey' : '0px';
+                             for(var element of document.querySelectorAll('[id=anno]')) element.style.borderTop    = (element.style.borderTop    == '0px') ? '1px solid Darkgrey' : '0px';">
               SDTM annotations Off and On
             </button>
           </td>
@@ -295,7 +298,7 @@
   <!-- Identifier for title and name -->
   <xsl:template name="identifier">
     <xsl:choose>
-      <xsl:when test="normalize-space(/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyName) = 'Not applicable' and normalize-space($parmstudy) != ' '">
+      <xsl:when test="normalize-space(/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyName) = 'Not applicable' and normalize-space($parmstudy) != ''">
         <xsl:value-of select="$parmstudy"/>
       </xsl:when>
       <xsl:when test="normalize-space(/odm:ODM/odm:Study[1]/odm:GlobalVariables/odm:StudyName) = 'Not applicable'">
@@ -404,12 +407,12 @@
               <th class="crfhead rotate plain">
                 <xsl:choose>
                   <xsl:when test="$parmdisplay = 'book'">
-                <span>
-                  <a>
-                    <xsl:attribute name="href">#<xsl:value-of select="$visithead"/></xsl:attribute>
-                    <xsl:value-of select="@Name"/>
-                  </a>
-                </span>
+                    <span>
+                      <a>
+                        <xsl:attribute name="href">#<xsl:value-of select="$visithead"/></xsl:attribute>
+                        <xsl:value-of select="@Name"/>
+                      </a>
+                    </span>
                   </xsl:when>
                   <xsl:otherwise>
                     <span><xsl:value-of select="@Name"/></span>
@@ -585,7 +588,7 @@
   <!-- Add Note from Description/TranslatedText to Forms -->
   <xsl:template match="odm:Description">
     <div id="internal" class="left note">
-      <xsl:value-of select="odm:TranslatedText"/>
+      <xsl:value-of select="odm:TranslatedText"/> <!-- Implementation Notes -->
     </div>
   </xsl:template>
 
@@ -692,13 +695,13 @@
             <xsl:attribute name="for">
               <xsl:value-of select="$radioname"/>
             </xsl:attribute>
-              <xsl:value-of select="odm:Decode/odm:TranslatedText"/>
-              <xsl:if test="normalize-space(odm:Decode/odm:TranslatedText) = ''">
-                <xsl:value-of select="@CodedValue"/>
-              </xsl:if>
-              <span class="note"> (<xsl:value-of select="@CodedValue"/>)</span>
-            </label>
-            <br/>
+            <xsl:value-of select="odm:Decode/odm:TranslatedText"/>
+            <xsl:if test="normalize-space(odm:Decode/odm:TranslatedText) = ''">
+              <xsl:value-of select="@CodedValue"/>
+            </xsl:if>
+            <span class="note"> (<xsl:value-of select="@CodedValue"/>)</span>
+          </label>
+          <br/>
         </xsl:for-each>
         <!-- Enumerated codelists are simple radio buttons -->
         <xsl:for-each select="/odm:ODM/odm:Study[1]/odm:MetaDataVersion[1]/odm:CodeList/odm:EnumeratedItem[../@OID=$radio]">
